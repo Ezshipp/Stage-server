@@ -1,0 +1,483 @@
+<div class="row">
+    
+        <div class="col-md-6">
+            <table class="table table-responsive">
+                <tbody>
+                    <tr>
+                        <td>Select Date From</td>
+                        <td>
+                            <input
+                                type="date"
+                                [(ngModel)]="fromDate_ui"
+                                (ngModelChange)="OnFromDate(fromDate_ui)"
+                                class="form-control"
+                            >
+                            <code>{{fromDateFinal}}</code>
+                        </td>
+                        <td>to</td>
+                        <td>
+                            <input
+                                type="date"
+                                [(ngModel)]="toDate_ui"
+                                (ngModelChange)="Ondateto(toDate_ui)"
+                                class="form-control"
+                            >
+                            <code>{{todateFinal}}</code>
+                            
+                        </td>
+                        <td>
+                            <button
+                                class="btn btn-info btn-just-icon"
+                                style="padding: 8px;background-color: transparent;border: 1px solid #ee9b04;"
+                                (click)="getanlaytics(fromDate_ui,toDate_ui)"
+                            >
+                                <i
+                                    class="fa fa-pie-chart"
+                                    aria-hidden="true"
+                                    style="color: #705137;cursor: pointer;"
+                                ></i>
+                            </button>
+    
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+    
+            <div
+                class="button-menu btn-group"
+                style="float:right"
+            >
+                <button
+                    class="btn btn-white button-color"
+                    (click)="onDay()"
+                    [class.active]="activeid==1"
+                    type="submit"
+                >
+                    Day
+                </button>
+                <button
+                    class="btn btn-white button-color"
+                    (click)="Onweek()"
+                    [class.active]="activeid==2"
+                    type="submit"
+                >
+                    Weekly
+                </button>
+    
+                <button
+                    class="btn btn-white button-color"
+                    (click)="OnMonth()"
+                    [class.active]="activeid==3"
+                    type="submit"
+                >
+                    Monthly
+                </button>
+               
+    
+            </div>
+    
+        </div>
+    </div>
+    <div class="row">
+     
+            <div class="togglebutton" style="float: right;">
+                    <label>
+                        <input type="checkbox" [checked]="isRefresh" (click)="OnRefresh()">
+                       Refresh
+                    </label>
+                    <select (change)="Onselect_RefreshTime($event.target.value)">
+                     
+                        <!-- <option value="3000">3 Secs</option>
+                        <option value="50000">50 Secs</option> -->
+                        <option value="60000">1 Mints</option>
+                        <option value="120000">2 Mints</option>
+                        <option value="300000">5 Mints</option>
+                    </select>
+                </div>
+    </div>
+    
+    <div
+        class="row"
+        *ngIf="isLoading_pie"
+    >
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <div
+               
+                *ngIf="isSignupdata; else elseSignup"
+            >
+                <chart
+                    [options]="options_pie"
+                    
+                    (click)="clickHandler($event)"
+                ></chart>
+            </div>
+            <ng-template #elseSignup>
+                <span>No Records Found</span>
+            </ng-template>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <div
+            
+                *ngIf="isorders_pie; else elseOrders"
+            >
+                <chart
+                    [options]="options_pie2"
+                    
+                    (click)="clickHandler_orders($event)"
+                ></chart>
+            </div>
+            <ng-template #elseOrders>
+                <span>No Records Found</span>
+            </ng-template>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4">
+                
+            <div
+               
+                *ngIf="isorders_pie; else elseOrders"
+            >
+                <chart
+                    [options]="options_pie3"
+                    
+                    (click)="clickHandler_orders($event)"
+                ></chart>
+            </div>
+            <ng-template #elseOrders>
+                <span>No Records Found</span>
+            </ng-template>
+        </div>
+    </div>
+    
+    <my-spinner [isRunning]="isRequesting"></my-spinner>
+    <!-- pop up for signup data -->
+    <div
+        class="modal fade"
+        #myModal
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"
+                        style="font-size: 25px;"
+                    >
+                        ×
+                    </button>
+                    <h4
+                        class="modal-title"
+                        id="myModalLabel"
+                    >
+                        {{name_slicedPie}} Signup Users
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th class="td">Name</th>
+                                <th class="td">Sequence Number</th>
+                                <th class="td">EmailID</th>
+                                <th class="td">Phone</th>
+                                <!-- <th class="td">Signup Date Time</th> -->
+                            </tr>
+                            <tr *ngFor="let item of CustomerData | paginate: { 
+                            itemsPerPage: 10,
+                            currentPage: p,
+                            totalItems: devecieCount }; let i=index">
+                                <td class="td">{{item.Name}}</td>
+                                <td class="td">{{item.SequenceNumber}}</td>
+                                <td class="td">{{item.EmailID}}</td>
+                                <td class="td">{{item.Phone}}</td>
+                                <!-- <td class="td">{{item.Signup_Date_Time}}</td> -->
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer" *ngIf="CustomerData.length">
+                    <pagination-controls
+                        (pageChange)="pageChanged($event)"
+                        maxSize="8"
+                        directionLinks="true"
+                        autoHide="true"
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        screenReaderPaginationLabel="Pagination"
+                        screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page"
+                        style="float: right;margin-top: 30px;"
+                    >
+                    </pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /* pop up for orders data*/ -->
+    <div
+        class="modal fade"
+        #myModalOrders
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myModalLabel"
+        aria-hidden="true"
+    >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button
+                        type="button"
+                        class="close"
+                        data-dismiss="modal"
+                        aria-hidden="true"
+                        style="font-size: 25px;"
+                    >
+                        ×
+                    </button>
+                    <h4
+                        class="modal-title"
+                        id="myModalLabel"
+                    >
+                        {{order_type}}
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-12 col-md-12">
+                            <div class="row">
+                                <div class="col-xs-2">
+                                    <b>OrderSeqId</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <b>Name</b>
+                                </div>
+                                <div class="col-xs-3">
+                                    <b>Deliverycharge</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <b>Phone</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <b>More Info</b>
+                                </div>
+                            </div>
+                            <div
+                                class="row"
+                                *ngFor="let item of Details_orders | paginate: { 
+                                    id:'orders',
+                                itemsPerPage: 10,
+                                currentPage: p_orders,
+                                totalItems: totalCount_orders }; let i=index"
+                            >
+                                <div class="col-xs-2">
+                                    <b>{{item.orderseqId}}</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <b>{{item.First_name}}</b>
+                                </div>
+                                <div class="col-xs-3">
+                                    <b>{{item.deliverycharge}}</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <b>{{item.Phone}}</b>
+                                </div>
+                                <div class="col-xs-2">
+                                    <i
+                                        class="material-icons"
+                                        style="cursor:pointer"
+                                        (click)="moreinfo(item,i)"
+                                    >
+                                        
+                                    </i>
+                                </div>
+                                <div
+                                    class="row"
+                                    *ngIf="i==index_moreinfor"
+                                    style="margin-left:0px;margin-right:0px"
+                                >
+                                    <table
+                                        class="table"
+                                        style="border: 1px solid;"
+                                    >
+                                        <tbody>
+                                            <tr>
+                                                <th style="border-top:none">Customer Name:{{item.First_name}}</th>
+                                                <!-- <td style="border-top:none">{{item.First_name}}</td> -->
+                                                <th style="border-top:none">Phone:{{item.Phone}}</th>
+                                                <!-- <td style="border-top:none">{{item.Phone}}</td> -->
+                                                <th style="border-top:none">Email:{{item.Email}}</th>
+                                                <!-- <td style="border-top:none">{{item.Email}}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th style="border-top:none">Receiver Name:{{item.receiverName}}</th>
+    
+                                                <th style="border-top:none">Receiver Phone:{{item.receiverPhone}}</th>
+    
+                                                <th style="border-top:none">ItemName:{{item.itemName}}</th>
+                                                <!-- <td style="border-top:none">{{item.itemName}}</td> -->
+                                            </tr>
+                                            <tr>
+                                                <th style="border-top:none">Driver Name: {{item.Driver_Name}}</th>
+    
+                                                <th style="border-top:none">Driver Phone: {{item.Driver_PhoneNumber}}</th>
+    
+                                                <td style="border-top:none">Driver Email: {{item.Driver_Email}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+                <div class="modal-footer" *ngIf="Details_orders.length">
+                    <pagination-controls
+                        id="orders"
+                        (pageChange)="pageChanged_orders($event)"
+                        maxSize="8"
+                        directionLinks="true"
+                        autoHide="true"
+                        previousLabel="Previous"
+                        nextLabel="Next"
+                        screenReaderPaginationLabel="Pagination"
+                        screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page"
+                        style="float: right;margin-top: 30px;"
+                    >
+                    </pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        
+        <div class="col-md-12 col-sm-12">
+                <div style="margin-bottom: 10px;">
+                    <h4>Total Orders</h4>
+
+            </div>
+                <div >
+                        
+                    <agm-map
+                       
+                        [latitude]="lat_ordersBirds"
+                        [longitude]="long_ordersBirds"
+                        [zoom]="zoom"
+                        [mapTypeControl]="true"
+                        [fullscreenControl]="true"
+                     
+                    >
+                        <agm-marker 
+                            *ngFor="let m of OrdersData_birds; let i = index"
+                            (markerClick)="clickedMarker_ordersBIrd(i,m)"
+                            [latitude]="m.Plat"
+                            [longitude]="m.Plong"
+                            [iconUrl]="picmarker_icon"
+                          
+                         
+                            (dragEnd)="markerDragEnd($event)"
+                            [openInfoWindow]="false"
+                        >
+        
+                            <agm-info-window [isOpen]="m.isOpen">
+                                <div>
+                                    <table
+                                        class="table"
+                                        style="margin-bottom: 0px"
+                                    >
+                                        <tbody>
+                                                <tr>
+                                                        <th style="border-top:none;font-size:medium;width:40%">Order SeqId:</th>
+                                                        <td style="border-top:none;font-size:medium;width:60%">{{m.orderseqId}}</td>
+                                                    </tr>
+                                            <tr>
+                                                <th style="border-top:none;font-size:medium;width:40%">Customer Name:</th>
+                                                <td style="border-top:none;font-size:medium;width:60%">{{m.SenderName}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="border-top:none;font-size:medium;width:40%">Receiver Name:</th>
+                                                <td style="border-top:none;font-size:medium;width:60%">{{m.receiverName}}</td>
+                                            </tr>
+                                            <tr>
+                                                <th style="border-top:none;font-size:medium;width:40%">Customer Number:</th>
+                                                <td style="border-top:none;font-size:medium;width:60%">{{m.receiverPhone}}</td>
+                                            </tr>
+                                            <tr>
+                                                    <th style="border-top:none;font-size:medium"> Address:</th>
+                                                    <td style="border-top:none"><span>{{m.PAddress}}</span></td>
+                                                </tr>
+                                          
+                                        </tbody>
+                                    </table>
+        
+                                </div>
+                            </agm-info-window>
+        
+                        </agm-marker>
+                        <agm-marker 
+                        *ngFor="let m of OrdersData_birds; let j = index"
+                        (markerClick)="clickedMarker_ordersBIrd_drop(j,m)"
+                        [latitude]="m.Dlat"
+                        [longitude]="m.Dlong"
+                        [iconUrl]="dropMarker_icon"
+                       
+                     
+                        (dragEnd)="markerDragEnd($event)"
+                        [openInfoWindow]="false"
+                    >
+        
+                        <agm-info-window [isOpen]="m.isOpenDrop">
+                            <div>
+                                <table
+                                    class="table"
+                                    style="margin-bottom: 0px"
+                                >
+                                <tbody>
+                                        <tr>
+                                                <th style="border-top:none;font-size:medium;width:40%">Order SeqId:</th>
+                                                <td style="border-top:none;font-size:medium;width:60%">{{m.orderseqId}}</td>
+                                            </tr>
+                                    <tr>
+                                        <th style="border-top:none;font-size:medium;width:40%">Customer Name:</th>
+                                        <td style="border-top:none;font-size:medium;width:60%">{{m.SenderName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border-top:none;font-size:medium;width:40%">Receiver Name:</th>
+                                        <td style="border-top:none;font-size:medium;width:60%">{{m.receiverName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border-top:none;font-size:medium;width:40%">Customer Number:</th>
+                                        <td style="border-top:none;font-size:medium;width:60%">{{m.receiverPhone}}</td>
+                                    </tr>
+                                    <tr>
+                                            <th style="border-top:none;font-size:medium"> Address:</th>
+                                            <td style="border-top:none"><span>{{m.PAddress}}</span></td>
+                                        </tr>
+                                  
+                                </tbody>
+                                </table>
+        
+                            </div>
+                        </agm-info-window>
+        
+                    </agm-marker>
+                    </agm-map>
+                    
+            
+                </div>
+               
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-md-1">
+                <div id="map"></div>
+        </div>        
+      </div>
