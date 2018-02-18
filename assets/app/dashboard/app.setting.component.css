@@ -1,0 +1,28 @@
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:focus,
+.nav-tabs>li.active>a:hover {
+  color: #12A6F1!important;
+  cursor: default;
+  border: 1px solid #12A6F1!important;
+  /* border-bottom: none; */
+  background-color: transparent;
+}
+
+.nav-tabs>li>a {
+  color: #12A6F1!important;
+}
+
+.zone-heading {
+  text-align: center;
+  font-size: 23px;
+  font-family: Proxima-Nova-Regular;
+}
+
+.nav_tab_background {
+  padding-top: 10px;
+  border-bottom: none;
+  background-color: transparent;
+}
+
+
+
