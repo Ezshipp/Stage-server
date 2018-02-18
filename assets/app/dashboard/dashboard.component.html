@@ -1,0 +1,347 @@
+<div>
+    <!-- #ffcdd2  #12a6f1 show something fancy here, here with Angular 2 Material's loading bar or circle -->
+    <ng-progress [minimum]="0.15" [maximum]="1"
+    [speed]="200" [showSpinner]="false" [direction]="'leftToRightIncreased'"
+    [color]="'#12a6f1'" [trickleSpeed]="250" [thick]="true" [ease]="'linear'"
+></ng-progress>
+<div class="sidebar-wrapper" style="font-family: Proxima-Nova-Regular,serif;">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="background-color: #1e1f25;color: #FFF!important;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+            </div>
+            <ul class="nav navbar-nav">
+                <li>
+                    <i class="fa fa-bars" style="float: left;
+                margin-top: 10px;
+                font-size: 20px;" (click)="onselect_nav()"></i>
+                    <a class="navbar-brand" href="#">
+                        <img [src]="imgLogo_new" alt="images" style="margin-top: -10px;">
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-center">
+                <li class="navbar_brand_center">
+                    Welcome {{ this.adminName }}
+                </li>
+            </ul>
+            <!-- <div id="navigation-doc">
+                <ul class="nav navbar-nav navbar-right" style="margin-right: 5px;">
+                    <li>
+                        <a (click)="logout()" style="padding: 10px;opacity: 1;">
+                            <button class="btn profile">Sign out</button>
+                        </a>
+                    </li>
+                </ul>
+            </div> -->
+            <ul class="nav navbar-nav navbar-right">
+                <div class="dropdown profileCustomize">
+
+                        <a [routerLink]="['notifications']" routerLinkActive="active"  class="" style="padding: 13px 18px;font-size: 18px;color: #FFF; display:inline-block">
+                            <i class="fa fa-bell"></i>
+                        </a>
+                </div>
+                <div class="dropdown profileCustomize">
+                    <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown" style="padding: 13px 18px;font-size: 18px;color: #FFF;">
+                        {{ this.adminName | slice: 0:1 }}
+                        <!-- <b class="caret"></b> -->
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a (click)="onCompleteOrder()">Change Password</a>
+                        </li>
+                        <li>
+                            <a (click)="logout()">Sign out</a>
+                        </li>
+                    </ul>
+                </div>
+            </ul>
+
+
+        </div>
+    </nav>
+
+
+    <div class="nav-container" style="margin-top: 75px;">
+
+        <nav class="navbar navbar-default" style="border: none;background-color: transparent;padding:0px" role="navigation">
+            <ul class="nav nav-pills nav-pills-info" role="tablist">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div [@slideInOut]="menuState" class="col-md-3 col-xs-1 p-l-0 p-r-0 collapse in" style="overflow-y:scroll;position: fixed;;width: 210px;z-index:9;box-shadow: 0 10px 20px -12px rgba(0, 0, 0, 0.42), 0 3px 20px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);"
+                            id="sidebar" [style.height.px]="height">
+                            <div class="list-group panel">
+                                <a href="#menu9" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                    aria-expanded="false">
+                                    Dashboard
+                                    <span class="hidden-sm-down"></span>
+                                </a>
+                                <div class="collapse" id="menu9">
+                                    <a [routerLink]="['analytics']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        App Analytics
+                                    </a>
+                                    <a [routerLink]="['FAndF']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Finance Analytics
+                                    </a>
+                                    <a [routerLink]="['BirdsView']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Bird View
+                                    </a>
+                                </div>
+                                <a href="#menu1" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                    aria-expanded="false">
+                                    Orders
+                                    <span class="hidden-sm-down"></span>
+                                </a>
+                                <div class="collapse" id="menu1">
+
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['report']">
+                                        Report
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['O_D_report']">
+                                        O.Delivery Report
+                                    </a>
+
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['allorders']">
+                                        All Orders
+                                    </a>
+                                    <a href="#menu2" data-toggle="collapse" data-parent="#sidebar" class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['codreport']" aria-expanded="false">
+                                       COD Report
+                                        <span class="hidden-sm-down"></span>
+                                    </a>
+                                    <div class="collapse" id="menu2">
+                                        <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink] = "['instantDelivey']">Instant Delivery</a>
+                                        <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink] = "['4hourDelivery']">4 hour Delivery</a>
+                                    </div>
+
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['codreport']">
+                                        Duplicate COD Report
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['completed']">
+                                        Completed Orders
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['customerallorders']">
+                                        Individual Customers
+                                    </a>
+									<a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['agentallorders']">
+                                        Client Contracts
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['newOrders']">
+                                        New Orders
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['cancel']">
+                                        Cancel Orders
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['drviver_c']">
+                                        Biker Cancelled
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['ongoing']">
+                                        Ongoing Jobs
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['queueorders']">
+                                        Queue Orders
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['NewQueOrders']">
+                                        N.Queue Orders
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['trash']">
+                                        Trash Orders
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['expired']">
+                                        Expired Orders
+                                    </a>
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['v_api']">
+                                        V.Api
+                                     </a>
+
+                                </div>
+                                <a href="#menu2" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                    aria-expanded="false">
+                                    Marketing
+                                    <span class="hidden-sm-down"></span>
+                                </a>
+                                <div class="collapse" id="menu2">
+                                    <a href="#menu2sub1" class="list-group-item" routerLinkActive="active" [routerLink]="['offers']" style="color: #12a6f1;padding-left: 35px;">
+                                        Offers
+                                    </a>
+                                    <a href="#menu2sub1" class="list-group-item" routerLinkActive="active" [routerLink]="['promotion']" style="color: #12a6f1;padding-left: 35px;">
+                                        Promotion
+                                    </a>
+                                    <a href="#menu2sub1" class="list-group-item" routerLinkActive="active" [routerLink]="['Promotaional_C']" style="color: #12a6f1;padding-left: 35px;">
+                                        Promotional Contacts
+                                    </a>
+                                    <a href="#menu2sub1" class="list-group-item" routerLinkActive="active" [routerLink]="['smsCampaign']" style="color: #12a6f1;padding-left: 35px;">
+                                       Sms campaign
+                                    </a>
+                                </div>
+                                <a href="#menu3" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                    aria-expanded="false">
+                                    Customers
+                                    <span class="hidden-sm-down"></span>
+                                </a>
+                                <div class="collapse" id="menu3">
+                                    <a href="#menu2sub1" class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['active_Customer']">
+                                        Active Customers
+                                    </a>
+                                    <a href="#menu2sub1" class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['in_active_Customer']">
+                                        In-Active Customers
+                                    </a>
+                                    <a href="#menu2sub1" class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['premium_Customer']">
+                                        Premium Customers
+                                    </a>
+                                    <a href="#menu2sub1" class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['customer_Reason']">
+                                        Cancellation Reason
+                                    </a>
+                                    <!-- <a href="#menu2sub1" class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['vendor_D']">
+                                        Vendors
+                                    </a> -->
+                                </div>
+                                <a href="#menu4" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                    aria-expanded="false">
+                                    Bikers
+                                    <span class="hidden-sm-down"></span>
+                                </a>
+                                <div class="collapse" id="menu4">
+                                    <a [routerLink]="['drivers']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        All Bikers
+                                    </a>
+                                    <a [routerLink]="['onGoingBikers']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Ongoing Bikers
+                                    </a>
+                                    <a [routerLink]="['codBikers']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        COD Bikers
+                                    </a>
+                                    <a [routerLink]="['leaves']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Leaves
+                                    </a>
+                                </div>
+                                <a href="#menu5" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                    aria-expanded="false">
+                                    Zones
+                                    <span class="hidden-sm-down"></span>
+                                </a>
+                                <div class="collapse" id="menu5">
+                                    <a class="list-group-item" style="color: #12a6f1;padding-left: 35px;" routerLinkActive="active" [routerLink]="['Zone']">
+                                        zones
+                                    </a>
+                                    <a [routerLink]="['zones']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Zonal Pricing
+                                    </a>
+                                </div>
+                                <a href="#menu6" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                    aria-expanded="false">
+                                    HR
+                                    <span class="hidden-sm-down"></span>
+                                </a>
+                                <div class="collapse" id="menu6">
+                                    <a [routerLink]="['hr']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Employee
+                                    </a>
+                                    <a [routerLink]="['logs']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Logs
+                                    </a>
+                                </div>
+                                <a href="#menu7" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                    aria-expanded="false">
+                                    APP Setting
+                                    <span class="hidden-sm-down"></span>
+                                </a>
+                                <div class="collapse" id="menu7">
+                                    <a [routerLink]="['app_setting']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Delivery Settings
+                                    </a>
+                                    <a [routerLink]="['smsSetting']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        SMS Settings
+                                    </a>
+                                    <a [routerLink]="['razorPayService']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Payment Charge
+                                    </a>
+                                    <a [routerLink]="['firstTimeOffer']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        First Time Offer
+                                    </a>
+                                    <a [routerLink]="['packageWeight']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Package Weight
+                                    </a>
+                                    <a [routerLink]="['apiDocument']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                            API Document
+                                        </a>
+                                </div>
+                                <a href="#menu8" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                    aria-expanded="false">
+                                    Store
+                                    <span class="hidden-sm-down"></span>
+                                </a>
+                                <div class="collapse" id="menu8">
+                                    <a [routerLink]="['store']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Store
+                                    </a>
+
+                                </div>
+
+                                <a *ngIf="isUserSection" href="#menu10" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                    aria-expanded="false">
+                                    Users
+                                    <span class="hidden-sm-down"></span>
+                                </a>
+                                <div *ngIf="isUserSection" class="collapse" id="menu10">
+                                    <a [routerLink]="['adminUsers']" routerLinkActive="active" class="list-group-item" style="color: #12a6f1;padding-left: 35px;">
+                                        Admin Users
+                                    </a>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div [@routerAnimation]="getState(o)" [style.margin-left.px]="marginLeft" [class.col-xs-10]="isSideNav" [class.col-sm-10]="isSideNav"
+                            [class.col-md-10]="isSideNav" [class.col-xs-12]="!isSideNav" [class.col-sm-12]="!isSideNav" [class.col-md-12]="!isSideNav"
+                            style="padding-left: 35px;">
+                            <router-outlet #o="outlet"></router-outlet>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div *ngIf="change_password">
+        <div class="backdrop"></div>
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document" style="width: 380px">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" aria-label="Close" (click)="Onclosepassword()">
+                            <span style="font-size: 35px;color: red;" aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 style="text-align: center;margin-top: 0px;color: #ee9b0a;">Change Password</h4>
+                    </div>
+                    <table class="table table-responsive">
+                        <form class="form-inline" (ngSubmit)="onSubmit_password(f)" #f="ngForm">
+                                <tr>
+                                        <td style="border-top: none;">
+                                            <input type="password" class="form-control" placeholder="Current Password" id="text1" ngModel name="OldPassword" style="width:200px;margin:-25px 0px -37px 87px;">
+                                        </td>
+                                    </tr>
+                            <tr>
+                                <td style="border-top: none;">
+                                    <input type="password" class="form-control" placeholder="New Password" id="text1" ngModel name="Password" style="width:200px;margin:-25px 0px -37px 87px;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-top: none;">
+                                    <input type="password" class="form-control" placeholder="Confirm Password" id="text1" ngModel name="ConfirmPassword" style="width:200px;margin-bottom:-20px;margin-left: 87px;">
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td style="text-align:center;border-top: none;">
+                                    <button class="btn btn-success btn-xs" style="margin: 48px 0px 33px 80px;">Submit</button>
+                                </td>
+                            </tr>
+                        </form>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
