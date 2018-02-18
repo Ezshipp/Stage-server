@@ -1,0 +1,53 @@
+<table class="table" *ngIf="AdminData.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+    <tr>
+        <th class="tdline">
+            Name
+        </th>
+        <th class="tdline">
+            Email
+        </th>
+        <th class="tdline">
+            Admin Permissions
+        </th>
+        <th class="tdline">
+            Salary Permissions
+        </th>
+        <th class="tdline">
+            Active / In-Active
+        </th>
+    </tr>
+    <ng-container *ngFor="let item of AdminData | paginate: {
+    itemsPerPage: limit, currentPage: p,totalItems: Total_Count };let i = index;let odd=odd">
+        <tr [class.isOdd]="odd">
+            <td>{{item.AdminName}}</td>
+            <td>{{item.AdminEmail}}</td>
+            <td *ngIf="item.ADMIN_USER_PERMISSIONS==true">Yes</td>
+            <td *ngIf="item.ADMIN_USER_PERMISSIONS==false">No</td>
+            <td *ngIf="item.HR_SALARY_PERMISSIONS==true">Yes</td>
+            <td *ngIf="item.HR_SALARY_PERMISSIONS==false">No</td>
+            <td (click)="onActiveConformation(item)">
+                <button type="button" rel="tooltip" title="Active User" class="btn btn-info btn-simple btn-xs">
+                    <i class="fa fa-unlock" aria-hidden="true"></i>
+                </button>
+            </td>
+        </tr>
+    </ng-container>
+ </table>
+
+ <div *ngIf="isresetpassword">
+    <div class="resetpasswd" id="resetpwd">
+        <div class="modal-content modal-content-dialog">
+            <span class="closeresetpwd" (click)="onClose_Delete()">×</span>
+            <div>
+                <span style="color: #CE93D8">Admin Name:</span>
+                <span style="color: #FF5722">{{AdminName }}</span>
+            </div>
+            <h5 style="font-size: 20px;margin-left: 15%;margin-right: 15%">Are you sure you want to Active User?</h5>
+            <div class="buttons_style">
+                <input class="btn btn-default all-buttons" type="submit" value="Yes" (click)="OnReset_password()" />&nbsp;&nbsp;&nbsp;
+                <input class="btn btn-default no-all-buttons" type="submit" value="No" (click)="onClose_Delete()"
+               />
+            </div>
+        </div>
+    </div>
+ </div>
