@@ -1,0 +1,10 @@
+<div class="container-fluid containers" style="background-color: white;">
+    <h3 class="zone-heading">Users</h3>
+    <ul class="nav nav-tabs nav_tab_background">
+        <li routerLinkActive="active"><a [routerLink]="['createAdmin']">Create Admin</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['userList']">View Admin Users</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['inActiveUsers']">In-Active Admin Users</a></li>
+    </ul>
+    <hr>
+    <router-outlet></router-outlet>
+ </div>
