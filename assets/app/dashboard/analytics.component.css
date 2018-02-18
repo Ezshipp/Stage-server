@@ -1,0 +1,27 @@
+.active{
+    color: #705137;
+   
+    background-color: #ee9b0a;
+}
+chart {
+    display: block;
+    height: auto
+
+  }
+  td,th{
+    border-top:none!important;
+  }
+  .c{
+      height: 200px
+  }
+  
+.sebm-google-map-container {
+    height: 500px;
+  }
+  #map {
+    height: 1px;
+}
+agm-map {
+    height: 500px;
+}
+  
