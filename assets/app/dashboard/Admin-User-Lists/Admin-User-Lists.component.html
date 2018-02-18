@@ -1,0 +1,164 @@
+<div class="container-fluid">
+    <my-spinner [isRunning]="isRequesting"></my-spinner>
+
+    <table class="table" *ngIf="!isSearch">
+        <tr>
+                <td style="float: left;border-top:none">Total User:{{Total_Count}}</td>
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!isSearch || AdminData.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true"
+                    autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table" *ngIf="AdminData.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+        <tr>
+            <th>
+                <!-- <i class="fa fa-angle-right"></i> -->
+            </th>
+            <th class="tdline">
+                Name
+            </th>
+            <th class="tdline">
+                Email
+            </th>
+            <th class="tdline">
+                Admin Permissions
+            </th>
+            <th class="tdline">
+                Salary Permissions
+            </th>
+            <th class="tdline">
+                Reset Password
+            </th>
+            <th class="tdline">
+                In-Active
+            </th>
+        </tr>
+        <ng-container *ngFor="let item of AdminData | paginate: {
+        itemsPerPage: limit, currentPage: p,totalItems: Total_Count };let i = index;let odd=odd">
+            <tr [class.isOdd]="odd">
+                <td style="cursor: pointer;" (click)="OnLogs_user(item,i)">
+                    <i class="fa fa-angle-right" id="1" [class.rotate]="detailviewIndex==i" (click)="activeRotate=1"></i>
+                </td>
+                <td>{{item.AdminName}}</td>
+                <td>{{item.AdminEmail}}</td>
+                <td *ngIf="item.ADMIN_USER_PERMISSIONS==true">Yes</td>
+                <td *ngIf="item.ADMIN_USER_PERMISSIONS==false">No</td>
+                <td *ngIf="item.HR_SALARY_PERMISSIONS==true">Yes</td>
+                <td *ngIf="item.HR_SALARY_PERMISSIONS==false">No</td>
+                <td (click)="onReseteConformation(item)">
+                    <button type="button" rel="tooltip" title="Reset Password" class="btn btn-info btn-simple btn-xs">
+                        <i class="fa fa-unlock" aria-hidden="true"></i>
+                    </button>
+                </td>
+                <td (click)="onInActive(item)">
+                    <button type="button" rel="tooltip" title="In-Active" class="btn btn-info btn-simple btn-xs">
+                        <i class="fa fa-thumbs-up" style="transform: rotate(180deg);color: #F00;"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="detailviewIndex==i">
+                <td colspan="6" class="tdline">
+                    <table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);" *ngIf="LogsData_Admin.length>0;else noRecourds">
+                        <tr>
+                            <th>Date</th>
+                            <th>Purpose</th>
+                            <th>Key</th>
+                            <th>Message</th>
+
+                        </tr>
+                        <tr *ngFor="let Logs of LogsData_Admin| paginate: { id: 'logs',
+                                itemsPerPage: limit_logs,
+                                currentPage: Logs_admin,
+                                totalItems: Total_Count_logs }; let j=index">
+                            <td>{{Logs.Date}}</td>
+                            <td>{{Logs.Purpose}}</td>
+                            <td>{{Logs.Key}}</td>
+                            <td>{{Logs.Message}}</td>
+                        </tr>
+                    </table>
+                    <pagination-controls *ngIf="LogsData_Admin.length>0" style="float: right;" id="logs" (pageChange)="pageChanged_logs($event)"
+                        maxSize="9" directionLinks="true" autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
+                        screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+                    </pagination-controls>
+                    <ng-template #noRecourds>
+                        <p style=" text-align: center;
+                    font-size: 18px;">No Logs Found</p>
+                    </ng-template>
+                </td>
+
+            </tr>
+
+        </ng-container>
+    </table>
+
+
+    <table class="table" *ngIf="!isSearch">
+        <tr>
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!isSearch  || AdminData.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true"
+                    autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+            <td style="float: left;border-top:none">Total User:{{Total_Count}}</td>
+        </tr>
+    </table>
+</div>
+<div *ngIf="isresetpassword">
+    <div class="resetpasswd" id="resetpwd">
+        <div class="modal-content modal-content-dialog">
+            <span class="closeresetpwd" (click)="onClose_Delete()">×</span>
+            <div><span style="color: #CE93D8">Admin Name:</span> <span style="color: #FF5722">{{AdminName }}</span></div>
+
+            <h5 style="font-size: 20px;margin-left: 15%;margin-right: 15%">Are you sure you want to reset?</h5>
+            <div class="buttons_style">
+                <input class="btn btn-default all-buttons" type="submit" value="Yes" (click)="OnReset_password()" />&nbsp;&nbsp;&nbsp;<input class="btn btn-default no-all-buttons" type="submit" value="No" (click)="onClose_Delete()" />
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="isresetpassword_InActive">
+    <div class="resetpasswd" id="resetpwd">
+        <div class="modal-content modal-content-dialog">
+            <span class="closeresetpwd" (click)="onClose_In_Active()">×</span>
+            <div>
+                <span style="color: #CE93D8">Admin Name:</span>
+                <span style="color: #FF5722">{{AdminName }}</span>
+            </div>
+
+            <h5 style="font-size: 20px;margin-left: 15%;margin-right: 15%">Are you sure you want to In-Active User?</h5>
+            <div class="buttons_style">
+                <input class="btn btn-default all-buttons" type="submit" value="Yes" (click)="onIn_Active()" />&nbsp;&nbsp;&nbsp;
+                <input class="btn btn-default no-all-buttons" type="submit" value="No" (click)="onClose_In_Active()"
+               />
+            </div>
+
+
+        </div>
+    </div>
+
+ </div>
