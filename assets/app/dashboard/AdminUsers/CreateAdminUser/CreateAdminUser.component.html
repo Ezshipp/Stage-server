@@ -1,0 +1,36 @@
+<div class="form-horizontal" style="width: 450px;margin-top: 3%;margin-left: 20px;">
+    <form class="form-signin form-horizontal" (ngSubmit)="onSubmit_User(ff)" #ff="ngForm">
+        <div style="width: 400px;">
+            <div class="form-group">
+
+                                <input type="text" class="form-control" placeholder="User Name" ngModel name="Name">
+                            </div>
+            <div class="form-group">
+
+                <input type="text" class="form-control" placeholder="User Email" ngModel name="Email">
+            </div>
+            <div class="form-group">
+
+                <input type="password" class="form-control" placeholder="Password" ngModel name="password">
+            </div>
+            <div class="form-group">
+
+                <input type="password" class="form-control" placeholder="Confirm Password" ngModel name="Confirm_password">
+            </div>
+            <div class="form-group">
+                <label for="All_zone">Do You want to show Salary details </label>
+                <input type="radio" [(ngModel)]="isSalary" name="isSalary" [value]="true" required>&nbsp;&nbsp;yes&nbsp;&nbsp;
+                <input type="radio" [(ngModel)]="isSalary" name="isSalary" [value]="false" required>&nbsp;&nbsp;No
+            </div>
+            <div class="form-group">
+                <label for="All_zone">Do You want to show Users Section </label>
+                <input type="radio" [(ngModel)]="isUsersSection" name="isUsersSection" [value]="true" required>&nbsp;&nbsp;yes&nbsp;&nbsp;
+                <input type="radio" [(ngModel)]="isUsersSection" name="isUsersSection" [value]="false" required>&nbsp;&nbsp;No
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn profile-4 radio_button" style="background-color: #f17b24;">Submit</button>
+            </div>
+        </div>
+
+    </form>
+</div>
