@@ -1,0 +1,10 @@
+<div class="container-fluid containers" style="background-color: white;">
+    <h3 class="zone-heading">Offers</h3>
+    <ul class="nav nav-tabs nav_tab_background">
+        <li routerLinkActive="active"><a [routerLink]="['create_Offer']">Create Offer</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['view_offer']">View All offers</a></li>
+        <li routerLinkActive="active" style="background-color: #fff"><a [routerLink]="['de_Activate']">DeActivate Offers</a></li>
+    </ul>
+    <hr>
+    <router-outlet></router-outlet>
+</div>
