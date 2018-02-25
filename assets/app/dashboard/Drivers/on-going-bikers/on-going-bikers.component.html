@@ -1,0 +1,150 @@
+<div class="container-fluid containers" style="background-color: white;">
+    <h3 class="zone-heading">Ongoing Bikers</h3>
+    <table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);" *ngIf="Bikers.length">
+        <tr>
+            <th>
+                <!-- <i class="fa fa-angle-right"></i> -->
+            </th>
+            <th id="1" [class.activeForsorting]="activeId == 1" (click)="activeId=1" style="cursor:pointer" (click)="sortColumn('DriverName')">
+                Biker Name
+                <i class="fa fa-sort" aria-hidden="true"></i>
+
+
+            </th>
+            <th id="2" [class.activeForsorting]="activeId == 2" (click)="activeId=2" style="cursor:pointer" (click)="sortColumn('DriverPhoneNumber')">
+                Biker Phone
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th id="3" [class.activeForsorting]="activeId == 3" (click)="activeId=3" style="cursor:pointer" (click)="sortColumn('DriverEmail')">
+                Biker Email
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th id="4" [class.activeForsorting]="activeId == 4" (click)="activeId=4" style="cursor:pointer" (click)="sortColumn('OrdersCount')">
+
+                Ongoing Orders Count
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th id="8" [class.activeForsorting]="activeId == 8" (click)="activeId=8" style="cursor:pointer" (click)="sortColumn('status')">
+                <b>Status
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                </b>
+
+            </th>
+            <!-- <th>
+                <b>
+                    <b>Action</b>
+                </b>
+
+            </th> -->
+        </tr>
+        <ng-container *ngFor="let item of Bikers | paginate: {
+            itemsPerPage: limit,
+            currentPage: p,
+            totalItems: Total_Count };let i = index;let odd=odd">
+            <tr [class.isOdd]="odd">
+                    <td style="cursor: pointer;"  (click)="OnmoreInfo_order(item,i)">
+                            <i class="fa fa-angle-right" id="1" [class.rotate]="views==i" (click)="activeRotate=1"></i>
+                        </td>
+                                <td>
+                                    <div>{{item.DriverName}}</div>
+
+                                </td>
+                                <td>
+                                    <div>{{item.DriverPhoneNumber}}</div>
+
+                                </td>
+                                <td>
+                                    <div>{{item.DriverEmail}}</div>
+
+                                </td>
+                                <td>
+                                    <div>{{item.OrdersCount}}</div>
+
+                                </td>
+                                <td>
+                                    <div *ngIf="item.status==1">New Order</div>
+                                    <div *ngIf="item.status==7">Biker Accepted</div>
+                                    <div *ngIf="item.status==8">Biker Rejected</div>
+                                    <div *ngIf="item.status==9">Order Expired</div>
+                                    <div *ngIf="item.status==10">Arrived at Pickup Location</div>
+                                    <div *ngIf="item.status==11">On the way to delivery</div>
+                                    <div *ngIf="item.status==12"> reached Delivery point</div>
+                                    <div *ngIf="item.status==14">Order Completed</div>
+                                    <div *ngIf="item.status==15">Drop at zone</div>
+                                    <div *ngIf="item.status==16">On the way to Pickup</div>
+                                    <div *ngIf="item.status==5">Order Canceled</div>
+                                    <div *ngIf="item.status==18">driver accepted zone order</div>
+                                    <div *ngIf="item.status==3" style="color: #05c105;">Online</div>
+                                    <div *ngIf="item.status==4" style="color: #F00;">Offline</div>
+                                    <div *ngIf="item.status==5" style="color: #ff9800;">Busy</div>
+                                </td>
+                                <!-- <td>
+                                    <div>
+                                        <button type="button" rel="tooltip" title="More Info" class="btn btn-info btn-simple btn-xs" (click)="OnmoreInfo_order(item,i)"
+                                            style="padding: 0px;">
+                                            <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                                        </button>
+
+                                    </div>
+                                </td> -->
+                            </tr>
+                            <tr *ngIf="i==views">
+                                <td colspan="9" class="tdline">
+                                    <table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>C.Name</th>
+                                            <th>C.Phone</th>
+                                            <th>Date</th>
+                                            <th>O.Type</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        <ng-container *ngFor="let Odata of OrderData | paginate: {
+                                            itemsPerPage: limit,
+                                            currentPage: p,
+                                            totalItems: Total_Count };let i = index">
+                                        <tr>
+
+                                            <td>{{Odata.orderseqId}}</td>
+                                            <td>{{Odata.customerName}}</td>
+                                            <td>{{Odata.customerPhone}}</td>
+                                            <td>{{Odata.date}}</td>
+                                            <td *ngIf="Odata.bookingType==1">Instant</td>
+                                            <td *ngIf="Odata.bookingType==2">4 Hours</td>
+                                            <td *ngIf="Odata.bookingType==3">Same Day</td>
+                                            <td>
+                                                <div *ngIf="Odata.status==1">New Order</div>
+                                                <div *ngIf="Odata.status==7">Biker Accepted</div>
+                                                <div *ngIf="Odata.status==8">Biker Rejected</div>
+                                                <div *ngIf="Odata.status==9">Order Expired</div>
+                                                <div *ngIf="Odata.status==10">Arrived at Pickup Location</div>
+                                                <div *ngIf="Odata.status==11">On the way to delivery</div>
+                                                <div *ngIf="Odata.status==12"> reached Delivery point</div>
+                                                <div *ngIf="Odata.status==14">Order Completed</div>
+                                                <div *ngIf="Odata.status==15">Drop at zone</div>
+                                                <div *ngIf="Odata.status==16">On the way to Pickup</div>
+                                                <div *ngIf="Odata.status==5">Order Canceled</div>
+                                                <div *ngIf="Odata.status==18">driver accepted zone order</div>
+                                            </td>
+                                            <td>
+                                                    <a href="http://track.ezshipp.com/{{Odata.orderId}}" target="_blank">Track</a>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                    </table>
+                                </td>
+                            </tr>
+        </ng-container>
+    </table>
+    <pagination-controls style="float: right;" *ngIf="issearch" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+    previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You're on page">
+ </pagination-controls>
+ <div *ngIf="isData" style="text-align: center;">
+    <strong style="font-size: 20px;">No Records Found</strong>
+ </div>
+ </div>
+
+ <my-spinner [isRunning]="isRequesting"></my-spinner>
+
