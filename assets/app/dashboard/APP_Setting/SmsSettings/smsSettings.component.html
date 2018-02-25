@@ -1,0 +1,49 @@
+<div class="container-fluid">
+    <h3 class="zone-heading">Message Providers</h3>
+    <div class="row" *ngIf="ProvidersData.length>0">
+        <table class="table">
+            <tr *ngFor="let item of ProvidersData; let i=index">
+                <td class="border_top">
+                    <div class="radio" style="width: 700px;">
+                        <label style="color: #000;">
+                            <input type="radio" name='statusGroup' (click)="Onselect_MsgProvider(item)" [checked]="item.Selected_Provider">{{item.ProviderName}} ({{item.Balance}})
+                        </label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <button class="btn btn-info" ng (click)="onSub()">submit</button>
+    </div>
+</div>
+<div *ngIf="isconfirmation">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                        <i class="fa fa-times" style="cursor:pointer" style="cursor: pointer;
+                        float: right;
+                        font-size: 20px;" aria-hidden="true"  (click)="onCloseConfirmation()"></i>
+
+
+                </div>
+                <div class="modal-body" style="    margin-top: 15px;">
+
+                    <p style="text-align: center;">Are you sure want to change?</p>
+                    <table class="table table-responsive">
+                        <tr>
+                            <td style="border-top: none;">
+                                <button class="btn btn-info" style="float: right;" (click)="onSubmit()">Yes</button>
+                            </td>
+                            <td style="border-top: none;">
+                                <button class="btn btn-danger" (click)="onCloseConfirmation()">No</button>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
