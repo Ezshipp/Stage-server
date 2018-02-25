@@ -1,0 +1,77 @@
+{
+	"host": "52.24.135.253",
+	"Whether_Production": true,
+	"Ezshipp_Customer__Care": "+919949529308",
+	"Google_Api_Key1": "AIzaSyAWL_AcoJGbb12yakCMec30OJGTimok6vI",
+	"Google_Api_Key": "AIzaSyCOSzrV21ii_0a6d8XC08vARjJH2TYbLJs",
+	"SecretPassword": "EzshiPP@1234",
+	"website": "orders.ezshipp.com",
+	"dbURL1": "mongodb://ezshippdbserver:SDNQF6ucl3LsGUmR@35.164.84.176:27017/Ezshipp",
+	"dbURL": "mongodb://ezshipp:ezshipp@ds123400.mlab.com:23400/ezshipp",
+	"evodbrepl": "mongodb://ezshippDBA:ezshippevontex@35.164.150.209:1234/ezshipp?replicaSet=ezshipp",
+	"evodb": "mongodb://ezshippDBA:ezshippevontex@35.164.150.209:1234/ezshipp",
+	"evodbrepl2": "mongodb://ezshippDBA:ezshippevontex@db.ezshipp.com:1234/ezshipp?replicaSet=ezshipp",
+	"prodDB": "mongodb://ezshippDBA:ezshippevontex@db.ezshipp.com:1234/ezshipp?replicaSet=ezshipp",
+	"testingdb": "mongodb://ezshipptesting:ezshipptesting@betadb.ezshipp.com:1234/ezshipp?replicaSet=ezshipp",
+	"AnilLab": "mongodb://ezshipp1:ezshipp1@ds125262.mlab.com:25262/ezshppoffer",
+	"SECRETCODE": "EDFGJS-DHSHAJ-DASHJDJH-DHJSGAJH",
+	"S3AccessKey": "AKIAI66BVJVTGBTQL7YA",
+	"S3Secret": "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",
+	"S3Bucket": "ezshippimages",
+	"S3URL": "https://s3.amazonaws.com/ezshippimages/",
+	"API_KEY": "106686ANHo1vN156dae049",
+	"SENDER_ID": "TRACKE",
+	"SENDER_ID1": "SCHOOL",
+	"username": "green22sanjay",
+	"API_KEY2": "a48ad4e908b48b32dcbd63d112ce71e7:vLvEE6EKZ0sncfYIlbyoa0YbMsmuf7XP",
+	"SENDER_ID2": "TRACKE",
+	"SENDER_ID3": "SCHOOL",
+	"ROUTE_NO": "4",
+	"StripeKey": "sk_test_QnUgntfLR6kQgYsecihTJg1v",
+	"StripeKeyApp": "pk_test_sp0gbTEyinY0KYOo4e3Jw0sM",
+	"razorpay": {
+		"key_id": "rzp_live_wl83DtXp4MILy9",
+		"key_secret": "wjP9PFwl9aVNo4MuLmeYAxho"
+	},
+	"fcmseverkey": "AAAATftpntc:APA91bGUg0AJxmHUqI_0mS4Itm5G2fvtTOvrevJZeSBfFal896PRlSd4T2mIvxJYrNyzY6OE7oEMKuHWraz3Ov4UQS_KgIo8E7zomZr9cLyk59ypOINGWQanoC0s5CYR3DHSx4G2BNJC",
+	"pubnubkeys": {
+		"publishkey": "pub-c-e3ea9e90-d5c3-471e-b3ad-a9da33dbf2b2",
+		"subscribekey": "sub-c-7b39ec92-7293-11e7-9980-0619f8945a4f"
+	},
+	"mysqldbcredits": {
+		"host": "localhost",
+		"user": "root",
+		"password": "exP2ZYGJXeLVt7HB",
+		"database": "ezshipp"
+	},
+	"mongodbcredits": {
+		"url": "mongodb://ezshippdbserver:SDNQF6ucl3LsGUmR@35.164.84.176:27017/Ezshipp"
+	},
+	"serverchannel": "ezshipp_serverChannel_Driver",
+	"serverchannel2": "ezshipp_server",
+	"presencechannel": "ezshipp_Presence_Channel",
+	"googleapikey": "AIzaSyCHAAF-2jzmx-G06WCapwMZK0VG3pIC3yY",
+	"twilio": {
+		"ACCOUNT_SID": "AC09d5f9206a051c299b5a46009abd7098",
+		"AUTH_TOKEN": "06241cc47a61da0cf394afd9025c4371",
+		"TWILIO_NUMBER": "+12403033568"
+	},
+	"msg91": {
+		"authkey": "146671AhmDQFfswP58da2e0a",
+		"sender_id": "EZSHIP",
+		"route_no": "4"
+	},
+	"solutionsinfini": {
+		"Base_Url": "https://alerts.solutionsinfini.com/api/v4/?api_key=A8ecd35d466a2e278ca5d53a8fda8c2d7",
+		"api_key": "A8ecd35d466a2e278ca5d53a8fda8c2d7",
+		"method": "sms",
+		"sender": "EZSHIP"
+	},
+	"mailgun": {
+		"api_key": "key-0d5ef51597cd2abdcc2687272aeb7a4f",
+		"domain": "www.ezshipp.com",
+		"frommail": "no-reply@ezshipp.com"
+	},
+	"version": "1",
+	"referral_percentage": 30
+}
