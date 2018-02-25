@@ -1,0 +1,38 @@
+   .zone-heading {
+   text-align: center;
+   font-size: 23px;
+   font-family: Proxima-Nova-Regular;
+}
+.form-control {
+       width: 200px;
+   }
+.table-btn {
+       background-color: #e87906;
+       color: #fff;
+       box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.4), 0 3px 14px 0 rgba(0, 0, 0, 0.19);
+       padding: 5px;
+       margin-left: 100px;
+   }
+
+   .one_order {
+       width: 300px;
+       padding: 5px;
+       margin-left: 20px;
+   }
+
+   .border_table_hover:hover {
+       background-color: #12a6f1;
+       color: #fff;
+       cursor: pointer;
+   }
+
+   .border_table {
+       box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+   }
+
+   .td_style {
+       border-top: none;
+       width:50%;
+       padding: 5px;
+   }
+
