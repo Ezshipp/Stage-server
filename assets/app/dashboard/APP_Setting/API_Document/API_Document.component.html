@@ -1,0 +1,645 @@
+<h3 style="text-align:center;">API Ezshipp</h3>
+<button type="button" class="btn create" (click)="button_click()">Create</button>
+<div class="row">
+    <div class="col-xs-10 col-sm-12 col-md-12">
+        <div class="list-group panel" *ngIf="!add_Api_Category">
+            <table class="table">
+                <ng-container *ngFor="let item of CategoryData; let i=index">
+
+
+                    <tr (click)="OndetailView(item,i)">
+                        <td style="border: 1px solid #ddd;padding: 10px;">
+                            <a href="#menu15" class="collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                aria-expanded="false">Category {{i+1}} : {{item.CategoryName}}</a>
+                        </td>
+                        <td align="center" style="border-top: none;border: 1px solid #ddd;">
+                            <span (click)="Edit_Category_Name(item,i)">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </span>
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="i==detailview">
+                        <td colspan="2">
+
+                            <div class="collapse" id="menu15">
+                                <table class="table">
+                                    <tr class="well">
+                                        <td style="border-top: none;cursor: pointer;color:#000;padding: 0px 0px;" *ngIf="!open_method_path">
+                                            <a href="#menu16" class="list-group-item collapsed" data-toggle="collapse" data-parent="#sidebar" style="background-color: transparent;color: #12A6F1;font-size: 18px;"
+                                                aria-expanded="false">
+                                                <span class="label_color">{{Api_Method_list}}</span> {{Api_Path_list}}
+                                                <span style="color:#3c763d;">( {{API_Name_list}} )</span>
+                                            </a>
+
+                                        </td>
+                                        <td *ngIf="open_method_path">
+                                            <ul class="list-inline" style="margin-left: 15px;margin-top: -20px;">
+                                                <li>
+                                                    <input type="text" class="form-control" id="text2" placeholder="Api Method" [(ngModel)]="Api_Method_list" style="width:200px;"
+                                                        required/>
+                                                </li>
+                                                <li>
+                                                    <input type="text" class="form-control" id="text2" placeholder="Api Path" [(ngModel)]="Api_Path_list" style="width:200px;"
+                                                        required/>
+                                                </li>
+                                                <li>
+                                                    <input type="text" class="form-control" id="text2" placeholder="API Name" [(ngModel)]="API_Name_list" style="width:200px;"
+                                                        required/>
+                                                </li>
+                                                <li>
+                                                    <i class="fa fa-times" aria-hidden="true" (click)="close_method_path()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                    <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_method_path()"></i>
+                                                </li>
+                                            </ul>
+                                        </td>
+
+                                        <td>
+                                            <span (click)="click_open_methods()">
+                                                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:1px 23px 0px 0px;float:right;color: #e41935;"></i>
+                                            </span>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="collapse panel_color_view" id="menu16">
+                                                <h3 style="margin-top:15px;font-weight: 800;">Resource URL</h3>
+                                                <p style="margin:20px 0px;cursor: pointer;" *ngIf="!api_open_input">{{Api_URL_list}}
+                                                    <span>
+                                                        <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:10px 15px;color: #e41935;" (click)="click_open_api_path()"></i>
+                                                    </span>
+                                                </p>
+                                                <ul class="list-inline" *ngIf="api_open_input">
+                                                    <li>
+                                                        <input type="text" class="form-control" id="text2" placeholder="API Path" [(ngModel)]="Api_URL_list" style="width:200px;"
+                                                            required/>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-times" aria-hidden="true" (click)="close_url_text()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                        <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_Api_URL()"></i>
+                                                    </li>
+                                                </ul>
+                                                <ul class="list-inline" style="font-size:18px;margin-bottom: 25px;">
+                                                    <li>Description :</li>
+                                                    <li *ngIf="!api_open_description">{{API_Description_list}}
+                                                        <span>
+                                                            <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:10px 15px;color: #e41935;" (click)="click_to_des()"></i>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                                <ul class="list-inline" *ngIf="api_open_description">
+                                                    <li>
+                                                        <input type="text" class="form-control" id="text2" placeholder="description" [(ngModel)]="API_Description_list" style="width:600px;"
+                                                            required/>
+                                                    </li>
+                                                    <li>
+                                                        <i class="fa fa-times" aria-hidden="true" (click)="close_description_text()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                        <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_Api_Description()"></i>
+                                                    </li>
+                                                </ul>
+
+                                                <ul class="list-inline" style="font-size:18px;margin-bottom: 13px;">
+                                                    <li style="border-right:1px solid #777;cursor: pointer;" (click)="click_parameter()" id="1" [class.active]="activeid_view==1"
+                                                        (click)="activeid_view=1">Parameters</li>
+                                                    <li style="border-right:1px solid #777;cursor: pointer;" (click)="click_request()" id="2" [class.active]="activeid_view==2"
+                                                        (click)="activeid_view=2">Sample Request</li>
+                                                    <li id="description" style="border-right:1px solid #777;cursor: pointer;" (click)="click_Success_Responses()" id="3" [class.active]="activeid_view==3"
+                                                        (click)="activeid_view=3">Success Responses</li>
+                                                    <li id="fail_description" style="cursor: pointer;" (click)="click_Error_Responses()" id="4" [class.active]="activeid_view==4"
+                                                        (click)="activeid_view=4">Error Responses</li>
+                                                </ul>
+                                                <div *ngIf="open_parameter">
+                                                    <table>
+                                                        <tr>
+                                                            <th class="table_hr">Parameter</th>
+                                                            <th class="table_hr">DataType</th>
+                                                            <th class="table_hr">description</th>
+                                                        </tr>
+                                                        <ng-container *ngFor="let item of Api_Parameters; let im=index">
+                                                            <tr>
+                                                                <td style="padding: 12px 47px 5px 0px;">{{item.Param}}</td>
+                                                                <td style="padding: 12px 47px 5px 0px;">{{item.Datatype}}</td>
+                                                                <td style="padding: 12px 47px 5px 0px;">{{item.Description}}</td>
+                                                                <span>
+                                                                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:10px 0px;color: #e41935;" (click)="click_Parameters(item,im)"></i>
+                                                                    <!-- <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:10px 0px;color: #e41935;"
+                                                                       (click)="click_Remove_Parameters()"></i> -->
+                                                                </span>
+                                                            </tr>
+                                                            <tr *ngIf="api_open_Parameter==im">
+                                                                <td colspan="3">
+                                                                    <ul class="list-inline" style="margin-top: -20px;">
+                                                                        <li>
+                                                                            <input type="text" class="form-control" id="text2" placeholder="Enter parameter" [(ngModel)]="Api_Param" style="width:200px;"
+                                                                                required/>
+                                                                        </li>
+                                                                        <li>
+                                                                            <input type="text" class="form-control" id="text2" placeholder="Enter Datatype" [(ngModel)]="Api_Datatype" style="width:200px;"
+                                                                                required/>
+                                                                        </li>
+                                                                        <li>
+                                                                            <input type="text" class="form-control" id="text2" placeholder="Enter description" [(ngModel)]="Api_Description" style="width:200px;"
+                                                                                required/>
+                                                                        </li>
+                                                                        <li>
+                                                                            <i class="fa fa-times" aria-hidden="true" (click)="close_Parameter()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                                            <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_Parameter()"></i>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr>
+                                                        </ng-container>
+
+                                                    </table>
+                                                </div>
+                                                <table id="open_description" *ngIf="open_request">
+                                                    <tr>
+                                                        <td>
+                                                            <div class="snippet_1" style="display: block;" *ngIf="!open_Request_JSON_all">
+                                                                <span>
+                                                                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:0px;color: #e41935;float:right;" (click)="click_open_request_json()"></i>
+                                                                </span>
+                                                                {{Request_JSON_all}}
+                                                            </div>
+                                                            <div *ngIf="open_Request_JSON_all" style="position:relative;top:0;right:0;">
+                                                                <textarea class="form-control textarea_box" rows="8" placeholder="Request JSON" [(ngModel)]="Request_JSON_all" id="comment"
+                                                                    style="padding: 29px 10px;"></textarea>
+                                                                <ul class="list-inline" style="position:absolute;top:10px;right:40px;">
+                                                                    <li>
+                                                                        <i class="fa fa-times" aria-hidden="true" (click)="close_Request_JSON_all()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_Request_JSON_all()"></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+
+                                                        </td>
+                                                        <td colspan="2" style="color:#0764b5;">
+                                                            <ul style="list-style-type:none;">
+                                                                <li *ngIf="!open_Content_Type">Content_Type : {{Content_Type}}
+                                                                    <span>
+                                                                        <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:10px 10px;color: #e41935;" (click)="click_Content_Type()"></i>
+                                                                    </span>
+                                                                </li>
+                                                                <ul class="list-inline" *ngIf="open_Content_Type">
+                                                                    <li>
+                                                                        <select class="form-control form-control-lg" style="width: 170px;margin-left:10px;" #box1 (change)="select_Content_Type(box1.value,$event)">
+                                                                            <option [value]="Content_Type">{{Content_Type}}</option>
+                                                                        </select>
+                                                                    </li>
+
+                                                                    <!-- <li><input type="text" class="form-control" id="text2" placeholder="API Name" [(ngModel)]="Content_Type" style="width:200px;" required/></li> -->
+                                                                    <li>
+                                                                        <i class="fa fa-times" aria-hidden="true" (click)="close_Content_Type()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                                        <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_Content_Type()"></i>
+                                                                    </li>
+                                                                </ul>
+                                                                <li>
+                                                                    <div class="snippet_1" style="display: block;">
+                                                                        <h4 style="margin-top: -10px;color:#337ab7">Description:
+                                                                            <span>
+                                                                                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:10px 15px;color: #e41935;" (click)="click_Request_Description()"></i>
+                                                                            </span>
+                                                                        </h4>
+                                                                        <p style="color:#3c763d;font-weight:800;" *ngIf="!open_Request_Description">{{Request_Description}}</p>
+                                                                        <ul class="list-inline" *ngIf="open_Request_Description" style="margin-top: -30px;">
+                                                                            <li>
+                                                                                <input type="text" class="form-control" id="text2" placeholder="description" [(ngModel)]="Request_Description" style="width:200px;"
+                                                                                    required/>
+                                                                            </li>
+                                                                            <li>
+                                                                                <i class="fa fa-times" aria-hidden="true" (click)="close_Request_Description()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                                                <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_Request_Description()"></i>
+                                                                            </li>
+                                                                        </ul>
+
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+
+                                                    </tr>
+                                                </table>
+
+                                                <table id="open_description" *ngIf="open_Success_Responses">
+                                                    <tr>
+                                                        <td>
+                                                            <div class="snippet_1" style="display: block;" *ngIf="!open_Success_Response">
+                                                                <span>
+                                                                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:2px 10px;color: #e41935;float:right;"
+                                                                        (click)="click_Success_Response()"></i>
+                                                                </span>
+                                                                {{Success_Response}}
+                                                            </div>
+                                                            <div *ngIf="open_Success_Response" style="position:relative;top:0;right:0;">
+                                                                <textarea class="form-control textarea_box" rows="8" placeholder="Success Response" [(ngModel)]="Success_Response" id="comment"
+                                                                    style="padding: 29px 10px;"></textarea>
+                                                                <ul class="list-inline" style="position:absolute;top:10px;right:40px;">
+                                                                    <li>
+                                                                        <i class="fa fa-times" aria-hidden="true" (click)="close_Success_Response()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_Success_Response()"></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+
+                                                        </td>
+                                                        <td>
+                                                            <div class="snippet_3" style="position:relative;top:0;right:0;">
+                                                                <h4 style="margin-top: -10px;color:#337ab7">Description :</h4>
+                                                                <p style="color:#3c763d;font-weight:800;" *ngIf="!open_Success_Description">{{Success_Description}}
+                                                                    <span>
+                                                                        <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;color: #e41935;position: absolute;top: 7px;left: 135px;"
+                                                                            (click)="click_Success_Description()"></i>
+                                                                    </span>
+                                                                </p>
+                                                                <div *ngIf="open_Success_Description">
+                                                                    <textarea class="form-control textarea_box" rows="3" placeholder="Success Description" [(ngModel)]="Success_Description"
+                                                                        id="comment" style="padding: 5px 10px;"></textarea>
+                                                                    <ul class="list-inline" style="position:absolute;top:10px;right:40px;">
+                                                                        <!-- <li><input type="text" class="form-control" id="text2" placeholder="Success Description" [(ngModel)]="Success_Description" style="width:200px;" required/></li> -->
+
+                                                                        <li>
+                                                                            <i class="fa fa-times" aria-hidden="true" (click)="close_Success_Description()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                                            <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_Success_Description()"></i>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                                <table id="Fail_open" *ngIf="open_Error_Responses">
+                                                    <tr>
+                                                        <td>
+                                                            <div class="snippet_4" style="display: block;" *ngIf="!open_Error_Response">
+                                                                <span>
+                                                                    <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:2px 10px;color: #e41935;float:right;"
+                                                                        (click)="click_Error_Response()"></i>
+                                                                </span>
+                                                                {{Error_Response}}
+                                                            </div>
+                                                            <div *ngIf="open_Error_Response" style="position:relative;top:0;right:0;">
+                                                                <textarea class="form-control textarea_box" rows="8" placeholder="Error Response" [(ngModel)]="Error_Response" id="comment"
+                                                                    style="padding: 29px 10px;"></textarea>
+                                                                <ul class="list-inline" style="position:absolute;top:10px;right:40px;">
+                                                                    <li>
+                                                                        <i class="fa fa-times" aria-hidden="true" (click)="close_Error_Response()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_Error_Response()"></i>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="snippet_2" style="display: block;">
+                                                                <h4 style="margin-top: -10px;color:#337ab7">Description:</h4>
+                                                                <p style="color:red;font-weight:800;" *ngIf="!open_Error_Description">
+                                                                    <span>
+                                                                        <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:0px 5px;color: #3c763d;float:right;" (click)="click_Error_Description()"></i>
+                                                                    </span> {{Error_Description}}</p>
+                                                                <div *ngIf="open_Error_Description" style="position:relative;top:0;right:0;">
+                                                                    <textarea class="form-control textarea_box" rows="3" placeholder="Error Description" [(ngModel)]="Error_Description" id="comment"
+                                                                        style="padding: 5px 10px;width: 404px;"></textarea>
+                                                                    <ul class="list-inline" style="position:absolute;top:-50px;right:20px;">
+                                                                        <li>
+                                                                            <i class="fa fa-times" aria-hidden="true" (click)="close_Error_Description()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                                        </li>
+                                                                        <li>
+                                                                            <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_Error_Description()"></i>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <table>
+                                                                    <tr>
+                                                                        <th class="table_hr_1">msg</th>
+                                                                        <th class="table_hr_1">Status</th>
+                                                                    </tr>
+                                                                    <ng-container *ngFor="let item of Error_Message_Status_Body; let ir=index">
+                                                                        <tr>
+                                                                            <td style="border-top: none;border-bottom:none;" class="table_hr_1">{{item.msg}}</td>
+                                                                            <td style="border-top: none;border-bottom:none;" class="table_hr_1">{{item.Status}}</td>
+                                                                            <span>
+                                                                                <i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size: 18px;padding:10px 15px;color: #3c763d;" (click)="click_error_msg(item,ir)"></i>
+                                                                            </span>
+                                                                        </tr>
+                                                                        <tr *ngIf="api_open_error==ir">
+                                                                            <td colspan="2">
+                                                                                <ul class="list-inline" style="margin-top: -20px;">
+                                                                                    <li>
+                                                                                        <input type="text" class="form-control" id="text2" placeholder="msg" [(ngModel)]="msg_error" style="width:50px;" required/>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <input type="text" class="form-control" id="text2" placeholder="Enter Datatype" [(ngModel)]="Status_error" style="width:230px;"
+                                                                                            required/>
+                                                                                    </li>
+                                                                                    <li>
+                                                                                        <i class="fa fa-times" aria-hidden="true" (click)="close_error()" style="color: #dc1a1a;font-size: 20px;"></i>
+                                                                                        <i class="fa fa-check" aria-hidden="true" style="color: #4cae4c;margin-left: 15px;font-size: 20px;" (click)="Edit_error()"></i>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </ng-container>
+                                                                </table>
+
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+
+
+                                        </td>
+
+
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="add_Api_Category">
+    <div class="row well">
+        <form [formGroup]="invoiceForm">
+            <div style="margin-bottom: 20px;margin-left: 30px;margin-top: 25px;">
+                <label style="font-size: 18px;color: #337ab7">Category Name :</label>
+                <div class="form-group">
+                    <ul class="list-inline">
+                        <li>
+                            <input type="text" class="form-control" id="text1" placeholder="Category Name" formControlName="Category_Name" style="width:200px;"
+                                required/>
+                        </li>
+
+                        <li>
+                            <label for="text2" style="padding: 0px 10px;">
+                                OR
+                            </label>
+                        </li>
+
+                        <li>
+                            <select class="form-control form-control-lg" style="width: 170px;margin-left:10px;" #box (change)="select_branch(box.value,$event)">
+                                <option *ngFor="let item of CategoryData; let i=index" [value]="item.CategoryName">{{item.CategoryName}}</option>
+                            </select>
+                        </li>
+                    </ul>
+                    <div class="form-group">
+                        <ul class="list-inline">
+                            <li>
+                                <input type="text" class="form-control" id="text1" placeholder="API Name" formControlName="API_Name" style="width:200px;margin-bottom: -52px;"
+                                    required/>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+            <table class="table">
+                <tr class="well well-sm">
+                    <td colspan="2" style="border-top: none;cursor: pointer;color:#000;padding: 0px 8px;">
+                        <ul class="list-inline">
+                            <li>
+                                <select class="form-control form-control-lg" style="width: 170px;" formControlName="Api_Method">
+                                    <option value>Select Method</option>
+                                    <option value="POST">POST</option>
+                                    <option value="GET">GET</option>
+                                </select>
+                            </li>
+                            <li>
+                                <input type="text" class="form-control" id="text2" placeholder="API URL" formControlName="Api_URL" style="width:200px;" required/>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="panel_color">
+                            <h3 style="margin-top:15px;font-weight: 800;">Resource URL</h3>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="text2" placeholder="API Path" formControlName="Api_Path" style="width:200px;"
+                                    required/>
+                            </div>
+                            <div class="form-group">
+                                <label>Description:</label>
+                                <textarea class="form-control" rows="3" placeholder="API Description" formControlName="API_Description" id="comment" style="border: 1px solid #ddd;background-image:none;border-radius: 5px;padding:10px;width: 350px;background-color: #fff;"></textarea>
+                            </div>
+                            <ul class="list-inline" style="font-size:18px;">
+                                <li style="border-right:1px solid #777;cursor: pointer;" (click)="form_parameter()" id="1" [class.active]="activeid==1" (click)="activeid=1">Parameters</li>
+                                <li style="border-right:1px solid #777;cursor: pointer;" (click)="form_Request()" id="2" [class.active]="activeid==2" (click)="activeid=2">Sample Request</li>
+                                <li style="border-right:1px solid #777;cursor: pointer;" (click)="form_Responses()" id="3" [class.active]="activeid==3" (click)="activeid=3">Success Responses</li>
+                                <li style="cursor: pointer;" (click)="form_error()" id="4" [class.active]="activeid==4" (click)="activeid=4">Error Responses</li>
+                            </ul>
+                            <div>
+                                <table *ngIf="form_parameter_view">
+                                    <tr>
+                                        <th class="table_hr" style="padding: 5px 47px 5px 0px;">Parameter</th>
+                                        <th class="table_hr" style="padding: 5px 47px 5px 38px;">DataType</th>
+                                        <th class="table_hr" style="padding: 5px 47px 5px 10px;">description</th>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <div style="position: relative;right:0;top:0;">
+                                                <i style="position: absolute;right: -85px;top:2px;cursor:pointer;color:#0ab9ee" class="material-icons" (click)="addNewRow()"
+                                                    class="material-icons">
+                                                    add_circle_outline
+                                                </i>
+
+                                                <ng-container formArrayName="Api_Parameters">
+                                                    <table>
+                                                        <tr *ngFor="let itemrow of formData.controls; let i=index" [formGroupName]="i">
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <input type="text" placeholder="Parameter" formControlName="Param" class="form-control" style="width:200px;margin-right: 35px;"
+                                                                        required/>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group">
+                                                                    <input type="text" formControlName="Datatype" placeholder="Data type" class="form-control" style="width:200px;margin-right: 35px;"
+                                                                        required/>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group" style="width: 85%;">
+
+                                                                    <input type="text" formControlName="Description" placeholder="Description" class="form-control" style="width:200px;" required/>
+
+                                                                </div>
+                                                                <i class="material-icons" style="position: absolute;right:-85px;margin-top:-26px;cursor:pointer;" *ngIf="formData.length > 1"
+                                                                    (click)="deleteRow(i)">
+                                                                    remove_circle_outline
+                                                                </i>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </ng-container>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <table *ngIf="form_Request_view">
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+                                            <textarea class="form-control textarea_box" rows="8" placeholder="Request JSON" formControlName="Request_JSON" id="comment"></textarea>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <select class="form-control form-control-lg" style="width: 170px;margin-right: 20px;" formControlName="Content_Type">
+                                                <option value>Content Type</option>
+                                                <option value="application/json">application/json</option>
+                                                <option value="text/html">text/html</option>
+                                                <option value="multipart/form-data">multipart/form-data</option>
+                                                <option value="application/x-www-form-urlencoded">application/x-www-form-urlencoded</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <textarea class="form-control textarea_box_1" rows="3" placeholder="Request Description" formControlName="Request_Description"
+                                                id="comment"></textarea>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table *ngIf="form_Responses_view">
+                                <tr>
+                                    <td>
+
+                                        <div class="form-group">
+                                            <textarea class="form-control textarea_box" rows="8" placeholder="Success Response" formControlName="Success_Response" id="comment"></textarea>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="snippet_1" style="display: block;">
+                                            <h4 style="margin-top: -10px;color:#337ab7">Description:</h4>
+                                            <div class="form-group">
+                                                <textarea class="form-control textarea_box_1" rows="2" placeholder="Success Description" formControlName="Success_Description"
+                                                    id="comment" style="border: 1px solid #ddd;background-image:none;border-radius: 5px;padding:10px;width: 300px;"></textarea>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table *ngIf="form_error_view">
+                                <tr>
+                                    <td>
+
+                                        <div class="form-group">
+                                            <textarea class="form-control textarea_box" rows="8" placeholder="Error Response" formControlName="Error_Response" id="comment"></textarea>
+                                        </div>
+
+                                    </td>
+                                    <td>
+                                        <div class="snippet_5" style="display: block;">
+                                            <h4 style="margin-top: -10px;color:#337ab7">Description:</h4>
+                                            <div class="form-group">
+                                                <textarea class="form-control textarea_box_1" rows="2" placeholder="Error Description" formControlName="Error_Description"
+                                                    id="comment" style="border: 1px solid #ddd;background-image:none;border-radius: 5px;padding:10px;width: 300px;"></textarea>
+                                            </div>
+                                            <div style="position: relative;right:0;top:0;">
+                                                <i style="position: absolute;right: 0px;top: -11px;cursor:pointer;color:#0ab9ee" class="material-icons" (click)="addNewRow_error()"
+                                                    class="material-icons">
+                                                    add_circle_outline
+                                                </i>
+                                                <ng-container formArrayName="Error_Message_Status_Body">
+
+                                                    <table>
+                                                        <tr *ngFor="let itemrow of formData_message.controls; let i=index" [formGroupName]="i">
+                                                            <td>
+                                                                <div class="form-group" style="margin-bottom: -5px;margin-top: -10px;">
+                                                                    <input type="text" formControlName="msg" placeholder="Msg number" class="form-control" style="width:80px;margin-right: 15px;"
+                                                                        required/>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="form-group" style="margin-top: -5px;">
+                                                                    <input type="text" formControlName="Status" placeholder="Error Message Status" class="form-control" style="width:280px;"
+                                                                        required/>
+                                                                </div>
+                                                                <i class="material-icons" style="position: absolute;right: 0px;margin-top:-30px;cursor:pointer;" *ngIf="formData_message.length > 1"
+                                                                    (click)="deleteRow_error(i)">
+                                                                    remove_circle_outline
+                                                                </i>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </ng-container>
+                                            </div>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+
+
+                    </td>
+
+
+                </tr>
+            </table>
+            <div style="text-align:center;">
+                <button type="submit" (click)="CreateApi_Category()" class="btn btn-default">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="isData">
+    <h3 style="text-align: center;font-size: 18px;">No Records found</h3>
+</div>
+
+<div *ngIf="change_category">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 380px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="Onclose_category()">
+                        <span style="font-size: 35px;color: red;" aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 style="text-align: center;margin-top: 0px;color: #ee9b0a;">Edit API Category Name</h4>
+                </div>
+                <table class="table table-responsive">
+                    <form class="form-inline" (ngSubmit)="onSubmit_Category(f)" #f="ngForm">
+                        <tr>
+                            <td style="border-top: none;">
+                                <input type="text" class="form-control" placeholder="Edit API Category Name" id="text1" [(ngModel)]="CategoryName_edit" name="CategoryName"
+                                    style="width:200px;margin:-25px 0px -37px 87px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:center;border-top: none;">
+                                <button class="btn btn-success btn-xs" style="margin: 48px 0px 33px 80px;">Submit</button>
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
