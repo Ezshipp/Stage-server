@@ -1,0 +1,11 @@
+<div class="container-fluid containers" style="background-color: white;">
+   <!-- <h3 class="zone-heading">HR</h3> -->
+   <ul class="nav nav-tabs nav_tab_background">
+       <li routerLinkActive="active"><a [routerLink]="['employee']">Employee</a></li>
+       <li routerLinkActive="active"><a [routerLink]="['salary']">Financial</a></li>
+         <li routerLinkActive="active"><a [routerLink]="['Attendence']">Attendance</a></li>
+         <!-- <li routerLinkActive="active"><a [routerLink]="['cancel_R']">Cancellation Reason</a></li> -->
+   </ul>
+   <hr>
+   <router-outlet></router-outlet>
+</div>
