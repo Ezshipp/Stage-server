@@ -1,0 +1,511 @@
+<div class="container-fluid" *ngIf="Employee_salary_view_2">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="input-group" style="margin-left: 75%;margin-top: -20px;">
+
+                <span class="input-group-addon">
+                <i
+                    class="material-icons"
+                    style="margin-top: 20px;"
+                >
+                    search
+                </i>
+            </span>
+                <input type="text" class="form-control" [ngModel]="mymodel" (ngModelChange)="valuechange($event)" placeholder="Search...">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row" style="overflow-x: auto;padding: 15px;" *ngIf="Employees_Data.length>0">
+        <div class="col-xs-12 col-sm-12 col-md-12" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+            <div class="row" style="border-top: 1px solid #DDD;padding: 5px;" *ngIf="table_data_search">
+                <div class="col-xs-2 border" style="width:16%">
+                    <b [class.active]="activeId == 1" (click)="activeId=1" style="cursor: pointer;" (click)="sortColumn('Employee_Company_ID')">Employee ID <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                </div>
+                <div class="col-xs-2 border" style="width:18%">
+                    <b [class.active]="activeId == 2" (click)="activeId=2" style="cursor: pointer;" (click)="sortColumn('Employee_Name')">Employee Name <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                </div>
+
+                <div class="col-xs-2 border" style="width:10%">
+                    <b [class.active]="activeId == 3" (click)="activeId=3" style="cursor: pointer;" (click)="sortColumn('Month_Number')">Month <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                </div>
+                <div class="col-xs-2 border" style="width:13%">
+                    <b [class.active]="activeId == 4" (click)="activeId=4" style="cursor: pointer;" (click)="sortColumn('ExpensesAmount')">T.Expenses <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                </div>
+                <div class="col-xs-2 border" style="width:18%">
+                    <b [class.active]="activeId ==5" (click)="activeId=5" style="cursor: pointer;" (click)="sortColumn('Employee_Total_Salary')">Emp Total Salary <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                </div>
+                <div class="col-xs-2 border" style="width:11%;margin-top: 7px;">
+                    <b>Playslips</b>
+                </div>
+                <div class="col-xs-2 border" style="width:14%;margin-top: 7px;">
+                    <b>Action</b>
+                </div>
+
+            </div>
+
+            <div class="row" *ngFor="let item of Employees_Data  | paginate: { id: 'salary_view',
+                                                      itemsPerPage: 10,
+                                                      currentPage: p,
+                                                      totalItems: Total_Count };let i = index" style="border-top: 1px solid #DDD;padding: 7px 7px;margin-bottom:5px;">
+                <div class="col-xs-2 border" style="width:18%">{{item.Employee_Company_ID}}</div>
+                <div class="col-xs-2 border" style="width:16%">{{item.Employee_Name}}</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==1">January</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==2">February</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==3">March</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==4">April</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==5">May</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==6">June</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==7">July</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==8">August</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==9">September</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==10">October</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==11">November</div>
+                <div class="col-xs-2 border" style="width:13%" *ngIf="item.Month_Number==12">December</div>
+                <div class="col-xs-2 border" style="width:13%">{{item.ExpensesAmount}}</div>
+                <div class="col-xs-2 border" style="width:15%">{{item.Employee_Total_Salary}}</div>
+                <div class="col-xs-2 border" style="width:12%">
+
+                    <p *ngIf="item.ProcessStage==1" style="color:#f44336;font-size:18px">process</p>
+                    <a href="{{item.PDFLink}}" target="_blank" *ngIf="item.ProcessStage==2" style="text-decoration:underline;font-size:15px">PDF</a>
+
+                </div>
+                <div class="col-xs-2 border" style="width:11%">
+
+                    <i class="material-icons" (click)="moreinfo_salary(item,i)" style="color: #ee9b0a;cursor:pointer;font-size:25px;">info_outline</i>
+                </div>
+
+
+                <div class="row" *ngIf="i==views" style="padding-right: 15px;padding-left: 15px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12" style="border: 1px solid #12A6F1;">
+
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-md-4 col-md-offset-4">
+                                <h4 style="color:#337ab7">Employee ID : {{ Employee_Company_ID }}</h4>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3">
+                                <div style="float: right;">
+
+                                    <button type="button" class="btn btn-default btn-simple btn-xs" (click)="close_table()" style="margin-top: 10px;">
+                    <i class="fa fa-times"></i>
+                </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-responsive">
+
+                            <tbody>
+                                <tr>
+                                    <td style="border-top: none;width: 25%;">
+                                        <strong>Loss of Pay :</strong> {{ Employee_Loss_of_Pay }}
+                                    </td>
+                                    <td style="border-top: none;width: 25%;">
+                                        <strong>PF :</strong> {{ Employee_PF }}
+                                    </td>
+                                    <td style="border-top: none;width: 25%;">
+                                        <strong>TDS :</strong> {{ Employee_TDS }}
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Payment_Type==1">
+                                        <strong>Payment Method :</strong> Cash
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Payment_Type==2">
+                                        <strong>Payment Method :</strong> Online
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top: none;width: 25%;">
+                                        <strong>Transaction ID :</strong> {{ TransactionID }}
+                                    </td>
+                                    <td style="border-top: none;width: 25%;">
+                                        <strong>Comment :</strong> {{ Comment }}
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==1">
+                                        <strong>Month :</strong> January
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==2">
+                                        <strong>Month :</strong> February
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==3">
+                                        <strong>Month :</strong> March
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==4">
+                                        <strong>Month :</strong> April
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==5">
+                                        <strong>Month :</strong> May
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==6">
+                                        <strong>Month :</strong> June
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==7">
+                                        <strong>Month :</strong> July
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==8">
+                                        <strong>Month :</strong> August
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==9">
+                                        <strong>Month :</strong> September
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==10">
+                                        <strong>Month :</strong> October
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==11">
+                                        <strong>Month :</strong> November
+                                    </td>
+                                    <td style="border-top: none;width: 25%;" *ngIf="Month_Number==12">
+                                        <strong>Month :</strong> December
+                                    </td>
+                                    <td style="border-top: none;width: 25%;">
+                                        <strong>Year :</strong> {{ Year_Number }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top: none;width: 25%;">
+                                        <strong>Date :</strong> {{ Date_Time }}
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <pagination-controls id="salary_view" style="    float: right;
+    margin-top: 20px;" *ngIf="!issearch_empvie" (pageChange)="pageChanged_salary_view($event)" maxSize="9" directionLinks="true" autoHide="true"
+        previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+
+ </div>
+
+
+
+
+ <my-spinner [isRunning]="isRequesting"></my-spinner>
+
+ <div *ngIf="isData" style="text-align: center;">
+    <strong style="font-size: 20px;">No Records Found</strong>
+ </div>
+
+
+ <div class="col-xs-12 col-sm-4 col-md-8 col-md-offset-3" *ngIf="add_salary_id">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 600px">
+            <div class="modal-content" style="border-radius: 0px;padding-bottom: 25px;">
+                <div class="modal-header">
+
+                    <div class="container-fluid" *ngIf="Employee_salary_view">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <h4 class="modal-title" id="myModalLabel" style="margin-top:15px;text-align:center;color:#ee9b0a;font-weight:500;">Employees List</h4>
+                                <hr/>
+                                <div class="input-group" style="margin-left: 50%;margin-top: -20px;margin-right: 30px;">
+
+                                    <span class="input-group-addon">
+                <i
+                    class="material-icons"
+                    style="margin-top: 20px;"
+                >
+                    search
+                </i>
+            </span>
+                                    <input type="text" class="form-control" [ngModel]="mymodelSalary" (ngModelChange)="salary_valuechange($event)" placeholder="Search...">
+                                </div>
+                                <i class="fa fa-times" style="float: right;margin-top: -122px;font-size:25px;color:#e21e1e;cursor:pointer;" (click)="back_button_table()"></i>
+
+                            </div>
+                        </div>
+
+                        <div class="row" style="overflow-x: auto;" *ngIf="this.EmployeeData.length>0">
+                            <div class="col-xs-12 col-sm-12 col-md-12">
+                                <div class="row" style="padding:3px 5px 16px 5px" *ngIf="table_data_search_salary">
+                                    <div class="col-xs-2 border" style="width:27%;;color:#12A6F1;">
+                                        <b [class.active]="activeId_exp == 1" (click)="activeId_exp=1" style="cursor: pointer;" (click)="sortColumn_salary('Employee_Company_ID')">Employee ID <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                                    </div>
+
+                                    <div class="col-xs-2 border" style="width:23%;color:#12A6F1;">
+                                        <b [class.active]="activeId_exp == 2" (click)="activeId_exp=2" style="cursor: pointer;" (click)="sortColumn_salary('Employee_Name')">Name <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                                    </div>
+                                    <div class="col-xs-2 border" style="width:30%;color:#12A6F1;">
+                                        <b [class.active]="activeId_exp == 3" (click)="activeId_exp=3" style="cursor: pointer;" (click)="sortColumn_salary('Employee_PhoneNumber')">Phone Number <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                                    </div>
+
+                                    <div class="col-xs-2 border" style="width:20%;color:#12A6F1;margin-top: 8px;">
+                                        <b>Add Salary</b>
+                                    </div>
+
+                                </div>
+
+                                <div class="row" *ngFor="let item of EmployeeData  | paginate: { id: 'salary_data',
+                                                      itemsPerPage: 10,
+                                                      currentPage: salary_page,
+                                                      totalItems: Total_Count_findall_branch };let i = index" style="border-bottom: 1px solid #DDD;padding: 7px 7px;margin-bottom:5px;">
+                                    <div class="col-xs-2 border" style="width:26%">{{item.Employee_Company_ID}}</div>
+                                    <div class="col-xs-2 border" style="width:26%">{{item.Employee_Name}}</div>
+                                    <div class="col-xs-2 border" style="width:33%">{{item.Employee_PhoneNumber}}</div>
+                                    <div class="col-xs-2 border" style="width:14%" *ngIf="item.Complete_Profile_Set==true">
+
+                                        <i class="material-icons" (click)="click_button_employee(item,i)" style="color: #ee9b0a;cursor:pointer;font-size:25px;">add</i>
+                                    </div>
+                                    <div class="col-xs-2 border" style="width:14%" *ngIf="item.Complete_Profile_Set==false">
+                                        <span (click)="click_employee_add(item,i)" style="color: #1b801d;cursor:pointer;font-size:25px;margin-left:8px;">?</span>
+
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <pagination-controls id="salary_data" style="float: right;
+                                margin-top: 20px;" *ngIf="!issearch_valuechange" (pageChange)="pageChanged_salary_data($event)" maxSize="9" directionLinks="true" autoHide="true"
+                        previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page">
+                    </pagination-controls>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+ </div>
+
+ <!--add-salary main-form-->
+
+ <div class="col-xs-12" *ngIf="add_salary">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 600px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" style="font-size: 35px;color:#d41c1c;margin-top:10px;" (click)="back_button()">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel" style="margin-top:15px;text-align:center;color:#ee9b0a;font-weight:500;">Add Salary</h4>
+                    <hr>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <form class="form-inline" (ngSubmit)="onSubmit_addsalary(f)" #f="ngForm">
+
+
+                            <div class="row">
+                                <div class="col-md-12 col-lg-12">
+                                    <table style="width:100%;margin-left: 30px;margin-top: -15px;">
+
+                                        <tr>
+                                            <td>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Select Month :</label>
+                                                    <select class="form-control form-control-lg"   id="text8" style="width: 145px;margin-left:8px;"
+                                                    [(ngModel)]="Month_Number"  name="Month_number" #ExpensesMonth (change)="changeMonth(ExpensesMonth.value)">
+                                    <option *ngFor="let item of Expences_monthnumber;let i=index" [value]="i+1">{{item}}</option>
+
+                            </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Select Year :</label>
+
+                                                    <select class="form-control form-control-lg" id="text8" style="width: 145px;margin-left:8px;" [(ngModel)]="current_year"
+                                                    name="Year_number">
+                                    <option *ngFor="let item of Expences_yearnumber;let i=index" [value]="item">{{item}}</option>
+
+                            </select>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-lg-12" style="margin-bottom: 20px;margin-left: 30px;">
+                                <div class="form-group">
+                                    <table style="width: 500px;font-size: 16px;margin-left: -15px;">
+                                        <tr>
+                                            <td><label style="font-size: 18px;color: #337ab7;margin-bottom: 10px;">Employee Details :</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="form-group" style="color:#a52117;">Employee name : {{ Employee_salary_Name }}</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="form-group" style="color:#a52117;">Employee ID : {{ emp_comppany_expe }}</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <div class="form-group" style="color:#a52117;">Number of Working days : {{Attendance}}</div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-lg-6">
+                                    <table style="width:100%;margin-left: 30px;">
+                                        <tr>
+                                            <td><label style="font-size: 18px;color: #337ab7">Salary Details :</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Expenses Amount</label>
+                                                    <input type="text" class="form-control" id="text30" [(ngModel)]="Exp_amount" name="ExpensesAmount" style="width: 200px;"
+                                                        minlength="1" maxlength="6" required />
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">PF Amount</label>
+                                                    <input type="text" class="form-control" id="text1" ngModel name="emp_pf" style="width: 200px;" minlength="1" maxlength="6"
+                                                        required />
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">TDS Amount</label>
+                                                    <input type="text" class="form-control" id="text2" ngModel name="emp_tds" style="width: 200px;" minlength="1" maxlength="6"
+                                                        required />
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Loss of Pay</label>
+                                                    <input type="text" class="form-control" id="text3" ngModel name="emp_losspay" style="width: 200px;" minlength="1" maxlength="6"
+                                                        required />
+
+                                                </div>
+                                            </td>
+
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Total Deductions</label>
+                                                    <input type="text" class="form-control" id="text21" ngModel name="total_deduction" style="width: 200px;" minlength="1" maxlength="6"
+                                                        required />
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Total Salary</label>
+                                                    <input type="text" class="form-control" id="text22" ngModel name="Total_Salary" style="width: 200px;" minlength="1" maxlength="8"
+                                                        required />
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </table>
+
+
+                                </div>
+                                <div class="col-md-6 col-lg-6" style="border-left:1px solid #ddd;">
+                                    <table style="width:100%;margin-left: 20px;margin-top: 10px;">
+
+                                        <tr>
+                                            <td><label style="font-size: 18px;color: #337ab7">Payment Details :</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group label-floating" style="margin-top: 15px;">
+                                                    <label class="control-label">Basic Salary</label>
+                                                    <input type="text" class="form-control" id="text24" [(ngModel)]="Employee_Basic_Salary" name="emp_basic_salary" style="width: 200px;"
+                                                        minlength="1" maxlength="6" required />
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Transaction ID</label>
+                                                    <input type="text" class="form-control" id="text25" ngModel name="transaction_id" style="width: 200px;" minlength="1" maxlength="18"
+                                                        required />
+
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Payment Type</label>
+                                                    <select class="form-control form-control-lg" id="text26" style="width: 200px;" [(ngModel)]="Payment_Type_id" name="payment_type">
+                                    <option [value]="1">Cash</option>
+                                    <option [value]="2">NEFT</option>
+                                    <option [value]="2">PAYTM</option>
+                                </select>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Comment</label>
+                                                    <textarea type="text" class="form-control" id="text6" ngModel name="Comment" style="width: 200px;" minlength="1" maxlength="180"
+                                                        required></textarea>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><button type="submit" class="btn btn-primary" style="margin-top:30px;margin-left: 25px;background-color: #12a6f1;color:#fff;margin-bottom: 25px;width: 150px;height: 35px;font-size: 17px;">
+                                Submit
+                            </button>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </form>
+                    </div>
+                    <!--end modal-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+
+ <!-- main-form end-->
+
+ <div style="position: fixed;right: 20px;bottom: 20px;" *ngIf="salary_button_close">
+    <button type="button" (click)="salary_button_click()" class="btn btn-danger" style="border-radius:25px;padding: 11px 17px;">
+            <span
+                class="glyphicon glyphicon-plus"
+                style="font-size: 25px;top:0px;"
+            ></span>
+        </button>
+ </div>
+
