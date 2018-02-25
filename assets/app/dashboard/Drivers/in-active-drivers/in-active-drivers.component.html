@@ -1,0 +1,181 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="input-group" style="margin-left: 70%;margin-top: -35px;">
+                <span class="input-group-addon">
+                    <i class="material-icons" style="margin-top: 20px;">search</i>
+                </span>
+                <input type="text" class="form-control" [ngModel]="mymodel" (ngModelChange)="valuechange($event)" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+    <div class="row" style="overflow-x: auto;padding: 15px;" *ngIf="DriverData.length>0">
+            <pagination-controls style="float:right;    margin-top: 20px;" *ngIf="!isSearch" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+            previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+        <div class="col-xs-12 col-sm-12 col-md-12" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+            <div class="row" style="border-top: 1px solid #DDD;padding: 5px;">
+                <div class="col-xs-2 border" style="width: 18%;">
+                    <b id="1" [class.active]="activeId == 1" (click)="activeId=1" style="cursor: pointer;" (click)="sortColumn('name')">Biker Name
+                        <i class="material-icons">arrow_drop_up</i>
+                        <i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i>
+                    </b>
+                </div>
+                <div class="col-xs-2 border" style="width: 20%;">
+                    <b style="cursor: pointer;" id="2" [class.active]="activeId == 2" (click)="activeId=2" (click)="sortColumn('phone')">Phone Number
+                        <i class="material-icons">arrow_drop_up</i>
+                        <i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i>
+                    </b>
+                </div>
+                <div class="col-xs-2 border" style="width: 22%;">
+                    <b style="cursor: pointer;" id="3" [class.active]="activeId == 3" (click)="activeId=3" (click)="sortColumn('email')">Email
+                        <i class="material-icons">arrow_drop_up</i>
+                        <i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i>
+                    </b>
+                </div>
+                <div class="col-xs-2 border" style="width: 14%;">
+                    <b>Make Active</b>
+                </div>
+                <div class="col-xs-2 border" style="width: 14%;">
+                    <b>More Info</b>
+                </div>
+            </div>
+            <div>
+
+                <div class="row" *ngFor="let item of DriverData| paginate: {
+                itemsPerPage: 10,
+                currentPage: p,
+                totalItems: Total_Count };let i = index" style="border-top: 1px solid #DDD;padding: 7px 7px;margin-bottom:5px;">
+                    <div class="col-xs-2 border" style="width: 18%;">{{item.name}}</div>
+                    <div class="col-xs-2 border" style="width: 20%;">{{item.phone}}</div>
+                    <div class="col-xs-2 border" style="width: 22%;">{{item.email}}</div>
+
+                    <div class="col-xs-1 border" style="width: 14.5%;">
+                        <button type="button" rel="tooltip" title="More Info" class="btn btn-info" style="padding: 10px;" (click)="OnmoreInfo_order(item.DriverID,i)">Activate</button>
+                    </div>
+                    <div class="col-xs-1 border" style="width: 14%;">
+                        <button type="button" rel="tooltip" title="More Info" class="btn btn-info btn-simple btn-xs" style="margin-top: 8px;" (click)="click_button_employee(item,i)">
+                            <i class="material-icons">info_outline</i>
+                        </button>
+
+                    </div>
+
+
+                    <div class="row" *ngIf="i==views_active" style="padding-right: 15px;padding-left: 15px;">
+                        <div class="col-xs-12 col-sm-12 col-md-12" style="border: 1px solid #12A6F1;">
+                            <div style="float: right;">
+
+                                <button type="button" class="btn btn-default btn-simple btn-xs" (click)="close()" style="margin-top: 10px;">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+
+
+
+                            <table class="table table-responsive">
+
+                                <tbody>
+                                    <tr>
+                                        <td style="border-top: none;width: 30%;">
+                                            <strong>Biker Name :</strong> {{ name }}
+                                        </td>
+
+                                        <td style="border-top: none;width: 30%;">
+                                            <strong>Phone Number :</strong> {{phone}}
+                                        </td>
+                                        <td style="border-top: none;width: 30%;">
+                                            <strong>Email :</strong> {{ email }}
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;width: 30%;">
+                                            <strong>created date :</strong> {{ created_dt }}
+                                        </td>
+                                        <td style="border-top: none;width: 30%;">
+                                            <strong>Last On line :</strong> {{ LastOnline }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;width: 30%;">
+                                            <strong>Biker Id :</strong> {{ driverseqId }}
+                                        </td>
+
+                                        <td style="border-top: none;width: 30%;" *ngIf="item.acc_status==1">
+                                            <strong>Status :</strong> New</td>
+                                        <td style="border-top: none;width: 30%;" *ngIf="item.acc_status==3">
+                                            <strong>Status :</strong> Active</td>
+                                        <td style="border-top: none;width: 30%;" *ngIf="item.acc_status==4">
+                                            <strong>Status :</strong> Rejected</td>
+                                        <td style="border-top: none;width: 30%;" *ngIf="item.Salary_Assigned==true">
+                                            <strong>Salary Assigned :</strong> True
+                                        </td>
+                                        <td style="border-top: none;width: 30%;" *ngIf="item.Salary_Assigned==false">
+
+                                            <strong>Salary Assigned :</strong> False
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                    <div class="row" *ngIf="i==views" style="padding-right: 15px;padding-left: 15px;">
+                        <div class="col-xs-12 col-sm-12 col-md-12" style="border: 1px solid #12A6F1;">
+                            <div style="float: right;">
+                                <button type="button" class="btn btn-default btn-simple btn-xs" (click)="close()" style="margin-top: 10px;">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                            <table class="table table-responsive">
+
+                                <tbody>
+
+                                    <tr>
+                                        <td style="border-top: none;width: 30%;">
+                                            <div class="form-group">
+                                                <label style="color: #000;">Select Operator:</label>
+                                                <select class="form-control form-control-lg" style="width: 100%;margin-left: 0px;margin-top: -9px;" #box (change)="select(box.value,$event)">
+                                                    <option *ngFor="let item of OperatorData let i=index" [value]="item.OperatorID">{{item.operator_name}}</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;width: 30%;">
+                                            <div class="form-group">
+                                                <label style="color: #000;">Select Zone:</label>
+                                                <select class="form-control form-control-lg" style="width: 100%;margin-left: 0px;margin-top: -9px;" #box1 (change)="select_zone(box1.value,$event)">
+                                                    <option *ngFor="let item of ZoneData let i=index" [value]="item.ZoneID">{{item.title}}</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;width: 30%;">
+                                            <button type="button" rel="tooltip" title="More Info" class="btn btn-info" (click)="Approve_Driver()" style="padding: 10px;float:right;">submit</button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+        <pagination-controls style="float:right;    margin-top: 20px;" *ngIf="!isSearch" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+            previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+    <my-spinner [isRunning]="isRequesting"></my-spinner>
+</div>
+<div *ngIf="isData" style="text-align: center;">
+    <strong style="font-size: 20px;">No Records Found</strong>
+</div>
