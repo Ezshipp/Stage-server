@@ -1,0 +1,40 @@
+var AddStoreModel = /** @class */ (function () {
+    function AddStoreModel(Store_Entity_Name, Branch_Name, Branch_PhoneNumber, Website, Description, CategoryName, Picture, CountryID, CityID, Address, Latitude, Longitude, Monday_Available, Monday_Timings, Tuesday_Available, Tuesday_Timings, Wednesday_Available, Wednesday_Timings, Thursday_Available, Thursday_Timings, Friday_Available, Friday_Timings, Saturday_Available, Saturday_Timings, Sunday_Available, Sunday_Timings, AdminData, skip, sort_type, BranchID, StoreAdminID, Name, EmailID, PhoneNumber) {
+        this.Store_Entity_Name = Store_Entity_Name;
+        this.Branch_Name = Branch_Name;
+        this.Branch_PhoneNumber = Branch_PhoneNumber;
+        this.Website = Website;
+        this.Description = Description;
+        this.CategoryName = CategoryName;
+        this.Picture = Picture;
+        this.CountryID = CountryID;
+        this.CityID = CityID;
+        this.Address = Address;
+        this.Latitude = Latitude;
+        this.Longitude = Longitude;
+        this.Monday_Available = Monday_Available;
+        this.Monday_Timings = Monday_Timings;
+        this.Tuesday_Available = Tuesday_Available;
+        this.Tuesday_Timings = Tuesday_Timings;
+        this.Wednesday_Available = Wednesday_Available;
+        this.Wednesday_Timings = Wednesday_Timings;
+        this.Thursday_Available = Thursday_Available;
+        this.Thursday_Timings = Thursday_Timings;
+        this.Friday_Available = Friday_Available;
+        this.Friday_Timings = Friday_Timings;
+        this.Saturday_Available = Saturday_Available;
+        this.Saturday_Timings = Saturday_Timings;
+        this.Sunday_Available = Sunday_Available;
+        this.Sunday_Timings = Sunday_Timings;
+        this.AdminData = AdminData;
+        this.skip = skip;
+        this.sort_type = sort_type;
+        this.BranchID = BranchID;
+        this.StoreAdminID = StoreAdminID;
+        this.Name = Name;
+        this.EmailID = EmailID;
+        this.PhoneNumber = PhoneNumber;
+    }
+    return AddStoreModel;
+}());
+export { AddStoreModel };
