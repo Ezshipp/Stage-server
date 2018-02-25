@@ -1,0 +1,110 @@
+<!--component html goes here -->
+<h3 class="zone-heading">Bikers Bird View</h3>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-9 col-sm-9 col-md-9">
+            <agm-map [latitude]="lat_map" [zoom]="zoom" [panControl]="true" [fullscreenControl]="true" [longitude]="long_map">
+                <ng-container *ngFor="let m of DriversData;let i=index">
+                <agm-marker  [latitude]="m.lat" [longitude]="m.long" *ngIf="!isSingleView" (mouseOver)="clickedMarker(i,m)"
+                    [iconUrl]="getIcon_Status(m)"
+                     >
+                    <div class='agm-map-container-inner sebm-google-map-container-inner'></div>
+                    <div class='agm-map-content'>
+                        <ng-template>
+                            <h1>hi</h1>
+                        </ng-template>
+                    </div>
+                    <agm-info-window [isOpen]="m.isOpen">
+                        <div>
+                            <table class="table" style="margin-bottom: 0px">
+                                <tbody>
+                                    <tr>
+                                        <th style="border-top:none;font-size:medium;width:40%">Name:</th>
+                                        <td style="border-top:none;font-size:medium;width:60%">{{m.DriverName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th style="border-top:none;font-size:medium;width:40%">Status:</th>
+                                        <td style="border-top:none;font-size:medium;width:60%" *ngIf="m.status==3"> Online</td>
+                                        <td style="border-top:none;font-size:medium;width:60%" *ngIf="m.status==4"> Offline</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </agm-info-window>
+
+
+                </agm-marker>
+            </ng-container>
+            <agm-marker *ngIf="isSingleView" [iconUrl]="picmarker_icon" [latitude]="singleDriver_lat" [longitude]="singleDriver_lng">
+
+                    <agm-polyline *ngFor="let item of OrderData; let i=index">
+                                      <agm-polyline-point [latitude]="item.pickLatitude" [longitude]="item.pickLongitude">
+                                      </agm-polyline-point>
+                                     <agm-polyline-point [latitude]="item.dropLatitude" [longitude]="item.dropLongitude">
+                                      </agm-polyline-point>
+                                  </agm-polyline>
+            </agm-marker>
+
+                <agm-marker *ngIf="isPicMarker==true" [iconUrl]="picmarker_icon_box" [latitude]="pic_Lat_order" [longitude]="pic_Lng_order"></agm-marker>
+                <agm-marker *ngIf="isPicMarker==true" [iconUrl]="dropMarker_icon_box" [latitude]="drop_Lat_order" [longitude]="drop_Lng_order"></agm-marker>
+            </agm-map>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3">
+            <!-- <i class="fa fa-bars" (click)="bikersListView()"></i> *ngIf="!is_biker_view" -->
+            <div class="biker_views">
+                <h4 style="text-align:center;font-weight: bold;">Bikers</h4>
+                <hr/>
+                <table class="table" style="margin-bottom: 0px;">
+                    <tr>
+                        <td style="border-top: none;padding: 8px;text-align: center;" colspan="2">
+                            <a (click)="listAllBikers(DriversData)">All Bikers</a>
+                        </td>
+                    </tr>
+                    <ng-container *ngFor="let m of DriversData;let i=index">
+                        <tr class="bikersList" style="cursor: pointer;" [class.clickedBiker]="classIndex==i" id="i"  (click)="classIndex=i">
+                            <td style="border-top: none;padding: 8px;">
+                                <i class="fa fa-bicycle" style="font-size:15px;"></i>
+                            </td>
+                            <td style="border-top: none;padding: 8px;width: 100%;" (click)="onBikerClick(m.DriverID,m.DriverName,m.lat,m.long,i,m)">
+                                <p style="margin-bottom: 0px;">{{m.DriverName}} ({{m.OrdersCount}})</p>
+                                <p style="margin-bottom: 0px;">{{m.DriverPhoneNumber}}</p>
+                            </td>
+                            <td style="border-top: none;padding: 8px;width: 100%;" (click)="listOngoingOrders(m.DriverID,i)" id="1" [class.rotate]="viewsB==i"
+                                (click)="activeRotate=1">
+                                <i class="fa fa-chevron-down" style="font-size:15px;"></i>
+                            </td>
+                        </tr>
+                        <tr *ngIf="viewsB==i" style="border: 1px solid #000;">
+                            <td colspan="3">
+                                <table class="table" style="margin-bottom: 0px;" *ngIf="OrderData.length>0">
+                                    <tr>
+                                        <th colspan="2" style="text-align: center;border-top: none;">Ongoing Orders</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="border-top:none">ID</th>
+                                        <th style="border-top:none">C.Name</th>
+                                        <th style="border-top:none">Location</th>
+                                    </tr>
+                                    <tr *ngFor="let order of OrderData;let i = index">
+                                        <!-- <td style="border-top: none;font-size: medium;">{{ order.pickAddress }}</td>
+                                                            <td style="border-top: none;font-size: medium;">{{ order.dropAddress  }}</td> -->
+                                        <td style="border-top: none;font-size: 12px;">{{ order.orderseqId }}</td>
+                                        <td style="border-top: none;font-size: 12px;">{{ order.customerName }}</td>
+                                        <td style="border-top: none;font-size: 12px;cursor: pointer" (click)="OnongoingOrderClick(order)">
+                                            <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                                        </td>
+                                    </tr>
+                                    <!-- <td style="border-top: none;font-size: medium;">{{ order.orderseqId }}</td>
+                                                        <td style="border-top: none;font-size: medium;">{{ order.customerName }}</td> -->
+                                </table>
+                            </td>
+                        </tr>
+                    </ng-container>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
