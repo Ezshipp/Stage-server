@@ -1,0 +1,57 @@
+<div class="container-fluid">
+    <h3 class="zone-heading">First Time Offer</h3>
+    <div class="row">
+        <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="form-group">
+                <label>Discount Percentage
+                    <input type="text" class="form-control" [(ngModel)]="DiscountPercentage" />
+                </label>
+            </div>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" (click)="updateOffer()">Update</button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-3 col-sm-3 col-md-3">
+                <!-- <label>Expiry Date:</label> -->
+                <!-- <ng2-datepicker [options]="options" [(ngModel)]="ExpiryDate"></ng2-datepicker> -->
+            <div class="form-group">
+                <label>Expiry Date
+                        <!-- <input type="date" [ngModel]="viewdate | date:'yyyy-MM-dd'" (ngModelChange)="viewdate = $event" [value]="viewdate | date:'yyyy-MM-dd'" class="form-control">                         -->
+                    <input type="date" [(ngModel)]="viewdate" (ngModelChange)="onExpiryDate(viewdate)" class="form-control">
+                </label>
+            </div>
+            <code>{{ viewdate }}</code>
+        </div>
+        <div class="col-xs-3 col-sm-3 col-md-3">
+            <div class="form-group">
+                <button type="submit" class="btn btn-success" (click)="updateDate()">Update</button>
+            </div>
+        </div>
+        <!-- <table class="table">
+                <tr>
+                    <td style="border-top: none;">
+
+                    </td>
+                    <td style="border-top: none;">
+                        <i class="fa fa-check" (click)="updateOffer()"></i>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-top: none;">
+                        <div class="form-group">
+                            <label>Expiry Date
+                                <input type="date" [(ngModel)]="ExpiryDate" (ngModelChange)="onExpiryDate(ExpiryDate)" class="form-control">
+                            </label>
+                        </div>
+                    </td>
+                    <td style="border-top: none;">
+                        <i class="fa fa-check" (click)="updateDate()"></i>
+                    </td>
+                </tr>
+            </table> -->
+    </div>
+</div>
