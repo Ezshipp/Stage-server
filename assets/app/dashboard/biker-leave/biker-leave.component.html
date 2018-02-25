@@ -1,0 +1,121 @@
+<div class="container-fluid">
+    <h3 class="zone-heading"> Leaves</h3>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <table class="table" *ngIf="leavesRequestsData.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+                <tr>
+                    <th class="tdline" [class.activeForsorting]="activeId == 1" (click)="activeId=1" style="cursor:pointer" (click)="sortColumn('Employee_Name')">
+                        Employee Name
+                        <i class="fa fa-sort" aria-hidden="true"></i>
+                    </th>
+                    <th class="tdline" [class.activeForsorting]="activeId == 2" (click)="activeId=2" style="cursor:pointer" (click)="sortColumn('Employee_Role')">
+                        Employee Role
+                        <i class="fa fa-sort" aria-hidden="true"></i>
+                    </th>
+                    <th class="tdline" [class.activeForsorting]="activeId == 3" (click)="activeId=3" style="cursor:pointer" (click)="sortColumn('LeaveType')">
+                        Leave Type
+                        <i class="fa fa-sort" aria-hidden="true"></i>
+                    </th>
+                    <th class="tdline" [class.activeForsorting]="activeId == 4" (click)="activeId=4" style="cursor:pointer" (click)="sortColumn('Request_From')">
+                        From Date
+                        <i class="fa fa-sort" aria-hidden="true"></i>
+                    </th>
+                    <th class="tdline" [class.activeForsorting]="activeId == 5" (click)="activeId=5" style="cursor:pointer" (click)="sortColumn('Request_To')">
+                        To Date
+                        <i class="fa fa-sort" aria-hidden="true"></i>
+                    </th>
+                    <th class="tdline" [class.activeForsorting]="activeId == 6" (click)="activeId=6" style="cursor:pointer" (click)="sortColumn('Request_Status')">
+                        Status
+                        <i class="fa fa-sort" aria-hidden="true"></i>
+                    </th>
+                    <!-- <th class="tdline" [class.activeForsorting]="activeId == 6" (click)="activeId=6" style="cursor:pointer" (click)="sortColumn('Total_Awaited_Delivery')">
+        Update
+    </th> -->
+
+
+                </tr>
+                <tr *ngFor="let item of leavesRequestsData | paginate: {
+    itemsPerPage: limit, currentPage: p,totalItems: Total_Count }; let i=index">
+                    <td>{{item.Employee_Name}}</td>
+                    <td *ngIf="item.Employee_Role==1">Biker</td>
+                    <td *ngIf="item.Employee_Role==2">Employee</td>
+
+                    <td *ngIf="item.LeaveType==1">Single Day</td>
+                    <td *ngIf="item.LeaveType==2">Multiple Day</td>
+
+                    <td>{{item.Request_From}}</td>
+
+                    <td>{{item.Request_To}}</td>
+
+                    <td *ngIf="item.Request_Status==1">
+                        <span style="float:left;">Applied</span>
+                        <div class="dropdown" style="margin-top: -9px;">
+                            <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown" style="padding: 0px 18px;margin-top: 8px;">
+                                <i class="material-icons">edit</i>
+                                <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a id="1" (click)="onLeaveStatus($event,item)">Approved</a>
+                                </li>
+                                <li>
+                                    <a id="2" (click)="onLeaveStatus($event,item)">Rejected</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td *ngIf="item.Request_Status==2">Approved</td>
+                    <td *ngIf="item.Request_Status==3">Rejected</td>
+
+
+
+                </tr>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<pagination-controls *ngIf="leavesRequestsData.length>0" (pageChange)="pageChanged($event)" maxSize="9" directionLinks="true"
+    autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You're on page">
+</pagination-controls>
+<my-spinner [isRunning]="isRequesting"></my-spinner>
+
+<div *ngIf="islength_leavesData" style="text-align: center;margin-top: 30px;">
+    <strong style="font-size: 20px;">No Records Found</strong>
+</div>
+
+<!-- <div class="resetpasswd" id="resetpwd" *ngIf="onLeaveConformation">
+    <div class="modal-content modal-content-dialog">
+        <span class="closeresetpwd" (click)="onClose_leaveConformation()">×</span>
+        <div><span style="color: #CE93D8">Employee Name:</span> <span style="color: #FF5722">{{ind_empl.Employee_Name }}</span></div>
+
+        <h5 style="font-size: 20px;margin-left: 15%;margin-right: 15%">Are you sure you want {{leave}}?</h5>
+        <div class="buttons_style">
+            <input class="btn btn-default all-buttons" type="submit" value="Yes" (click)="getLeaveStatus()" />&nbsp;&nbsp;&nbsp;<input class="btn btn-default no-all-buttons" type="submit" value="No" (click)="onClose_leaveConformation()" />
+        </div>
+
+
+    </div>
+</div> -->
+
+
+<div class="modal" tabindex="-1" role="dialog" *ngIf="onLeaveConformation">
+    <div class="modal-dialog" role="document" style="width: 600px">
+        <div class="modal-content" style="border-radius: 0px;padding: 35px;">
+            <div class="modal-header">
+
+                    <span class="closeresetpwd" (click)="onClose_leaveConformation()">×</span>
+                    <div style="font-size:25px;"><span style="color: #CE93D8">Employee Name:</span> <span style="color: #FF5722">{{ind_empl.Employee_Name }}</span></div>
+                    <div class="buttons_style" style="margin-top:25px;">
+                        <input class="btn btn-default all-buttons" type="submit" value="Yes" (click)="getLeaveStatus()" />&nbsp;&nbsp;&nbsp;<input class="btn btn-default no-all-buttons" type="submit" value="No" (click)="onClose_leaveConformation()" />
+                    </div>
+            
+
+            </div>
+        </div>
+    </div>
+</div>    
