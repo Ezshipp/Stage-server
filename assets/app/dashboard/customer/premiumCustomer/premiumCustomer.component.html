@@ -1,0 +1,13 @@
+<div class="container-fluid containers" style="background-color: white;">
+    <h3 class="zone-heading">Premium Customers</h3>
+    <ul class="nav nav-tabs nav_tab_background">
+        <li routerLinkActive="active"><a [routerLink]="['register_premium']">Register Customers</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['view']">View All Premium Customers</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['invoices']">Invoices</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['genReport']">Signature Report</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['COD_Report']">Clients COD Report</a></li>
+
+    </ul>
+    <hr>
+    <router-outlet></router-outlet>
+</div>
