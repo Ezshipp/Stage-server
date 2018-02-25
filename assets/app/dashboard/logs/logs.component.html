@@ -1,0 +1,22 @@
+<!--component html goes here -->
+<table class="table" *ngIf="LogData.length>0">
+    <tr>
+        <th>Key</th>
+        <th>Date</th>
+        <th>AdminName</th>
+        <th>Message</th>
+    </tr>
+    <tr *ngFor="let item of LogData | paginate: {
+        itemsPerPage: 10,
+        currentPage: currentPage,
+        totalItems: TotalLogsCount };let i = index">
+        <td>{{item.Key}}</td>
+        <td>{{item.Date}}</td>
+        <td>{{item.AdminName}}</td>
+        <td>{{item.Message}}</td>
+    </tr>
+</table>
+<pagination-controls *ngIf="LogData.length>0" (pageChange)="pageChanged_Logs($event)" maxSize="8" directionLinks="true" autoHide="true"
+    previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"
+    style="float: right;margin-top: 30px;">
+</pagination-controls>
