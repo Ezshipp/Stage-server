@@ -1,0 +1,129 @@
+<div class="row">
+
+       <div class="col-md-6" style="FLOAT: RIGHT;    margin-bottom: -25px;">
+           <table class="table table-responsive">
+               <tbody>
+                   <tr>
+                       <td style="border-top:none">Select Date From</td>
+                       <td>
+                           <ng2-datepicker [options]="Todate_DateRange" [(ngModel)]="FromDate"></ng2-datepicker>
+                       </td>
+                       <td>to</td>
+                       <td>
+                           <ng2-datepicker [options]="Todate_DateRange" [(ngModel)]="todate"></ng2-datepicker>
+
+                       </td>
+                       <td>
+                           <button class="btn btn-info btn-just-icon" (click)="getanlaytics()">
+                               <i class="material-icons">subdirectory_arrow_left</i>
+                               </button>
+
+                       </td>
+                   </tr>
+               </tbody>
+           </table>
+       </div>
+
+    </div>
+    <div class="row">
+
+       <div class="col-md-5">
+           <div class="card">
+
+               <div class="card-content">
+                   <table class="table">
+                       <tbody>
+                           <tr>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">Instant</td>
+                               <td style="font-weight:bold;color:#ee9b0a;padding: 5px;">&#8377; {{Total_Pricing.Instant_Price | number : '1.2-2'}}</td>
+                           </tr>
+                           <tr>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">4 Hours</td>
+                               <td style="font-weight:bold;color:#ee9b0a;padding: 5px;">&#8377; {{Total_Pricing.Four_Hours_Price | number : '1.2-2'}}</td>
+                           </tr>
+                           <tr>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">Same Day</td>
+                               <td style="font-weight:bold;color:#ee9b0a;padding: 5px;">&#8377; {{Total_Pricing.Same_Day_Price | number : '1.2-2'}}</td>
+                           </tr>
+                           <tr>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">Same Day(Monthly invoice) </td>
+                               <td style="font-weight:bold;color:#ee9b0a;padding: 5px;">&#8377; {{Total_Pricing.Premium_Customer_Price | number : '1.2-2'}}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+       </div>
+       <div class="col-md-4">
+           <div class="card">
+
+               <div class="card-content">
+                   <table class="table">
+                       <tbody>
+                           <tr>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">Cash</td>
+                               <td style="font-weight:bold;color:#ee9b0a;padding: 5px;">&#8377; {{Total_Pricing.COD_Price | number : '1.2-2'}}</td>
+                           </tr>
+                           <tr>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">Online</td>
+                               <td style="font-weight:bold;color:#ee9b0a;padding: 5px;">&#8377; {{Total_Pricing.Online_Price | number : '1.2-2'}}</td>
+                           </tr>
+                           <tr>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">Monthly invoice</td>
+                               <td style="font-weight:bold;color:#ee9b0a;padding: 5px;">&#8377; {{Total_Pricing.Premium_Customer_Price | number : '1.2-2'}}</td>
+                           </tr>
+                           <tr>
+                            <td style="font-weight:800;font-size: 15px;padding: 5px;">Add.Weight Amount</td>
+                            <td style="font-weight:bold;color:#ee9b0a;padding: 5px;">&#8377; {{Total_Pricing.Total_ExceededAmount | number : '1.2-2'}}</td>
+                        </tr>
+                           <tr>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">Total</td>
+                               <td style="font-weight:bold;color:#ee9b0a;padding: 5px;">&#8377; {{Total_Price | number : '1.2-2' }}</td>
+                           </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+       </div>
+
+       <div class="col-md-3">
+           <div class="card">
+
+               <div class="card-content">
+                   <table class="table">
+                       <tbody>
+                           <tr>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">Top Customer</td>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">{{custerName}} - {{custerCount}}</td>
+                           </tr>
+                           <tr>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">Top Driver</td>
+                               <td style="font-weight:800;font-size: 15px;padding: 5px;">{{DriverName}} - {{DriverCount}}</td>
+                           </tr>
+
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+       </div>
+    </div>
+
+
+
+    <div *ngIf="isloaded">
+       <chart [options]="options_line"></chart>
+
+    </div>
+    <div class="row" style="text-align: right;" *ngIf="isloaded">
+       <button class="btn btn-info btn-sm" id="1" [class.active]="activeId == 1" (click)="activeId=1" (click)="OnDaywise()">1 D</button>
+       <button class="btn btn-info btn-sm" id="2" [class.active]="activeId == 2" (click)="activeId=2" (click)="OnMonthwise()">1 M</button>
+       <button class="btn btn-info btn-sm" id="3" [class.active]="activeId == 3" (click)="activeId=3" (click)="On3Monthwise()">3 M</button>
+       <button class="btn btn-info btn-sm" id="4" [class.active]="activeId == 4" (click)="activeId=4" (click)="On6Monthwise()">6 M</button>
+
+       <!-- <button class="btn btn-info btn-sm"  [class.active]="activeId == 5" (click)="activeId=5" (click)="OnYearWise()">1 Y</button> -->
+
+    </div>
+
+        <my-spinner [isRunning]="isRequesting"></my-spinner>
+
+
