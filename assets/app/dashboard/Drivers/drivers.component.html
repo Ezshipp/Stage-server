@@ -1,0 +1,12 @@
+<div class="container-fluid containers" style="background-color: white;">
+    <h3 class="zone-heading">Bikers</h3>
+    <ul class="nav nav-tabs nav_tab_background">
+        <li routerLinkActive="active"><a [routerLink]="['active_Drivers']">Active Bikers</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['inActive_Drivers']">Rejected Bikers</a></li>
+          <li routerLinkActive="active"><a [routerLink]="['new_bikers']">New Bikers</a></li>
+          <li routerLinkActive="active"><a [routerLink]="['cancel_R']">Cancellation Reason</a></li>
+    </ul>
+    <hr>
+    <router-outlet></router-outlet>
+</div>
+
