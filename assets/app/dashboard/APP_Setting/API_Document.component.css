@@ -1,0 +1,248 @@
+.modal {
+    display: block;
+    margin-top: 1%;
+    overflow-y: scroll;
+}
+
+.modal-header {
+    border-bottom: none;
+    padding-bottom: 0px;
+}
+
+.modal-content .modal-header {
+    border-bottom: none;
+    padding-top: 4px;
+    padding-right: 24px;
+    padding-bottom: 0;
+    padding-left: 24px;
+}
+
+
+/* ********* */
+
+.zone-heading {
+    text-align: center;
+    font-size: 23px;
+    font-family: Proxima-Nova-Regular;
+}
+
+.navbar_brand_center {
+    font-size: 18px;
+    color: #FFF;
+    letter-spacing: 1px;
+}
+
+.table {
+    margin-bottom: 0px;
+}
+
+.panel_color {
+    padding: 10px 20px;
+    margin: 0px -9px 0px -8px;
+    margin-top: -12px;
+    color: #000;
+}
+
+.panel_color_view {
+    padding: 10px 20px;
+    /* text-align: center; */
+    background-color: #ebf7f0;
+    border: 1px solid #a4e4bd;
+    margin: 0px -1px 0px 0px;
+    color: #000;
+}
+
+.label_color {
+    border: 1px solid transparent;
+    background-color: #4cae4c;
+    padding: 10px 10px 11px 10px;
+    margin-left: -15px;
+    color: #fff;
+}
+
+.well {
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    background-color: #ebf7f0;
+    border: 1px solid #a4e4bd;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .05);
+}
+
+pre {
+    font-size: .85em;
+    line-height: 1.2em;
+    overflow: auto;
+    max-height: 200px;
+    cursor: pointer;
+}
+
+div.snippet {
+    margin: 9px 0px;
+    padding: 16px 30px;
+    /* border: 0; */
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 400px;
+    /* text-align: center; */
+}
+
+div.snippet_1 {
+    margin: 9px 40px 9px 0px;
+    padding: 16px 30px;
+    /* border: 0; */
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 420px;
+    height: auto;
+}
+
+div.snippet_4 {
+    margin: 9px 40px 9px 0px;
+    padding: 16px 30px;
+    /* border: 0; */
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 350px;
+    height: auto;
+}
+
+div.snippet_3 {
+    margin: 9px 40px 9px 0px;
+    padding: 10px 15px;
+    /* border: 0; */
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 420px;
+    height: auto;
+}
+
+div.snippet_2 {
+    margin: 9px 40px 9px 0px;
+    padding: 16px 30px;
+    /* border: 0; */
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 480px;
+    height: auto;
+}
+
+div.snippet_5 {
+    margin: 9px 40px 9px 0px;
+    padding: 16px 30px;
+    /* border: 0; */
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 500px;
+    height: auto;
+}
+
+pre code {
+    line-height: 1.6em;
+    background: none;
+}
+
+.table_hr {
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    color: #337ab7;
+}
+
+.main_dis {
+    margin: 9px 40px 30px 0px;
+    padding: 16px 20px;
+    /* border: 0; */
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 400px;
+    height: 200px;
+}
+
+.table_hr_1 {
+    padding: 5px 30px 5px 0px;
+    border-bottom: 1px solid #ddd;
+    font-size: 15px;
+    color: #337ab7;
+}
+
+.fontColour {
+    color: #12A6F1;
+}
+
+.form-group {
+    padding-bottom: 7px;
+    margin: 10px 0 0 0;
+}
+
+.textarea_box {
+    border: 1px solid #ddd;
+    background-image: none;
+    border-radius: 5px;
+    padding: 10px;
+    width: 350px;
+    background-color: #fff;
+    margin-right: 25px;
+}
+
+.textarea_box_1 {
+    border: 1px solid #ddd;
+    background-image: none;
+    border-radius: 5px;
+    padding: 10px;
+    width: 300px;
+    background-color: #fff;
+}
+
+.active {
+    color: #12a6f1;
+}
+
+.create {
+    cursor: pointer;
+    background-color: #337ab7;
+    padding: 8px 15px;
+    margin-bottom: 15px;
+}
+
+modal {
+    display: block;
+    margin-top: 5%;
+    overflow-y: scroll;
+}
+
+.modal-content-dialog {
+    background-color: #fefefe;
+    margin: 100px 500px;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 29%;
+}
+
+.table>tbody>tr>td,
+.table>tfoot>tr>td {
+    padding: 0px 0px;
+    vertical-align: middle;
+}
