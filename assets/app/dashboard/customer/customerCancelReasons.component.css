@@ -1,0 +1,45 @@
+.zone-heading {
+    text-align: center;
+    font-size: 23px;
+    font-family: Proxima-Nova-Regular;
+}
+
+.backdrop {
+   display: block;
+   /* Hidden by default */
+   position: fixed;
+   /* Stay in place */
+   z-index: 10;
+   /* Sit on top */
+   padding-top: 100px;
+   /* Location of the box */
+   left: 0;
+   top: 0;
+   width: 100%;
+   /* Full width */
+   height: 100%;
+   /* Full height */
+   overflow-y: scroll;
+   /* Enable scroll if needed */
+   background-color: #FFFFFF;
+   /* Fallback color */
+   background-color: rgba(0, 0, 0, 0.4);
+   /* Black w/ opacity */
+}
+
+.modal {
+   display: block;
+   margin-top: 5%;
+   overflow-y: scroll;
+}
+
+.modal-content-dialog {
+   background-color: #fefefe;
+   margin: 100px 500px;
+   padding: 20px;
+   border: 1px solid #888;
+   width: 40%;
+   height: 200px;
+   font-size: 20px;
+}
+
