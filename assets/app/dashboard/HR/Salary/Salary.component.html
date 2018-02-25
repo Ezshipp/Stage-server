@@ -1,0 +1,11 @@
+<div class="container-fluid containers">
+    <ul class="nav nav-tabs nav_tab_background" style="display: block;">
+        <li routerLinkActive="active"><a [routerLink]="['Expenses_D']">Expenses</a></li>
+        <li routerLinkActive="active" *ngIf="isSalaryPermistion"><a [routerLink]="['Salary_D']" >Salary &amp; Pay Slips</a></li>
+    </ul>
+    <hr>
+    <router-outlet></router-outlet>
+ </div>
+
+
+
