@@ -1,0 +1,439 @@
+<h3 class="zone-heading">Active Customers</h3>
+<div class="input-group" style="margin-left: 70%;">
+    <span class="input-group-addon">
+        <i class="material-icons" style="margin-top: 20px;">
+            search
+        </i>
+    </span>
+    <input type="text" class="form-control" [ngModel]="mymodel" (ngModelChange)="valuechange($event)" placeholder="Search...">
+</div>
+<div class="row" style="margin-bottom: 10px;" *ngIf="active_CustomersData.length>0">
+    <div class="col-sm-3 col-md-3">
+            <b>Total Customers:
+            <span style="color: #F00;">{{ Total_Customers }}</span>
+        </b>
+    </div>
+    <div class="col-sm-3 col-md-3">
+        <b>Ordered Customers:
+            <span style="color: #148014;">{{ Ordered_Customers }}</span>
+        </b>
+    </div>
+    <div class="col-sm-3 col-md-3">
+        <b>Non-Ordered Customers:
+            <span style="color: #12A6F1;">{{ Non_Ordered_Customers }}</span>
+        </b>
+    </div>
+    <pagination-controls *ngIf="!isSearching" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+    previousLabel="Previous" id="ActiveCUs" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You're on page" style="float: right;margin-top: 30px;">
+</pagination-controls>
+</div>
+<table class="table" *ngIf="active_CustomersData.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+    <tbody>
+        <tr>
+
+            <th>
+                <b id="1" [class.active]="activeId == 1" (click)="activeId=1" style="cursor:pointer" (click)="sortColumn('customerName')">Customer Name
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                </b>
+            </th>
+
+            <th>
+                <b id="2" [class.active]="activeId == 2" (click)="activeId=2" style="cursor:pointer" (click)="sortColumn('customerPhone')">Phone
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                </b>
+            </th>
+            <th>
+                <b id="3" [class.active]="activeId == 3" (click)="activeId=3" style="cursor:pointer" (click)="sortColumn('OrdersCount')">Orders
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                </b>
+
+            </th>
+
+            <th>
+                <b id="4" [class.active]="activeId == 4" (click)="activeId=4" style="cursor:pointer" (click)="sortColumn('Date')">Acc.Date
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                </b>
+
+            </th>
+
+            <th>More Info</th>
+            <!-- <th>Activity</th> -->
+
+        </tr>
+        <ng-container *ngFor="let item of active_CustomersData | paginate: {
+            itemsPerPage: 10,
+            currentPage: p,
+            id: 'ActiveCUs',
+            totalItems: Total_Count };let i = index">
+
+            <tr>
+                <td>{{item.customerName}}</td>
+
+                <td>{{item.customerPhone}}</td>
+                <td>
+                    <a (click)="getOrders(item,i)">{{item.OrdersCount}}</a>
+                </td>
+
+                <td>{{item.Signup_Date}}</td>
+
+                <td>
+                    <button class="btn btn-info" (click)="onMoreInfo(item)">
+                        View Info
+                    </button>
+                </td>
+
+                <!-- <td>
+                    <button class="btn" (click)="onInactive(item,i)">
+                    In Active
+                </button>
+                </td> -->
+            </tr>
+            <tr *ngIf="i==isviewOrders">
+                <td class="tdline" colspan="6" style="border: 1px solid;">
+                    <h4 style="text-align: center;">Orders</h4>
+                    <div style="float: right;right: 0;">
+                        <button style="    margin-top: -80px;" type="button" class="btn btn-default btn-simple btn-xs" (click)="closeOrders()">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+                        <tr>
+                            <th>
+                                <b id="5" [class.active]="activeIdCustomer == 5" (click)="activeIdCustomer=5" style="cursor:pointer" (click)="sortColumnCustomer('SenderName')">Name
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </b>
+                            </th>
+                            <th>
+                                <b id="6" [class.active]="activeIdCustomer == 6" (click)="activeIdCustomer=6" style="cursor:pointer" (click)="sortColumnCustomer('SenderPhoneNumber')">
+                                    Phone Number
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </b>
+                            </th>
+                            <th>
+                                B.Name
+                            </th>
+                            <th>
+                                Biker Phone
+                            </th>
+                            <th>
+                                <b id="7" [class.active]="activeIdCustomer == 7" (click)="activeIdCustomer=7" style="cursor:pointer" (click)="sortColumnCustomer('receiverName')">Receiver Name
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </b>
+                            </th>
+                            <th>
+                                <b id="8" [class.active]="activeIdCustomer == 8" (click)="activeIdCustomer=8" style="cursor:pointer" (click)="sortColumnCustomer('receiverPhone')">Receiver Phone
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </b>
+                            </th>
+                            <th>
+                                <b id="9" [class.active]="activeIdCustomer == 9" (click)="activeIdCustomer=9" style="cursor:pointer" (click)="sortColumnCustomer('bookingType')">O.Type
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </b>
+                            </th>
+                            <th>
+                                <b id="10" [class.active]="activeIdCustomer == 10" (click)="activeIdCustomer=10" style="cursor:pointer" (click)="sortColumnCustomer('Date')">Date
+                                    <i class="fa fa-sort" aria-hidden="true"></i>
+                                </b>
+                            </th>
+                            <th>Status</th>
+                        </tr>
+                        <tr *ngFor="let CustomersOrders of CustomersOrders | paginate: {
+                        itemsPerPage: 10,
+                        currentPage: ordersCount,
+                        id: 'Orders',
+                        totalItems: Total_orders_count }; let m=index">
+                            <td>{{CustomersOrders.SenderName}}</td>
+                            <td>{{CustomersOrders.SenderPhoneNumber}}</td>
+
+                            <td>{{CustomersOrders.Driver_Name}}</td>
+
+                            <td>{{CustomersOrders.Driver_PhoneNumber}}</td>
+
+                            <td>{{CustomersOrders.receiverName}}</td>
+                            <td>{{CustomersOrders.receiverPhone}}</td>
+
+                            <td *ngIf="CustomersOrders.bookingType==1">Instant</td>
+                            <td *ngIf="CustomersOrders.bookingType==2">4 Hours</td>
+                            <td *ngIf="CustomersOrders.bookingType==3">Same Day</td>
+                            <td>{{CustomersOrders.order_datetime}}</td>
+                            <td *ngIf="CustomersOrders.status==1">New Order</td>
+                            <td *ngIf="CustomersOrders.status==7">Biker Accepted</td>
+                            <td *ngIf="CustomersOrders.status==8">Biker Rejected</td>
+
+                            <td *ngIf="CustomersOrders.status==9">Order Expired</td>
+                            <td *ngIf="CustomersOrders.status==10">Arrived at Pickup Location</td>
+                            <td *ngIf="CustomersOrders.status==11">Order Picked</td>
+                            <td *ngIf="CustomersOrders.status==12">Order reached at Delivery</td>
+
+                            <td *ngIf="CustomersOrders.status==14">Order Completed</td>
+                            <td *ngIf="CustomersOrders.status==15">Drop at zone</td>
+                            <td *ngIf="CustomersOrders.status==16">On the way to Pickup</td>
+                            <td *ngIf="CustomersOrders.status==5">Order Canceled</td>
+                            <td *ngIf="CustomersOrders.status==18">driver accepted zone order</td>
+
+
+                        </tr>
+                    </table>
+                    <pagination-controls *ngIf="CustomersOrders.length>0" id="Orders" (pageChange)="pageChanged_orders($event)" maxSize="8" directionLinks="true"
+                        autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page" style="float: right;margin-top: 30px;">
+                    </pagination-controls>
+                </td>
+
+            </tr>
+
+        </ng-container>
+
+    </tbody>
+</table>
+
+<!-- <ul
+    class="pagination pagination-primary"
+
+>
+    <li *ngFor="let item of array;let i= index">
+        <a
+            [style.background-color]="getStyle(i)"
+            (click)="nextpage(i)"
+        >
+            {{i+1}}
+        </a>
+    </li> -->
+<pagination-controls *ngIf="!isSearching" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+    previousLabel="Previous" id="ActiveCUs" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You're on page" style="float: right;margin-top: 30px;">
+</pagination-controls>
+<!-- <li >{{i+1}}</li> -->
+
+
+<my-spinner [isRunning]="isRequesting"></my-spinner>
+<div *ngIf="isData" style="text-align: center;">
+    <strong style="font-size: 20px;">No Records Found</strong>
+</div>
+<div *ngIf="isdelete">
+    <div class="resetpasswd" id="resetpwd">
+        <div class="modal-content modal-content-dialog" style="height: auto;">
+            <!-- <span class="closeresetpwd" (click)="onClose_Delete()">×</span> -->
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th style="border-top:none">customer Name:</th>
+                        <td style="border-top:none">{{First_name}}</td>
+                        <th style="border-top:none">Phone:</th>
+                        <td style="border-top:none">{{Phone}}</td>
+
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <h5 style="font-size: 20px;margin-left: 26%;">Are you sure you want to In active?</h5>
+            <div class="buttons_style">
+                <input class="btn btn-danger all-buttons" type="submit" value="Yes" (click)="OnDelete()">
+                <input class="btn btn-default no-all-buttons" type="submit" value="No" (click)="onClose_Delete()">
+            </div>
+
+        </div>
+    </div>
+</div>
+<div *ngIf="isdetails_View_devices">
+
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onClose_details_View()">
+                        <span aria-hidden="true" style="font-size: 25px;">
+                            ×
+                        </span>
+                    </button>
+                    <h4 style="text-align: center;">{{ this.First_name }} Device Details</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table" *ngIf="Devices.length">
+                        <tbody>
+                            <tr>
+                                <th class="tdline">Os:</th>
+
+                                <th class="tdline">LastOnline:</th>
+                                <th class="tdline">DeviceMaker:</th>
+                                <th class="tdline">DeviceModel:</th>
+                                <th class="tdline">DeviceType:</th>
+
+                            </tr>
+                            <tr *ngFor="let item of Devices">
+
+                                <td class="tdline">{{ item.Os }}</td>
+                                <td class="tdline">{{ item.LastOnline }}</td>
+                                <td class="tdline">{{ item.DeviceMake }}</td>
+                                <td class="tdline">{{ item.DeviceModel }}</td>
+                                <td class="tdline" *ngIf="item.DeviceType==1">
+                                    Ios
+                                </td>
+                                <td class="tdline" *ngIf="item.DeviceType==2">
+                                    Android
+                                </td>
+                                <td class="tdline" *ngIf="item.DeviceType==3">
+                                    Web
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div *ngIf="!Devices.length" style="text-align: center;">
+                        <strong style="font-size: 20px;">No Records Found</strong>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+</div>
+<div *ngIf="isdetails_View_AddressLog">
+
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onClose_details_View_AddressLog()">
+                        <span aria-hidden="true" style="font-size: 25px;">
+                            ×
+                        </span>
+                    </button>
+                    <h4 style="text-align: center;">{{ this.First_name }} Device Details</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table" *ngIf="AddressLog.length">
+                        <tbody>
+                            <tr>
+
+                                <th class="tdline">address1:</th>
+                                <th class="tdline">address2:</th>
+                                <th class="tdline">landmark:</th>
+                                <th class="tdline">Address type:</th>
+
+                            </tr>
+                            <tr *ngFor="let item of AddressLog">
+
+                                <td class="tdline">{{ item.address1 }}</td>
+                                <td class="tdline">{{ item.address2 }}</td>
+                                <td class="tdline">{{ item.landmark }}</td>
+                                <td class="tdline">{{ item.DeviceModel }}</td>
+                                <td class="tdline" *ngIf="item.type==1">
+                                    Home
+                                </td>
+                                <td class="tdline" *ngIf="item.type==2">
+                                    Office
+                                </td>
+                                <td class="tdline" *ngIf="item.type==3">
+                                    Others
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <div *ngIf="!AddressLog.length" style="text-align: center;">
+                        <strong style="font-size: 20px;">No Records Found</strong>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+</div>
+<div *ngIf="isMoreinfo">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 800px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onClose_moreInfo()">
+                        <span aria-hidden="true" style="font-size: 25px;margin-bottom: 15px;">
+                            ×
+                        </span>
+                    </button>
+                    <h4 style="text-align: center">Customer Details: {{First_name}}</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-responsive">
+                        <tr>
+                            <th class="tdline">Customer Name:</th>
+                            <td class="tdline">{{First_name}}</td>
+                            <th class="tdline">Customer Phone:</th>
+                            <td class="tdline">{{Phone}}</td>
+                        </tr>
+                        <tr>
+                            <th class="tdline">Customer Email:</th>
+                            <td class="tdline">{{Email}}</td>
+                            <th class="tdline">Customer Referral_code:</th>
+                            <td class="tdline">{{referral_code}}</td>
+                        </tr>
+                    </table>
+                    <div class="heads" style="text-align: center;margin-bottom: 15px;">
+                        <input class="btn btn-primary button-color" type="submit" value="view Devices" (click)="OnviewDevices()">
+                        <input class="btn btn-primary button-color" type="submit" value="view AddressLog" (click)="onViewAddress()">
+                    </div>
+
+                    <div *ngIf="isviewDevicess">
+                        <table class="table table-responsive" *ngIf="Devices.length;else elseDevicess">
+                            <tr>
+                                <th>Os</th>
+                                <th>DeviceId</th>
+                                <th>Device Maker</th>
+                                <th>Device Model</th>
+                                <th>AppVersion</th>
+                                <th>LastOnline</th>
+                            </tr>
+                            <tr *ngFor="let item of Devices; let i=index">
+                                <td>{{item.Os}}</td>
+                                <td>{{item.DeviceId}}</td>
+
+                                <td>{{item.DeviceMake}}</td>
+
+                                <td>{{item.DeviceModel}}</td>
+
+                                <td>{{item.AppVersion}}</td>
+
+                                <td>{{item.LastOnline}}</td>
+
+                            </tr>
+                        </table>
+                        <ng-template #elseDevicess>
+                            <span>No Devicess Found</span>
+                        </ng-template>
+                    </div>
+                    <div *ngIf="isAddressLog">
+                        <table class="table table-responsive" *ngIf="AddressLog.length; else elseTemplate">
+                            <tr>
+                                <th>Address1</th>
+                                <th>Address2</th>
+                                <th>Landmark</th>
+                            </tr>
+                            <tr *ngFor="let item of AddressLog; let i=index">
+                                <td>{{item.address1}}</td>
+                                <td>{{item.address2}}</td>
+                                <td>{{item.landmark}}</td>
+                            </tr>
+                        </table>
+                        <ng-template #elseTemplate>
+                            <span>No Address Found</span>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
