@@ -1,0 +1,29 @@
+.isOdd{
+    background-color: #ddd;
+}
+.zone-heading {
+    text-align: center;
+    font-size: 23px;
+    font-family: Proxima-Nova-Regular;
+ }
+ .activeForsorting{
+    color: lightcoral;
+ }
+ .rotate {
+
+    /* Safari */
+    -webkit-transform: rotate(-90deg);
+
+    /* Firefox */
+    -moz-transform: rotate(-90deg);
+
+    /* IE */
+    -ms-transform: rotate(-90deg);
+
+    /* Opera */
+    -o-transform: rotate(-90deg);
+
+    /* Internet Explorer */
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+
+    }
