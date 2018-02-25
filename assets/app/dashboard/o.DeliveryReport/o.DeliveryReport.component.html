@@ -1,0 +1,131 @@
+<div class="container-fluid">
+    <h3 class="zone-heading">Delivery Orders Report</h3>
+
+    <table class="table">
+        <tr>
+
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="completedOrders_Data.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+                    previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+            <td style="float: left;border-top:none">
+                    <!-- <input type="button" [value]="export_Loadin" class="btn btn-info"> -->
+                        <button class="btn btn-info"   (click)="OnExcel_Download()"><span>{{ btn_Text }}</span></button>
+                        </td>
+
+        </tr>
+    </table>
+    <my-spinner [isRunning]="isRequesting"></my-spinner>
+
+    <table class="table" *ngIf="completedOrders_Data.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+        <tr>
+
+            <th class="tdline" id="1" [class.activeForsorting]="activeId == 1" (click)="activeId=1" style="cursor:pointer" (click)="sortColumn('orderseqId')">
+                ID
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" id="2" >
+                Biker
+
+            </th>
+            <th class="tdline" >
+                Type
+
+            </th>
+
+            <th class="tdline" id="4" [class.activeForsorting]="activeId == 4" (click)="activeId=4" style="cursor:pointer" (click)="sortColumn('Shipping_Distance')">
+                Distance (in Kms)
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" id="15" [class.activeForsorting]="activeId == 15" (click)="activeId=15" style="cursor:pointer" (click)="sortColumn('Date')">
+               Created Time
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" id="5" [class.activeForsorting]="activeId == 5" (click)="activeId=5" style="cursor:pointer" (click)="sortColumn('Order_Accepted_Time')">
+                A. Time
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline">
+                P. Time
+
+            </th>
+            <th class="tdline" id="7" [class.activeForsorting]="activeId == 7" (click)="activeId=7" style="cursor:pointer" (click)="sortColumn('Order_Completed_Time')">
+                C. Time
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline">
+                A - P
+
+            </th>
+            <th class="tdline" id="7" >
+                P - D
+
+            </th>
+            <th class="tdline" id="7">
+                Travel Time
+
+            </th>
+            <th class="tdline" id="7">
+                Total Time
+
+            </th>
+
+        </tr>
+        <ng-container *ngFor="let item of completedOrders_Data | paginate: {
+        itemsPerPage: limit, currentPage: p,totalItems: Total_Count };let i = index">
+            <tr [class.highligh]="item.Color==1">
+                <td>{{item.orderseqId}}</td>
+                <td>{{item.Driver_Name}}</td>
+                <td *ngIf="item.bookingType==1">Instant</td>
+                <td *ngIf="item.bookingType==2">4 Hours</td>
+                <td *ngIf="item.bookingType==3">Same Day</td>
+                <td>{{item.Shipping_Distance}}</td>
+                <td>{{item.Date}}</td>
+                <td>{{item.Order_Accepted_Time}}</td>
+                <td>{{item.Order_Picked_Time}}</td>
+                <td>{{item.Order_Completed_Time}}</td>
+                <td>{{item.Order_Accept_Pick_Time}}</td>
+                <td>{{item.Order_Pick_Drop_Time}}</td>
+                <td>{{item.Order_Journey_Time}}</td>
+                <td>{{item.Order_Total_Time}}</td>
+
+
+            </tr>
+
+
+        </ng-container>
+    </table>
+
+
+    <table class="table">
+            <tr>
+                    <td style="border-top: none;">
+                            Total Orders:
+                            <strong style="color: #F00;">{{ Total_Count }}</strong>
+                        </td>
+                <td style="float: right;border-top:none">
+                    <pagination-controls *ngIf=" completedOrders_Data.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+                    previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"
+                    >
+                    </pagination-controls>
+                </td>
+                <td style="float: right;border-top:none">
+                    <label>Select Count</label>
+                    <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
