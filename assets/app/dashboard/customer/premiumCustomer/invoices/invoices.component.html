@@ -1,0 +1,106 @@
+<table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);" *ngIf="pdfData.length>0">
+    <tbody>
+        <tr>
+            <th>S.no</th>
+            <th>Customer Name</th>
+            <th>Invoice Number</th>
+            <th>Invoice Date From</th>
+            <th>Invoice Date To</th>
+            <th>Generation Date</th>
+            <th>Status</th>
+            <th>Activity</th>
+        </tr>
+        <tr *ngFor="let item of pdfData | paginate: {
+            itemsPerPage: 10,
+            currentPage: p,
+            totalItems: Total_Count }; let i=index">
+            <td>{{i + 1 + skip_value}}</td>
+            <td>{{item.CustomerName}}</td>
+            <td>{{item.InvoiceNumber}}</td>
+            <td>{{item.from_date}}</td>
+            <td>{{item.to_date }}</td>
+            <td>{{item.Invoice_Date}}</td>
+            <td *ngIf="item.ProcessStage==1">
+                <div *ngIf="!isrefresh_link; else elseTemplate">
+                    Processing  <i class="material-icons" style="cursor: pointer;" (click)="OnRefresh(item)">refresh</i>
+
+               </div>
+               <ng-template #elseTemplate>
+                <a href={{pdfLinkRefresh}} target="_blank">PDF</a>
+               </ng-template>
+
+            </td>
+            <td *ngIf="item.ProcessStage==2">
+                <a href="{{item.PDFLink}}" target="_blank">PDF</a>
+
+            </td>
+            <td> <button type="button" (click)="OneditDate(item)" rel="tooltip" title="Edit Date" class="btn btn-success btn-simple btn-xs">
+                <i class="fa fa-edit"></i>
+            </button></td>
+        </tr>
+    </tbody>
+</table>
+<pagination-controls *ngIf="pdfData.length"
+(pageChange)="pageChanged($event)"
+    maxSize="8"
+    directionLinks="true"
+    autoHide="true"
+    previousLabel="Previous"
+    nextLabel="Next"
+    screenReaderPaginationLabel="Pagination"
+    screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You're on page" style="float: right;margin-top: 30px;">
+</pagination-controls>
+<div
+    *ngIf="isData"
+    style="text-align: center;"
+>
+    <strong style="font-size: 20px;">No Records Found</strong>
+</div>
+<!--  -->
+<my-spinner [isRunning]="isRequesting"></my-spinner>
+<div *ngIf="isEditDate">
+<div class="backdrop"></div>
+<div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" aria-label="Close" (click)="onCloseEditDate()">
+                                <span
+                                    aria-hidden="true"
+                                    style="font-size: 25px;"
+                                >
+                                    ×
+                                </span>
+                            </button>
+                            <span><b>Customer Name:</b> {{First_name }}</span>
+                        </div>
+            <div class="modal-body" style="padding-top: 0px;">
+                <table class="table">
+                    <tr>
+                        <td style="border-top: none;">
+                                <span style="font-size: medium;">From:</span>
+                        </td>
+                        <td style="border-top: none;"><input type="date" max="" #form  (input)="OnFromDate(form.value)"></td>
+                        <td style="border-top: none;">
+                                <span style="font-size: medium;">To</span>
+                        </td>
+                        <td style="border-top: none;"><span style="font-size: medium;margin: 5px;"></span> <input type="date" #To (input)="OnTodate(To.value)"></td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: none;" colspan="4">
+                           <label>Due Amount:</label> <input type="text" [(ngModel)]="dueAmount">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top: none; text-align:center;" colspan="4">
+                                <button class="btn btn-info" (click)="exportPdf()">Generate</button>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
