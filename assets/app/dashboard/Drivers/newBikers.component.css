@@ -1,0 +1,17 @@
+.btn .material-icons {
+   vertical-align: middle;
+   font-size: 17px;
+   top: 5px;
+   position: relative;
+}
+.form-group {
+   padding-bottom: 7px;
+   margin: -6px 0 -7px 0;
+}
+.form-group label{
+margin-bottom: -9px;
+}
+
+.active{
+    color:lightcoral
+    }
