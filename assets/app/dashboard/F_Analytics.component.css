@@ -1,0 +1,18 @@
+chart {
+    display: block;
+    height: auto;
+
+
+  }
+  .ch{
+      width: 450px;
+      height: 150px
+  }
+  td{
+      border-top:none!important;
+  }
+  .active{
+    color: #705137 !important;
+
+    background-color: #ee9b0a !important;
+}
