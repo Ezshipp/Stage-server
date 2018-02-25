@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+        <div class="row">
+            <div class="delivery">
+                <table class="table table-responsive" style="width: 100%">
+                    <tr>
+                        <td style="border-top:none;width: 33%px;font-size: 20px;color:#12a6f1;">Same Day time :</td>
+                        <td style="border-top:none;width: 33%;font-size: 20px;color:#777;">
+                            <div class="form-group">
+                                <input type="time" class="form-control" [(ngModel)]="Same_Day_Time">
+                            </div>
+                        </td>
+                        <td style="border-top:none;width: 33%;font-size: 20px;color:#777;" >
+                            <div class="form-group">
+                            <textarea class="form-control" [(ngModel)]="Same_Day_Message" style="max-width:200px;max-height:150px"></textarea>
+                            </div>
+                        </td>
+ 
+ 
+                    </tr>
+                    <tr>
+                        <td style="border-top:none;width: 33%;font-size: 20px;color:#12a6f1;">Four hours time :</td>
+                        <td style="border-top:none;width: 33%;font-size: 20px;color:#777;" >
+                            <div class="form-group">
+                                <input class="form-control" type="time" [(ngModel)]="Four_Hours_Time" name="Same_Day_Time">
+                            </div>
+                        </td>
+                        <td style="border-top:none;width: 33%;font-size: 20px;color:#777;">
+                            <div class="form-group">
+                            <textarea class="form-control" [(ngModel)]="Four_Hours_Message" style="max-width:200px;max-height:150px"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top:none;width: 33%;font-size: 20px;color:#12a6f1;">Instant time :</td>
+                        <td style="border-top:none;width: 33%;font-size: 20px;color:#777;">
+                            <div class="form-group">
+                                <input class="form-control" type="time" [(ngModel)]="Instant_Time" name="Same_Day_Time">
+                            </div>
+                        </td>
+                        <td style="border-top:none;width: 33%;font-size: 20px;color:#777;">
+                            <div class="form-group">
+                            <textarea class="form-control" [(ngModel)]="Instant_Message" style="max-width:200px;max-height:150px"></textarea>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div style="float: right;margin-right: 300px;">
+                    <button type="button" (click)="OnEdit_messages(Same_Day_Time,Same_Day_Message,Four_Hours_Time,Four_Hours_Message,Instant_Time,Instant_Message)" class="btn btn-danger" style="padding: 11px 17px;" >Update</button>
+                </div>
+            </div>
+        </div>
+ 
+    </div>
+ 
+ </div>
