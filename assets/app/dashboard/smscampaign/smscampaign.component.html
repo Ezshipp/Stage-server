@@ -1,0 +1,13 @@
+<div class="container-fluid containers" style="background-color: white;">
+    <h3 class="zone-heading">sms campaign</h3>
+    <ul class="nav nav-tabs nav_tab_background">
+        <li routerLinkActive="active">
+            <a [routerLink]="['createcampaign']">Create Campaign</a>
+        </li>
+        <li routerLinkActive="active">
+            <a [routerLink]="['viewallcampaign']">View Campaigns</a>
+        </li>
+    </ul>
+    <hr>
+    <router-outlet></router-outlet>
+</div>

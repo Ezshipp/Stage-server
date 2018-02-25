@@ -1,0 +1,427 @@
+<div class="container-fluid">
+    <h3 class="zone-heading">Biker Canceled Orders</h3>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="input-group" style="margin-left: 70%;margin-top: -35px;">
+                <span class="input-group-addon">
+                    <i class="material-icons" style="margin-top: 20px;">search</i>
+                </span>
+                <input type="text" class="form-control" [ngModel]="mymodel" (ngModelChange)="valuechange($event)" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+    <table class="table" *ngIf="!issearch">
+        <tr>
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!issearch && Cancel_OrderData.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true"
+                    autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <table class="table" *ngIf="Cancel_OrderData.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+        <tr>
+            <th class="tdline" style="cursor:pointer" id="1" [class.activeForsorting]="activeId == 1" (click)="activeId=1" (click)="sortColumn('orderseqId')">
+                ID
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" style="cursor:pointer" id="2" [class.activeForsorting]="activeId == 2" (click)="activeId=2" (click)="sortColumn('customerName')">
+                C.Name
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" style="cursor:pointer" id="3" [class.activeForsorting]="activeId == 3" (click)="activeId=3" (click)="sortColumn('customerPhone')">
+                C.Phone
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" style="cursor:pointer" id="4" [class.activeForsorting]="activeId == 4" (click)="activeId=4" (click)="sortColumn('Date')">
+                Date
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" style="cursor:pointer" id="5" [class.activeForsorting]="activeId == 5" (click)="activeId=5" (click)="sortColumn('bookingType')">
+                O.Type
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" style="cursor:pointer" id="6" [class.activeForsorting]="activeId == 6" (click)="activeId=6" (click)="sortColumn('pickupdeponame')">
+                P.Zone
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" style="cursor:pointer" id="7" [class.activeForsorting]="activeId == 7" (click)="activeId=7" (click)="sortColumn('deliverydeponame')">
+                D.Zone
+                <i class="material-icons">arrow_drop_up</i>
+                <i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i>
+            </th>
+            <th id="9" style="cursor:pointer" [class.activeForsorting]="activeId == 9" (click)="activeId=9" (click)="sortColumn('Shipping_Distance')">
+
+                Kms
+                <i class="fa fa-sort" aria-hidden="true"></i>
+
+            </th>
+            <th class="tdline">
+                Action
+            </th>
+        </tr>
+        <ng-container *ngFor="let item of Cancel_OrderData  | paginate: {
+            itemsPerPage: limit, currentPage: p,totalItems: Total_Count };let i = index">
+                   <tr [class.neworder]="item.status==1"  [class.cancelorderbyuserorvendor]="item.status==8" [class.cancelorderbyuserorvendornew]="item.status==9"  [class.OrderCanceled]="item.status==5" [class.bikeraccepted]="item.status==7" [class.processingorder]="item.status==10" [class.Onthewaytodelivery]="item.status==11" [class.reachedDeliverypoint]="item.status==12" [class.OnthewaytoPickup]="item.status==16" [class.processingorder]="item.status==18" [class.completedorder]="item.status==14"   >
+
+                <td>{{item.orderseqId}}</td>
+                <td>{{item.First_name}}</td>
+                <td>{{item.Phone}}</td>
+                <td>{{item.order_datetime}}</td>
+                <td *ngIf="item.bookingType==1">Instant</td>
+                <td *ngIf="item.bookingType==2">4 Hours</td>
+                <td *ngIf="item.bookingType==3">Same Day</td>
+                <td>{{item.PickZone}}</td>
+                <td>{{item.DropZone}}</td>
+                <td>
+                    <div>{{item.Shipping_Distance}}</div>
+
+                </td>
+                <td>
+                    <button type="button" rel="tooltip" title="More Info" class="btn btn-info btn-simple btn-xs" (click)="OnmoreInfo_order(item,i)">
+                        <i class="material-icons">info_outline</i>
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="i==views">
+                <td class="tdline" colspan="8">
+                    <div style="border: 1px solid #12A6F1;">
+                        <div style="float: right;">
+                            <button type="button" class="btn btn-default btn-simple btn-xs" (click)="onClose_details_View()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                        <table class="table table-responsive">
+                            <tbody>
+                                <tr>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Item Name:</strong> {{ itemName }}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Receiver Phone:</strong> {{ receiverPhone }}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Receiver Name:</strong> {{ receiverName }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top: none">
+                                        <strong>Delivery charge:</strong> {{ item.deliverycharge }}
+                                    </td>
+                                    <td style="border-top: none;">
+                                        <strong>Client COD :</strong> {{ item.subtotal_amount }}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Total amount :</strong> {{ item.total_amount }}
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Addtional Weight :</strong> {{ item.ExceededWeight }}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Addtional Amount :</strong> {{ item.ExceededAmount }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top: none;width: 30%;" *ngIf="orderType==1">
+                                        <strong>Order Type:</strong> Order Anything
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="orderType==2">
+                                        <strong>Order Type:</strong> Store Order
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="bookingType==1">
+                                        <strong>Booking Type:</strong> Instant
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="bookingType==2">
+                                        <strong>Booking Type:</strong> 4 Hours
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="bookingType==3">
+                                        <strong>Booking Type:</strong> Same Day
+                                    </td>
+                                    <td style="border-top: none;width: 40%;" *ngIf="paymentType==1">
+                                        <strong>Payment Type:</strong> Cash
+                                    </td>
+                                    <td style="border-top: none;width: 40%;" *ngIf="paymentType==2">
+                                        <strong>Payment Type:</strong> Online
+                                    </td>
+                                    <td style="border-top: none;width: 40%;" *ngIf="paymentType==3">
+                                        <strong>Payment Type:</strong> Monthly Invoice
+                                    </td>
+                                    <td style="border-top: none;width: 40%;" *ngIf="isimage">
+                                        <strong>Image:</strong>
+                                        <a target="_blank" href="{{itemImage}}">View Image</a>
+                                    </td>
+
+                                </tr>
+                                <tr rowspan="4">
+                                    <td style="border-top: none;width: 30%;" *ngIf="DeviceType==1">
+                                        <strong>Device Type:</strong> iOS
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="DeviceType==2">
+                                        <strong>Device Type:</strong> Android
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="DeviceType==3">
+                                        <strong>Device Type:</strong> Web
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Delivery charge:</strong> {{ deliverycharge }}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Cancellation Time:</strong> {{ Cancelled_Time }}
+                                    </td>
+                                </tr>
+
+                                <tr *ngIf="item.OfferApplied==true">
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Offer Name:</strong> {{ OfferName }}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Offer Description:</strong> {{ OfferDescription }}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Discount Percentage:</strong> {{ DiscountPercentage }}
+                                    </td>
+                                </tr>
+                                <tr *ngIf="item.Driver_Assigned==true">
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Biker Name:</strong> {{Driver_Name}}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Biker Phone:</strong> {{Driver_PhoneNumber}}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Biker Email:</strong> {{Driver_Email}}
+                                    </td>
+                                </tr>
+                                <tr rowspan="4">
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Pick Address:</strong> {{ pickAddress }}
+                                        <i *ngIf="item.status==1 || item.status==7 || item.status==10 || item.status==11 || item.status==12 || item.status==16 || item.status==15"
+                                            class="material-icons" (click)="change_location_pik(item,i)">location_on
+                                        </i>
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Drop Address:</strong> {{ dropAddress }}
+                                        <i *ngIf="item.status==1 || item.status==7 || item.status==10 || item.status==11 || item.status==12 || item.status==16 || item.status==15"
+                                            class="material-icons" (click)="change_location_drop(item,i)">location_on
+                                        </i>
+                                    </td>
+                                </tr>
+                                <tr *ngIf="item.Whether_Zone_Drop==true">
+                                    <th style="border-top: none;width: 30%;">Barcode:{{barcodeId}}</th>
+
+                                </tr>
+                                <tr *ngIf="item.Whether_Zone_Drop==true">
+                                    <ul class="list-inline">
+                                        <li style="display:inline;padding: 8px;" (click)="Onselect(m,offers,item)" *ngFor="let offers of offers;let m=index" [ngClass]="{'active': m==onselectitem}">
+                                            {{offers}}
+                                        </li>
+                                    </ul>
+
+
+
+                                </tr>
+                                <tr *ngIf="item.Whether_Zone_Drop==true">
+                                    <td class="tdline" colspan="4">
+                                        <table class="table" *ngIf="ZonesLogs.length; else zones" style="margin-top:10px">
+
+
+                                            <tr>
+                                                <th class="tdline">Driver Name</th>
+                                                <th class="tdline">Status</th>
+                                                <th class="tdline">Drop Zone</th>
+                                                <th class="tdline">Drop Hub(Zone HubName)</th>
+
+                                                <th class="tdline">Distence(From Previous Hub) </th>
+                                                <th class="tdline">Journey(From Previous Hub) </th>
+                                            </tr>
+                                            <tr *ngFor="let ZonesLogs of ZonesLogs; let i=index">
+
+                                                <td class="tdline">{{ZonesLogs.DriverName}}</td>
+                                                <td class="tdline" *ngIf="ZonesLogs.ZoneStatus==1"> Order Droped at Zone</td>
+                                                <td class="tdline" *ngIf="ZonesLogs.ZoneStatus==2">Zone Order Accepted</td>
+                                                <td class="tdline" *ngIf="ZonesLogs.ZoneStatus==3">Order Picked from Zone</td>
+                                                <td class="tdline">{{ZonesLogs.ZoneName}}</td>
+                                                <td class="tdline">{{ZonesLogs.ZoneHubName}}</td>
+                                                <td class="tdline">{{ZonesLogs.Shipping_Distance}}</td>
+                                                <td class="tdline">{{ZonesLogs.Depo_Journey_Time}}</td>
+                                            </tr>
+                                        </table>
+                                        <ng-template #zones>
+                                            <h5 style="text-align:center;margin-top:10px">{{itemMsg}}</h5>
+                                        </ng-template>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td style="border-top: none;">
+                                        <strong>Cancellation Reason:</strong> {{ Cancellation_Reason }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </td>
+            </tr>
+
+        </ng-container>
+
+    </table>
+    <table class="table" *ngIf="!issearch">
+        <tr>
+            <td style="border-top: none">
+                Total Orders:
+                <span style="color: #F00;">{{Total_Count}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!issearch && Cancel_OrderData.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true"
+                    autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+
+    <my-spinner [isRunning]="isRequesting"></my-spinner>
+</div>
+<div *ngIf="isData">
+    <h3 style="text-align: center;font-size: 18px;">No Records found</h3>
+</div>
+<div *ngIf="isedit_pick">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+        <div class="modal-dialog" role="document" style="width: 800px">
+            <div class="modal-content" style="height: 830px;">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onclose_editpick()">
+                        <span aria-hidden="true" style="font-size: 25px;">
+                            ×
+                        </span>
+                    </button>
+                    <h4 style="text-align: center">Pickup Location</h4>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <div class="form-group">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td style="border-top:none">orderseqId:</td>
+                                    <td style="border-top:none">{{orderseqId}}</td>
+                                    <td style="border-top:none">Biker Name:</td>
+                                    <td style="border-top:none">{{Driver_Name}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:none">receiverName:</td>
+                                    <td style="border-top:none">{{receiverName}}</td>
+                                    <td style="border-top:none">receiverPhone:</td>
+                                    <td style="border-top:none">{{receiverPhone}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:none">Customer Name:</td>
+                                    <td style="border-top:none">{{First_name}}</td>
+                                    <td style="border-top:none">Customer Phone:</td>
+                                    <td style="border-top:none">{{Phone}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td style="border-top:none">
+                                        <input type="text" value placeholder="Regular" style="width: 620px;" [(ngModel)]="pickAddress" class="form-control">
+                                    </td>
+                                    <td style="border-top:none">
+                                        <button class="btn infor" style="margin-left: 20px;margin-bottom: 13px;" (click)="onsubmit_pickUplocation()">
+                                            Submit
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isedit_drop">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+        <div class="modal-dialog" role="document" style="width: 800px">
+            <div class="modal-content" style="height: 830px;">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onclose_editDrop()">
+                        <span aria-hidden="true" style="font-size: 25px;">
+                            ×
+                        </span>
+                    </button>
+                    <h4 style="text-align: center">Drop Location</h4>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <div class="form-group">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td style="border-top:none">orderseqId:</td>
+                                    <td style="border-top:none">{{orderseqId}}</td>
+                                    <td style="border-top:none">Biker Name:</td>
+                                    <td style="border-top:none">{{Driver_Name}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:none">receiverName:</td>
+                                    <td style="border-top:none">{{receiverName}}</td>
+                                    <td style="border-top:none">receiverPhone:</td>
+                                    <td style="border-top:none">{{receiverPhone}}</td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top:none">Customer Name:</td>
+                                    <td style="border-top:none">{{First_name}}</td>
+                                    <td style="border-top:none">Customer Phone:</td>
+                                    <td style="border-top:none">{{Phone}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td style="border-top:none">
+                                        <input type="text" value placeholder="Regular" style="width: 620px;" [(ngModel)]="dropAddress" class="form-control">
+                                    </td>
+                                    <td style="border-top:none">
+                                        <button class="btn infor" style="margin-left: 20px;margin-bottom: 13px;" (click)="onsubmit_droplocation()">
+                                            Submit
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,404 @@
+<div class="container-fluid">
+    <h3 class="zone-heading">Trash Orders</h3>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div
+                class="input-group"
+                style="margin-left: 70%;margin-top: -35px;"
+            >
+                <span class="input-group-addon">
+                    <i
+                        class="material-icons"
+                        style="margin-top: 20px;"
+                    >
+                        search
+                    </i>
+                </span>
+                <input
+                    type="text"
+                    class="form-control"
+                    [ngModel]="mymodel"
+                    (ngModelChange)="valuechange($event)"
+                    placeholder="Search..."
+                >
+            </div>
+        </div>
+    </div>
+    <table class="table" *ngIf="!issearch">
+        <tr>
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!issearch" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+                previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"
+                >
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <table class="table" *ngIf="Trashorders.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+        <tr>
+            <th class="tdline" *ngFor="let item of headers; let i=index">
+                    <b style="cursor: pointer;" (click)="sortColumn(i,item)" [class.activeForsorting]="activeId == i">{{item}} <span [hidden]="i==arrow_Index"><i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;cursor: pointer;">arrow_drop_down</i></span></b>
+                    <i class="material-icons" *ngIf="IsAsc && i==arrow_Index" style="cursor: pointer;">arrow_drop_up</i>
+                    <i class="material-icons" *ngIf="!IsAsc && i==arrow_Index" style="cursor: pointer;">arrow_drop_down</i>
+            </th>
+            <th class="tdline">
+                    Action
+            </th>
+
+        </tr>
+        <ng-container  *ngFor="let item of Trashorders  | paginate: {
+            itemsPerPage: limit, currentPage: p,totalItems: Total_Count };let i = index">
+                <tr [class.neworder]="item.status==1"  [class.cancelorderbyuserorvendor]="item.status==8" [class.cancelorderbyuserorvendornew]="item.status==9"  [class.OrderCanceled]="item.status==5" [class.bikeraccepted]="item.status==7" [class.processingorder]="item.status==10" [class.Onthewaytodelivery]="item.status==11" [class.reachedDeliverypoint]="item.status==12" [class.OnthewaytoPickup]="item.status==16" [class.processingorder]="item.status==18" [class.completedorder]="item.status==14"   >
+
+                        <td>{{item.orderseqId}}</td>
+                        <td>{{item.First_name}}</td>
+                        <td>{{item.Phone}}</td>
+                        <td>{{item.order_datetime}}</td>
+                        <td *ngIf="item.bookingType==1">Instant</td>
+                        <td *ngIf="item.bookingType==2">4 Hours</td>
+                        <td *ngIf="item.bookingType==3">Same Day</td>
+                        <td>{{item.PickZone}}</td>
+                        <td>{{item.DropZone}}</td>
+                        <td>
+                            <button type="button"  style="padding:0px;" rel="tooltip" title="More Info" class="btn btn-info btn-simple btn-xs" (click)="OnmoreInfo_order(item,i)">
+                                <i class="material-icons">info_outline</i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="i==views" >
+                        <td colspan="8">
+                            <div style="float: right;">
+                                <button type="button" class="btn btn-default btn-simple btn-xs" (click)="onClose_details_View()">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        <table class="table table-responsive">
+                            <tbody>
+                                <tr>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Item Name:</strong> {{ itemName }}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Receiver Phone:</strong> {{ receiverPhone }}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Receiver Name:</strong> {{ receiverName }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Addtional Weight :</strong> {{ item.ExceededWeight }}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Addtional Amount :</strong> {{ item.ExceededAmount }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top: none">
+                                        <strong>Delivery charge:</strong> {{ item.deliverycharge }}
+                                    </td>
+                                    <td style="border-top: none;">
+                                        <strong>Client COD :</strong> {{ item.subtotal_amount }}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Total amount :</strong> {{ item.total_amount }}
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Order Total Time:</strong> {{ item.Order_Total_Time }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border-top: none;width: 30%;" *ngIf="orderType==1">
+                                        <strong>Order Type:</strong> Order Anything
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="orderType==2">
+                                        <strong>Order Type:</strong> Store Order
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="bookingType==1">
+                                        <strong>Booking Type:</strong> Instant
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="bookingType==2">
+                                        <strong>Booking Type:</strong> 4 Hours
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="bookingType==3">
+                                        <strong>Booking Type:</strong> Same Day
+                                    </td>
+                                    <td style="border-top: none;width: 40%;" *ngIf="paymentType==1">
+                                        <strong>Payment Type:</strong> Cash
+                                    </td>
+                                    <td style="border-top: none;width: 40%;" *ngIf="paymentType==2">
+                                        <strong>Payment Type:</strong> Online
+                                    </td>
+                                    <td style="border-top: none;width: 40%;" *ngIf="paymentType==3">
+                                        <strong>Payment Type:</strong> Monthly Invoice
+                                    </td>
+                                </tr>
+                                <tr rowspan="4">
+                                    <td style="border-top: none;width: 30%;" *ngIf="DeviceType==1">
+                                        <strong>Device Type:</strong> iOS
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="DeviceType==2">
+                                        <strong>Device Type:</strong> Android
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="DeviceType==3">
+                                        <strong>Device Type:</strong> Web
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Delivery charge:</strong> {{ deliverycharge }}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="status==1"><span style="float: left;"><strong>Status:</strong> New Order</span>
+                                       <!-- <div class="col-md-3 dropdown" style="margin-top: -9px;">
+                                           <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
+                                               Change Status
+                                               <b class="caret"></b>
+                                           </a>
+                                           <ul class="dropdown-menu">
+                                               <li><a (click)="onCompleteOrder()">Complete Order</a></li>
+                                               <li><a (click)="onCancelOrder()">Cancel Order</a></li>
+                                           </ul>
+                                       </div> -->
+                                   </td>
+                                   <td style="border-top: none;width: 30%;" *ngIf="status==7"><span style="float: left;"><strong>Status:</strong> Biker accepted</span>
+                                       <!-- <div class="col-md-3 dropdown" style="margin-top: -9px;">
+                                           <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
+                                               Change Status
+                                               <b class="caret"></b>
+                                           </a>
+                                           <ul class="dropdown-menu">
+                                               <li><a (click)="onCompleteOrder()">Complete Order</a></li>
+                                               <li><a (click)="onCancelOrder()">Cancel Order</a></li>
+                                           </ul>
+                                       </div> -->
+                                   </td>
+                                   <td style="border-top: none;width: 30%;" *ngIf="status==8"><span style="float: left;"><strong>Status:</strong> Biker Rejected</span>
+                                       <!-- <div class="col-md-3 dropdown" style="margin-top: -9px;">
+                                           <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
+                                               Change Status
+                                               <b class="caret"></b>
+                                           </a>
+                                           <ul class="dropdown-menu">
+                                               <li><a (click)="onCompleteOrder()">Complete Order</a></li>
+                                               <li><a (click)="onCancelOrder()">Cancel Order</a></li>
+                                           </ul>
+                                       </div> -->
+                                   </td>
+                                   <td style="border-top: none;width: 30%;" *ngIf="status==9"><span style="float: left;"><strong>Status:</strong> Order Expired</span>
+                                       <!-- <div class="col-md-3 dropdown" style="margin-top: -9px;">
+                                           <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
+                                               Change Status
+                                               <b class="caret"></b>
+                                           </a>
+                                           <ul class="dropdown-menu">
+                                               <li><a (click)="onCompleteOrder()">Complete Order</a></li>
+                                               <li><a (click)="onCancelOrder()">Cancel Order</a></li>
+                                           </ul>
+                                       </div> -->
+                                   </td>
+                                   <td style="border-top: none;width: 30%;" *ngIf="status==10"><span style="float: left;"><strong>Status:</strong> Arrived at shop</span>
+                                       <!-- <div class="col-md-3 dropdown" style="margin-top: -9px;">
+                                           <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
+                                               Change Status
+                                               <b class="caret"></b>
+                                           </a>
+                                           <ul class="dropdown-menu">
+                                               <li><a (click)="onCompleteOrder()">Complete Order</a></li>
+                                               <li><a (click)="onCancelOrder()">Cancel Order</a></li>
+                                           </ul>
+                                       </div> -->
+                                   </td>
+                                   <td style="border-top: none;width: 30%;" *ngIf="status==11"><span style="float: left;"><strong>Status:</strong> Order picked</span>
+                                       <!-- <div class="col-md-3 dropdown" style="margin-top: -9px;">
+                                           <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
+                                               Change Status
+                                               <b class="caret"></b>
+                                           </a>
+                                           <ul class="dropdown-menu">
+                                               <li><a (click)="onCompleteOrder()">Complete Order</a></li>
+                                               <li><a (click)="onCancelOrder()">Cancel Order</a></li>
+                                           </ul>
+                                       </div> -->
+                                   </td>
+                                   <td style="border-top: none;width: 30%;" *ngIf="status==12"><span style="float: left;"><strong>Status:</strong> Order reached at Delivery</span>
+                                       <!-- <div class="col-md-3 dropdown" style="margin-top: -9px;">
+                                           <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
+                                               Change Status
+                                               <b class="caret"></b>
+                                           </a>
+                                           <ul class="dropdown-menu">
+                                               <li><a (click)="onCompleteOrder()">Complete Order</a></li>
+                                               <li><a (click)="onCancelOrder()">Cancel Order</a></li>
+                                           </ul>
+                                       </div> -->
+                                   </td>
+                                   <td style="border-top: none;width: 30%;" *ngIf="status==14"><span style="float: left;"><strong>Status:</strong> Order Completed</span>
+                                       <!-- <div class="col-md-3 dropdown" style="margin-top: -9px;">
+                                           <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
+                                               Change Status
+                                               <b class="caret"></b>
+                                           </a>
+                                           <ul class="dropdown-menu">
+                                               <li><a (click)="onCompleteOrder()">Complete Order</a></li>
+                                               <li><a (click)="onCancelOrder()">Cancel Order</a></li>
+                                           </ul>
+                                       </div> -->
+                                   </td>
+                                   <td style="border-top: none;width: 30%;" *ngIf="status==15"><span style="float: left;"><strong>Status:</strong> Drop at Depot</span>
+                                       <!-- <div class="col-md-3 dropdown" style="margin-top: -9px;">
+                                           <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
+                                               Change Status
+                                               <b class="caret"></b>
+                                           </a>
+                                           <ul class="dropdown-menu">
+                                               <li><a (click)="onCompleteOrder()">Complete Order</a></li>
+                                               <li><a (click)="onCancelOrder()">Cancel Order</a></li>
+                                           </ul>
+                                       </div> -->
+                                    </td>
+                                   <td style="border-top: none;width: 30%;" *ngIf="status==16"><span style="float: left;"><strong>Status:</strong> On the way to Pickup</span>
+                                       <!-- <div class="col-md-3 dropdown" style="margin-top: -9px;">
+                                           <a href="#" class="btn btn-simple dropdown-toggle" data-toggle="dropdown">
+                                               Change Status
+                                               <b class="caret"></b>
+                                           </a>
+                                           <ul class="dropdown-menu">
+                                               <li><a (click)="onCompleteOrder()">Complete Order</a></li>
+                                               <li><a (click)="onCancelOrder()">Cancel Order</a></li>
+                                           </ul>
+                                       </div> -->
+                                   </td>
+                                </tr>
+                                <tr *ngIf="OfferApplied_Boolean==true">
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Offer Name:</strong> {{ OfferName }}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Offer Description:</strong> {{ OfferDescription }}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Discount Percentage:</strong> {{ DiscountPercentage }}
+                                    </td>
+                                </tr>
+                                <tr *ngIf="isDriver_Assigned==true">
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Biker Name:</strong> {{Driver_Name}}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Biker Phone:</strong> {{Driver_PhoneNumber}}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Biker Email:</strong> {{Driver_Email}}
+                                    </td>
+                                </tr>
+                                <tr rowspan="4">
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Pick Address:</strong> {{ pickAddress }}
+                                        <!-- <i *ngIf="item.status==1 || item.status==7 || item.status==10 || item.status==11 || item.status==12 || item.status==16 || item.status==15"
+                                            class="material-icons" (click)="change_location_pik(item,i)">location_on
+                                        </i> -->
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Drop Address:</strong> {{ dropAddress }}
+                                        <!-- <i *ngIf="item.status==1 || item.status==7 || item.status==10 || item.status==11 || item.status==12 || item.status==16 || item.status==15"
+                                            class="material-icons" (click)="change_location_drop(item,i)">
+                                            location_on
+                                        </i> -->
+                                    </td>
+
+                                </tr>
+                                <tr *ngIf="isimage">
+                                    <th style="border-top: none;width: 30%;">Image</th>
+                                    <td style="border-top: none;width: 30%;"><a target="_blank" href="{{itemImage}}">View Image</a></td>
+                                </tr>
+                                <tr *ngIf="item.Whether_Zone_Drop==true">
+                                    <ul class="list-inline">
+                                        <li style="display:inline;padding: 8px;" (click)="Onselect(m,offers,item)" *ngFor="let offers of offers;let m=index" [ngClass]="{'active': m==onselectitem}">
+                                            {{offers}}
+                                        </li>
+                                    </ul>
+
+
+
+                                </tr>
+                                <tr *ngIf="item.Whether_Zone_Drop==true">
+                                    <td class="tdline" colspan="4">
+                                        <table class="table" *ngIf="ZonesLogs.length; else zones" style="margin-top:10px">
+
+
+                                            <tr>
+                                                <th class="tdline">Barcode Id</th>
+                                                <th class="tdline">Order SeqId</th>
+                                                <th class="tdline">Zone Name</th>
+                                                <th class="tdline">Zone HubName</th>
+                                                <th class="tdline">Driver Name</th>
+                                                <th class="tdline">Zone Status</th>
+                                            </tr>
+                                            <tr *ngFor="let ZonesLogs of ZonesLogs; let i=index">
+                                                <td class="tdline">{{ZonesLogs.barcodeid}}</td>
+                                                <td class="tdline">{{ZonesLogs.orderseqId}}</td>
+                                                <td class="tdline">{{ZonesLogs.ZoneName}}</td>
+                                                <td class="tdline">{{ZonesLogs.ZoneHubName}}</td>
+                                                <td class="tdline">{{ZonesLogs.DriverName}}</td>
+                                                <td class="tdline" *ngIf="ZonesLogs.ZoneStatus==1"> Order Droped at Zone</td>
+                                                <td class="tdline" *ngIf="ZonesLogs.ZoneStatus==2">Zone Order Accepted</td>
+                                                <td class="tdline" *ngIf="ZonesLogs.ZoneStatus==3">Order Picked from Zone</td>
+                                            </tr>
+                                        </table>
+                                        <ng-template #zones>
+                                            <h5 style="text-align:center;margin-top:10px">{{itemMsg}}</h5>
+                                        </ng-template>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                        <td style="border-top: none;">
+                                            <div>
+                                                <strong>Order Total Time:</strong> {{ item.Order_Total_Time }}
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                            </tbody>
+                        </table>
+                        </td>
+                    </tr>
+        </ng-container>
+
+    </table>
+    <table class="table" *ngIf="!issearch">
+            <tr>
+                    <td style="border-top: none">
+                        Total Orders: <span style="color: #F00;">{{Total_Count}}</span>
+                    </td>
+                </tr>
+        <tr>
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!issearch" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+                previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"
+                >
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <my-spinner [isRunning]="isRequesting"></my-spinner>
+</div>

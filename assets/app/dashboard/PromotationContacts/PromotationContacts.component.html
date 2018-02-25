@@ -1,0 +1,86 @@
+<!--component html goes here -->
+<div class="container-fluid">
+        <h3 class="zone-heading">Users</h3>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="input-group" style="margin-left: 70%;margin-top: -35px;">
+                    <span class="input-group-addon">
+                        <i class="material-icons" style="margin-top: 20px;">search</i>
+                    </span>
+                    <input type="text" class="form-control" [ngModel]="mymodel" (ngModelChange)="valuechange($event)" placeholder="Search...">
+                </div>
+            </div>
+        </div>
+
+    <table class="table" *ngIf="!isSearch">
+        <tr>
+
+
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!isSearch || PromotionalContactsData.length>0" (pageChange)="pageChanged($event)" maxSize="8"
+                    directionLinks="true" autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
+                    screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)"  [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+            </td>
+            <td style="float: left;border-top:none">
+                <!-- <input type="button" [value]="export_Loadin" class="btn btn-info"  (click)="OnExcel_Download()"> -->
+                    <button class="btn btn-info"  (click)="OnExcel_Download()"><span>{{ export_Loadin }}</span></button>
+                    </td>
+        </tr>
+    </table>
+    <table class="table" *ngIf="PromotionalContactsData.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);background-color: #FFF;">
+        <tr>
+            <th id="1" [class.activeForsorting]="activeId == 1" (click)="OnClumnSort('Name',$event)">Name
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th id="2" [class.activeForsorting]="activeId == 2" (click)="OnClumnSort('PhoneNumber',$event)">PhoneNumber
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th id="3" [class.activeForsorting]="activeId == 3" (click)="OnClumnSort('EmailID',$event)">EmailID
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+        </tr>
+        <tr *ngFor="let item of PromotionalContactsData | paginate: {
+        itemsPerPage:limit,
+        currentPage: p,
+        totalItems: Total_Count };let i = index">
+            <td style="width:33%;">{{item.Name}}</td>
+            <td style="width:33%;">{{item.PhoneNumber}}</td>
+            <td style="width:33%;">{{item.EmailID}}</td>
+
+        </tr>
+    </table>
+    <table class="table" *ngIf="!isSearch">
+        <tr>
+            <td style="border-top: none;">
+                Total Users:
+                <strong style="color: #F00;">{{ Total_Count }}</strong>
+            </td>
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!isSearch  || PromotionalContactsData.length>0" (pageChange)="pageChanged($event)" maxSize="8"
+                    directionLinks="true" autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination"
+                    screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)"   [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+</div>
+<my-spinner [isRunning]="isRequesting"></my-spinner>

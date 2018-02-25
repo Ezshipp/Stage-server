@@ -1,0 +1,332 @@
+button.focus {
+   width: 170px;
+   height: 115px;
+   color: #ffffff;
+   background-color: #563d7c;
+   text-decoration: none;
+   font-size: 1.8em;
+   border: 2px #ffffff solid;
+   margin: 10px 0 0 2px;
+   -webkit-transition: all 0.5s;
+   -moz-transition: all 0.5s;
+   transition: all 0.5s;
+   font-size: 18px;
+   word-wrap: break-word;
+   box-shadow: inset -19px -18px 60px 27px #563d7c, -24px 18px 20px -19px #563d7c;
+   -webkit-box-shadow: inset -19px -18px 60px 27px #563d7c, -24px 18px 20px -19px #563d7c;
+   -moz-box-shadow: inset -19px -18px 60px 27px #563d7c, -24px 18px 20px -19px #563d7c;
+   -o-box-shadow: inset -19px -18px 60px 27px #563d7c, -24px 18px 20px -19px #563d7c;
+}
+
+button.close {
+   width: 50px;
+   height: 30px;
+}
+
+button:hover {
+   cursor: pointer;
+}
+
+.focus:hover.orders_line {
+   border-width: 5px;
+}
+
+.dropdown-menu {
+   background-color: #228ad6;
+   left: -8px;
+   min-width: 170px;
+}
+
+.dropdown-menu>li>a {
+   color: #fff;
+   cursor: auto;
+}
+
+.dropdown-menu>li>a:hover {
+   color: #fff;
+   background-color: #34dbcd;
+}
+
+.am_search__input {
+   /*height: 35px;*/
+   padding: 0px 56px 0px 59px;
+   border-bottom: 2px solid #067bea;
+   margin-top: -35px;
+   color: #777;
+}
+
+input[type="search"] {
+   -webkit-appearance: none;
+   -webkit-box-sizing: content-box;
+   box-sizing: content-box;
+}
+
+.am_search__input__ {
+   width: 100%;
+   padding: 0;
+   border: 0;
+   outline: 0;
+   line-height: 43px;
+   font-size: 23px;
+   font-weight: 100;
+   background-color: transparent;
+}
+
+@font-face {
+   font-family: Proxima-Nova-Regular;
+   src: url('/fonts/Proxima Nova Full Download/ProximaNova-Regular.otf');
+}
+
+.glyphicon.glyphicon-search {
+   font-size: 50px;
+   top: 0px;
+}
+
+.backdrop {
+   display: block;
+   /* Hidden by default */
+   position: fixed;
+   /* Stay in place */
+   z-index: 2;
+   /* Sit on top */
+   padding-top: 100px;
+   /* Location of the box */
+   left: 0;
+   top: 0;
+   width: 100%;
+   /* Full width */
+   height: 100%;
+   /* Full height */
+   overflow: auto;
+   /* Enable scroll if needed */
+   background-color: #337ab7;
+   /* Fallback color */
+   background-color: #337ab7;
+   opacity: 0.4;
+   /* Black w/ opacity */
+}
+
+.modal {
+   display: block;
+}
+
+.modal-content {
+   box-shadow: none;
+}
+
+sebm-google-map {
+   height: 400px;
+}
+
+.show {
+   border-radius: 0px;
+   background-color: #fff;
+   color: #000;
+   border: none;
+}
+
+.dropdown-menu.image_drop {
+   background-color: #fff;
+   min-width: 50px;
+   left: -88px;
+   right: -31px;
+}
+
+.dropdown-menu.filter {
+   background-color: #fff;
+   left: -8px;
+   min-width: 220px;
+   padding: 10px 20px;
+   color: #000;
+   border-radius: 0px;
+   font-size: 13px;
+}
+
+hr {
+   width: 180px;
+   margin-top: 12px;
+   margin-bottom: 12px;
+}
+
+.th-width {
+   width: 140px;
+   margin-bottom: 10px;
+   text-align: center;
+}
+
+.td-center {
+   text-align: center;
+}
+
+.glyphicon.glyphicon-search.search {
+   top: -22px;
+   font-size: 15px;
+   left: 133px;
+}
+
+.datagrid table {
+   border: 1px solid #006699;
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   border-radius: 3px;
+}
+
+.datagrid {
+   overflow-y: scroll;
+   border-collapse: collapse;
+   text-align: left;
+   width: 100%;
+   font: normal 12px/180% Arial, Helvetica, sans-serif;
+   background: #fff;
+}
+
+.datagrid table td,
+.datagrid table th {
+   padding: 3px 10px;
+}
+
+.datagrid table thead th {
+   background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F));
+   background: -moz-linear-gradient( center top, #006699 5%, #00557F 100%);
+   filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+   background-color: #006699;
+   color: #FFFFFF;
+   font-size: 15px;
+   font-weight: bold;
+   border-left: 1px solid #0070A8;
+}
+
+.datagrid table thead th:first-child {
+   border: none;
+}
+
+.datagrid table tbody td {
+   color: #00557F;
+   border: 1px solid #006699;
+   font-size: 12px;
+   font-weight: normal;
+}
+
+.datagrid table tbody .alt td {
+   background: #E1EEf4;
+   color: #00557F;
+   border: 1px solid #006699;
+}
+
+.datagrid table tbody td:first-child {
+   border-left: none;
+}
+
+.datagrid table tbody tr:last-child td {
+   border-bottom: none;
+}
+
+.datagrid table tfoot td div {
+   border-top: 1px solid #006699;
+   background: #E1EEf4;
+}
+
+.datagrid table tfoot td {
+   padding: 0;
+   font-size: 12px
+}
+
+.datagrid table tfoot td div {
+   padding: 2px;
+}
+
+.datagrid table tfoot td ul {
+   margin: 0;
+   padding: 0;
+   list-style: none;
+   text-align: right;
+}
+
+.datagrid table tfoot li {
+   display: inline;
+}
+
+.datagrid table tfoot li a {
+   text-decoration: none;
+   display: inline-block;
+   padding: 2px 8px;
+   margin: 1px;
+   color: #FFFFFF;
+   border: 1px solid #006699;
+   -webkit-border-radius: 3px;
+   -moz-border-radius: 3px;
+   border-radius: 3px;
+   background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557F));
+   background: -moz-linear-gradient( center top, #006699 5%, #00557F 100%);
+   filter: progid: DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+   background-color: #006699;
+}
+
+chart {
+   display: block;
+}
+
+.dropdown1 {
+   position: relative;
+   /*display: inline-block;*/
+}
+
+.dropdown-content1 {
+   display: none;
+   position: absolute;
+   /*background-color: #f9f9f9;
+   min-width: 160px;
+   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+   padding: 12px 16px;*/
+   z-index: 1;
+   background-color: #fff;
+   left: -8px;
+   min-width: 220px;
+   padding: 10px 20px;
+   color: #000;
+   border-radius: 0px;
+   box-shadow: 1px 2px 3px #888888;
+   font-size: 13px;
+}
+
+.dropdown1:hover .dropdown-content1,
+.dropdown1:focus .dropdown-content1 {
+   display: block;
+}
+
+#collection {
+   height: 300px;
+   overflow-y: auto;
+   overflow-x: hidden;
+   display: block;
+}
+
+.border {
+   border-top: none;
+}
+
+ul.nav-tabs {
+   background-color: transparent;
+}
+
+li.active>a {
+   background-color: #12A6F1!important;
+   color: #FFF!important;
+}
+
+li>a {
+   background-color: #FFF!important;
+   color: #12A6F1!important;
+}
+
+li>a:hover {
+   background-color: #12A6F1!important;
+   color: #FFF!important;
+}
+
+.zone-heading {
+   text-align: center;
+   font-size: 23px;
+   font-family: Proxima-Nova-Regular;
+}
+

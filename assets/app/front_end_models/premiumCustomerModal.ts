@@ -1,0 +1,30 @@
+export class premiumCustomerModal{
+constructor(
+    public SearchValue?,
+    public CustomerID?,
+    public skip?,
+    public Premium_Pricing_Set?,
+    public Monthly_Invoice?,
+    public Default_Pickup_Location_Exist?,
+    public Premium_Instant_Pricing?,
+    public Premium_Same_Day_Pricing?,
+    public Premium_4hours_Pricing?,
+    public Premium_Instant_Pricing_discount?,
+    public Premium_Same_Day_Pricing_discount?,
+    public Premium_4hours_Pricing_discount?,
+    public Premium_min_ordercount?,
+      public Default_Pickup_Address?,
+      public Default_Pickup_Latitude?,
+       public Default_Pickup_Longitude?,
+       public Flat_Monthly_Price_Available?,
+       public Flat_Monthly_Price?,
+       public Month_Number?,
+       public Year_Number?,
+       public from_date?,
+       public to_date?,
+       public Previous_Dues?,
+       public Miscellaneous_Dues?,
+       public sortOptions?,
+       public GST?
+){}
+}

@@ -1,0 +1,347 @@
+.backdrop {
+   display: block;
+   /* Hidden by default */
+   position: fixed;
+   /* Stay in place */
+   z-index: 10;
+   /* Sit on top */
+   padding-top: 100px;
+   /* Location of the box */
+   left: 0;
+   top: 0;
+   width: 100%;
+   /* Full width */
+   height: 100%;
+   /* Full height */
+   overflow-y: scroll;
+   /* Enable scroll if needed */
+   background-color: #FFFFFF;
+   /* Fallback color */
+   background-color: rgba(0, 0, 0, 0.4);
+   /* Black w/ opacity */
+}
+
+.modal {
+   display: block;
+   margin-top: 5%;
+   overflow-y: scroll;
+}
+
+.modal-content-dialog {
+   background-color: #fefefe;
+   margin: 100px 500px;
+   padding: 20px;
+   border: 1px solid #888;
+   width: 40%;
+   height: 200px;
+   font-size: 20px;
+}
+
+.list-group-item,
+.active {
+   color: rgba(0, 0, 0, .87);
+   background-color: transparent;
+   border-bottom: 2px solid #4DB6AC;
+   cursor: pointer;
+}
+
+.list-group-item {
+   border: none
+}
+
+body {
+   padding: 20px;
+}
+
+button.btn {
+   position: relative;
+}
+
+.progress-circular {
+   -webkit-animation: progress__rotate 2s linear infinite;
+   -moz-animation: progress__rotate 2s linear infinite;
+   -o-animation: progress__rotate 2s linear infinite;
+   animation: progress__rotate 2s linear infinite;
+   height: 80px;
+   position: relative;
+   width: 80px;
+}
+
+.progress-circular__primary {
+   stroke-dasharray: 1, 200;
+   stroke-dashoffset: 0;
+   -webkit-animation: progress__dash 1.5s ease-in-out infinite;
+   -moz-animation: progress__dash 1.5s ease-in-out infinite;
+   -o-animation: progress__dash 1.5s ease-in-out infinite;
+   animation: progress__dash 1.5s ease-in-out infinite;
+   stroke: #009688;
+   -webkit-transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+   -moz-transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+   -o-transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+   transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-circular--determinate {
+   -webkit-transform: rotate(270deg);
+   -moz-transform: rotate(270deg);
+   -ms-transform: rotate(270deg);
+   -o-transform: rotate(270deg);
+   transform: rotate(270deg);
+   -webkit-animation: none;
+   -moz-animation: none;
+   -o-animation: none;
+   animation: none;
+}
+
+.progress-circular--determinate>.progress-circular__primary {
+   -webkit-animation: none;
+   -moz-animation: none;
+   -o-animation: none;
+   animation: none;
+}
+
+.progress-circular--determinate>.progress-circular__secondary {
+   -webkit-animation: none;
+   -moz-animation: none;
+   -o-animation: none;
+   animation: none;
+   stroke: #80cbc4;
+}
+
+@-moz-keyframes progress__rotate {
+   100% {
+       -moz-transform: rotate(360deg);
+       transform: rotate(360deg);
+   }
+}
+
+@-webkit-keyframes progress__rotate {
+   100% {
+       -webkit-transform: rotate(360deg);
+       transform: rotate(360deg);
+   }
+}
+
+@-o-keyframes progress__rotate {
+   100% {
+       -o-transform: rotate(360deg);
+       transform: rotate(360deg);
+   }
+}
+
+@keyframes progress__rotate {
+   100% {
+       -webkit-transform: rotate(360deg);
+       -moz-transform: rotate(360deg);
+       -o-transform: rotate(360deg);
+       transform: rotate(360deg);
+   }
+}
+
+@-moz-keyframes progress__dash {
+   0% {
+       stroke-dasharray: 10%, 241.32%;
+       stroke-dashoffset: 0%;
+   }
+   50% {
+       stroke-dasharray: 201%, 50.322%;
+       stroke-dashoffset: -100%;
+   }
+   100% {
+       stroke-dasharray: 10%, 241.32%;
+       stroke-dashoffset: -251.32%;
+   }
+}
+
+@-webkit-keyframes progress__dash {
+   0% {
+       stroke-dasharray: 10%, 241.32%;
+       stroke-dashoffset: 0%;
+   }
+   50% {
+       stroke-dasharray: 201%, 50.322%;
+       stroke-dashoffset: -100%;
+   }
+   100% {
+       stroke-dasharray: 10%, 241.32%;
+       stroke-dashoffset: -251.32%;
+   }
+}
+
+@-o-keyframes progress__dash {
+   0% {
+       stroke-dasharray: 10%, 241.32%;
+       stroke-dashoffset: 0%;
+   }
+   50% {
+       stroke-dasharray: 201%, 50.322%;
+       stroke-dashoffset: -100%;
+   }
+   100% {
+       stroke-dasharray: 10%, 241.32%;
+       stroke-dashoffset: -251.32%;
+   }
+}
+
+@keyframes progress__dash {
+   0% {
+       stroke-dasharray: 10%, 241.32%;
+       stroke-dashoffset: 0%;
+   }
+   50% {
+       stroke-dasharray: 201%, 50.322%;
+       stroke-dashoffset: -100%;
+   }
+   100% {
+       stroke-dasharray: 10%, 241.32%;
+       stroke-dashoffset: -251.32%;
+   }
+}
+
+.zone-heading {
+   text-align: center;
+   font-size: 23px;
+}
+
+.areaSelect {
+   border: 1px solid #705137;
+   background-color: transparent!important;
+   color: #000!important;
+}
+.areaSelect:hover {
+   border: 1px solid #705137;
+   background-color: transparent!important;
+   color: #000!important;
+}
+.list-group-item,
+.active {
+   color: rgba(0, 0, 0, .87);
+   background-color: transparent;
+   border-bottom: 2px solid #12A6F1!important;
+}
+.list-group-item {
+   border: none
+}
+.tdline{
+   border-top: none;
+}
+agm-map {
+   height: 200px;
+
+
+}
+.backdrop {
+   display: block;
+   /* Hidden by default */
+   position: fixed;
+   /* Stay in place */
+   z-index: 100;
+   /* Sit on top */
+   padding-top: 100px;
+   /* Location of the box */
+   left: 0;
+   top: 0;
+   width: 100%;
+   /* Full width */
+   height: 100%;
+   /* Full height */
+   overflow-y: scroll;
+   /* Enable scroll if needed */
+   background-color: #FFFFFF;
+   /* Fallback color */
+   background-color: rgba(0, 0, 0, 0.4);
+   /* Black w/ opacity */
+}
+
+.modal {
+   display: block;
+   margin-top: 5%;
+   overflow-y: scroll;
+}
+
+.modal-content-dialog {
+   background-color: #fefefe;
+   margin: 100px 500px;
+   padding: 20px;
+   border: 1px solid #888;
+   width: 40%;
+   height: 200px;
+   font-size: 20px;
+}
+
+.resetpasswd {
+    display: block;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 4;
+    /* Sit on top */
+    padding-top: 100px;
+    /* Location of the box*/
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: #FFFFFF;
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
+}
+.modal-content-dialog {
+    background-color: #fefefe;
+    width: 64%;
+    margin-left: 22%;
+    padding: 20px;
+    border: 1px solid #888;
+    
+    height: 150px;
+    font-size: 20px;
+}
+.modal-content {
+    /*background-color: #A6DDC3;*/
+    border-radius: 0px;
+}
+.closeresetpwd {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.closeresetpwd:hover,
+.closeresetpwd:focus {
+    color: #F00;
+    text-decoration: none;
+    cursor: pointer;
+}
+.buttons_style {
+    margin-left: 35%;
+}
+.all-buttons:hover {
+    background-color: #337ab7;
+    border: none;
+    color: #FFFFFF;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.no-all-buttons {
+    background-color: #26B99A;
+    border: none;
+    color: #FFFFFF;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.no-all-buttons:hover {
+    background-color: #337ab7;
+    border: none;
+    color: #FFFFFF;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+
+

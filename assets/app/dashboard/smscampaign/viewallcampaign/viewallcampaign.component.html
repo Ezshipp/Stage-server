@@ -1,0 +1,161 @@
+<div class="container-fluid">
+    <my-spinner [isRunning]="isRequesting"></my-spinner>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="input-group" style="margin-left: 70%;margin-top: -35px;">
+                <span class="input-group-addon">
+                    <i class="material-icons" style="margin-top: 20px;">search</i>
+                </span>
+                <input type="text" class="form-control" [(ngModel)]="searchValue" (ngModelChange)="valuechange($event)" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+    <table class="table" *ngIf="!isSearch">
+        <tr>
+            <td style="float: left;border-top:none">Total Records:{{Total_Count}}</td>
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!isSearch || ALlCampaignsData.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true"
+                    autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table" *ngIf="ALlCampaignsData.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+        <tr>
+            <th>
+                <!-- <i class="fa fa-angle-right"></i> -->
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 1" (click)="activeId=1" style="cursor:pointer" (click)="sortColumn('CampaignName')">
+                Campaign Name
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 8" (click)="activeId=8" style="cursor:pointer" (click)="sortColumn('CampaignType')">
+                Campaign Type
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 2">
+                Campaign Message
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 3" (click)="activeId=3" style="cursor:pointer" (click)="sortColumn('Total_SMS')">
+                Total SMS
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 4" (click)="activeId=4" style="cursor:pointer" (click)="sortColumn('Total_Delivered')">
+                Total Delivered
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 5" (click)="activeId=5" style="cursor:pointer" (click)="sortColumn('Total_Awaited_Delivery')">
+                Total Awaited Delivery
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 6" (click)="activeId=6" style="cursor:pointer" (click)="sortColumn('Total_Failed')">
+                Total Failed
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 7" (click)="activeId=7" style="cursor:pointer" (click)="sortColumn('created_at')">
+                Created Date
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline">
+                Refresh
+
+            </th>
+
+        </tr>
+        <ng-container *ngFor="let item of ALlCampaignsData | paginate: {
+            itemsPerPage: limit, currentPage: p,totalItems: Total_Count };let i = index;let odd=odd">
+            <tr [class.isOdd]="odd">
+                <td style="cursor: pointer;" (click)="OnClick_Row(item,i)">
+                    <i class="fa fa-angle-right" id="1" [class.rotate]="detailviewIndex==i" (click)="activeRotate=1"></i>
+                </td>
+
+                <td>{{item.CampaignName}}</td>
+                <td *ngIf="item.CampaignType==1"> non order customers</td>
+                <td *ngIf="item.CampaignType==2"> ordered customers</td>
+                <td *ngIf="item.CampaignType==3"> All customers</td>
+                <td>{{item.CampaignMessage | slice:0:15}}</td>
+                <td>{{item.Total_SMS}}</td>
+                <td>{{item.Total_Delivered}}</td>
+                <td>{{item.Total_Awaited_Delivery}}</td>
+                <td>{{item.Total_Failed}}</td>
+                <td>{{item.created_at}}</td>
+                <td style="cursor: pointer"  (click)="onRefresh_campaign(item,i)">  <i class="fa fa-refresh" [class.refresh]="refreshCampaign_index==i"  aria-hidden="true"></i></td>
+
+
+            </tr>
+            <tr *ngIf="detailviewIndex==i">
+
+
+                <td colspan="9" class="tdline">
+                        <pre> Message:{{item.CampaignMessage}}</pre>
+                    <table class="table" *ngIf="ReceipientsData.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+                        <tr>
+                            <th>customer Name</th>
+                            <th>customer Phone</th>
+                            <th>SMS Status</th>
+                            <th>created at</th>
+                            <th >
+                                Refresh
+
+                            </th>
+                        </tr>
+                        <tr *ngFor="let ReceipientsData of ReceipientsData | paginate: { id: 'ReceipientsData',
+                        itemsPerPage: limit_Receipients,
+                        currentPage: ReceipientsPage,
+                        totalItems: Total_Count_Receipients}; let j=index">
+                            <td>{{ReceipientsData.customerName}}</td>
+                             <td>{{ReceipientsData.customerPhone}}</td>
+                            <td *ngIf="ReceipientsData.SMS_Status==2">Awaited Delivery</td>
+                            <td *ngIf="ReceipientsData.SMS_Status==3">Delivered</td>
+                            <td *ngIf="ReceipientsData.SMS_Status==4">{{ReceipientsData.SMS_Message}}</td>
+                            <td>{{ReceipientsData.created_at}}</td>
+
+                            <td style="cursor: pointer" (click)="onRefresh_campaignReceipients(ReceipientsData,j)">  <i class="fa fa-refresh"  [class.refresh]="refresh_Receipients_index==j"  aria-hidden="true"></i></td>
+                        </tr>
+                    </table>
+                    <pagination-controls id="ReceipientsData" (pageChange)="pageChanged_ReceipientsData($event)" maxSize="9" directionLinks="true"
+                        autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page">
+                    </pagination-controls>
+                </td>
+
+            </tr>
+
+        </ng-container>
+    </table>
+
+
+    <table class="table" *ngIf="!isSearch">
+
+        <tr>
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!isSearch || ALlCampaignsData.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true"
+                    autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+            <td style="float: left;border-top:none" *ngIf="!isSearch || ALlCampaignsData.length>0">Total Records:{{Total_Count}}</td>
+        </tr>
+    </table>
+
+    <div *ngIf="isData" style="text-align: center;margin-top: 30px;">
+            <strong style="font-size: 20px;">No Records Found</strong>
+        </div>

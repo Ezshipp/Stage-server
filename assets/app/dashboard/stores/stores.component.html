@@ -1,0 +1,1041 @@
+<div class="container-fluid">
+    <div>
+        <h3>Business Branches</h3>
+    </div>
+    <table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);" *ngIf="BranchData.length>0 else NodataBranchData">
+        <tbody>
+            <tr>
+                <th class="vis">Store Entity Name</th>
+                <th class="vis">Branch Name</th>
+                <th class="vis">Category Name</th>
+                <th class="vis">Action</th>
+            </tr>
+            <ng-container *ngFor="let item of BranchData;let i=index" sty>
+
+                <tr>
+                    <td>{{item.Store_Entity_Name}}</td>
+                    <td>{{item.Branch_Name}}</td>
+                    <td>{{item.CategoryName}}</td>
+                    <td>
+                        <button type="button" rel="tooltip" title="More Info" class="btn btn-info btn-simple btn-xs" (click)="Details_view(item,i)"
+                            style="padding: 0px;">
+                            <i class="material-icons" style="font-size: 30px;">
+                                keyboard_arrow_down
+                            </i>
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="i==view" style="border:1px solid">
+                    <td colspan="4" class="tdlivne">
+                        <i class="fa fa-times closeButton" (click)="closeBranchInfo()"></i>
+
+                        <div class="row">
+                            <ul class="list-inline" style="margin-left: 10px;">
+                                <li style="display:inline;padding: 8px;cursor:pointer" (click)="Onselect_Branch(j,branchSection)" *ngFor="let branchSection of branchSection;let j=index" [ngClass]="{'active': j==branchSectionindex}">
+                                    {{branchSection}}
+                                </li>
+
+                            </ul>
+                            <button class="btn btn-danger" (click)="Ondelete(item,i)" data-toggle="modal" data-target="#inactive" style="padding: 10px;float:right;margin-top: -25px;margin-right: 50px;">
+                                Inactive
+                                  </button>
+
+                                  <div class="modal fade" id="inactive" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" style="width: 600px;">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" #closebtn aria-hidden="true" style="font-size: 35px;color:#d41c1c;">
+                                                    ×
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel" style="text-align:center;color:#705137;font-weight:500;">
+                                                    Are you sure Inactive
+                                                </h4>
+                                                <hr>
+                                            </div>
+                                            <div class="modal-body" style="padding:15px 24px 25px 24px;">
+                                                    <ul class="list-inline" style="margin-left: 175px;">
+                                                  <li>
+                                                <button class="btn brtn-info" (click)="remove_Branch()" style="padding: 10px 25px;float:right;margin-top: -25px;margin-right: 25px;">
+                                                  yes
+                                                </button></li>
+                                                <li> <button class="btn btn-danger"  data-dismiss="modal" #closebtn style="padding: 10px 25px;float:right;margin-top: -25px;margin-right: 50px;">
+                                                        no
+                                                      </button></li>
+                                                </ul>
+
+
+                                           </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            <!-- <div class="col-sm-4 col-md-4" style="text-align:center">
+                                <button class="btn btn-info" (click)="getBranchDetails()" id="3" [class.branchSelect]="activeBranch == 3" (click)="activeBranch=3"
+                                    style="padding: 10px;">
+                                    Branch Details
+                                </button>
+                            </div>
+                            <div class="col-sm-4 col-md-4" style="text-align:center">
+                                <button class="btn btn-info btn btn-outline-info" (click)="getBranchTimes()" id="4" [class.branchSelect]="activeBranch == 4"
+                                    (click)="activeBranch=4" style="padding: 10px;">
+                                    Branch Timings
+                                </button>
+                            </div>
+                            <div class="col-sm-4 col-md-4" style="text-align:center">
+                                <button class="btn btn-info" (click)="getAdminData()" id="5" [class.branchSelect]="activeBranch == 5" (click)="activeBranch=5"
+                                    style="padding: 10px;">
+                                    Admin info
+                                </button>
+                            </div> -->
+                        </div>
+                        <div class="row" style="margin-top: 25px;">
+                            <div class="col-md-12" style="text-align:center">
+
+                                <!-- table for branchDetails -->
+                                <div *ngIf="isbranchDetails">
+                                    <i class="fa fa-edit editButton" (click)="editBranchInfo(item,i)"></i>
+                                    <table class="table" >
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="3" class="tdlivne">
+                                                    <img [src]="BranchData_info.Branch_Image_URL" style="height:150px;width:200px">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    <strong>PhoneNumber :</strong> {{ BranchData_info.Branch_PhoneNumber }}
+                                                </td>
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    <strong>Website :</strong> {{ Website }}
+                                                </td>
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    <strong>Description :</strong> {{ Description }}
+                                                </td>
+                                                <!-- <td
+                                                class="tdlivne"
+                                                style="text-align: left;"
+                                            >
+                                                <strong>Description :</strong>
+                                                {{ BranchData_info.Branch_Name }}
+                                            </td> -->
+                                            </tr>
+                                            <tr>
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    <strong>Country Name :</strong> {{ CountryName }}
+                                                </td>
+
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    <strong>City Name :</strong> {{ CityName }}
+                                                </td>
+
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    <strong>Address :</strong> {{ Address_info }}
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- branchdetails edit -->
+                                <div *ngIf="isbranchdetails_Edit">
+                                    <i class="fa fa-arrow-left" (click)="closeEditView_branch()" style="float: left;"></i>
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="tdlivne">
+                                                    <h5>Update Branch Image</h5>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tdlivne">
+                                                    <img [src]="imageSrc" alt="Branch Image" style="width: 200px;height: 200px;">
+                                                </td>
+                                                <td class="tdlivne">
+                                                    <label class="upload-image">
+                                                        <input type="file" class="profile-1" id="Picture" accept="image/*" imageUpload (imageSelected)="selected($event)" [resizeOptions]="resizeOptions">
+                                                    </label>
+                                                </td>
+                                                <td class="tdlivne">
+                                                    <button class="btn btn-info" (click)="updateBranchIMage()">
+                                                        submit
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tdlivne">
+                                                    <h5>Update Branch Information</h5>
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    <div class="form-group" style="width: 150px">
+                                                        <label>Branch Phone Number</label>
+                                                        <input type="text" class="form-control" [(ngModel)]="Branch_PhoneNumber" name="Branch_PhoneNumber" placeholder="Branch Phone Number">
+                                                    </div>
+
+                                                </td>
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    <div class="form-group" style="width: 150px">
+                                                        <label>Website</label>
+                                                        <input type="text" class="form-control" [(ngModel)]="Website" name="Website" placeholder="Website URL">
+                                                    </div>
+                                                </td>
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    <div class="form-group" style="width: 150px">
+                                                        <label>Description</label>
+                                                        <input type="text" class="form-control" [(ngModel)]="Description" name="Description" placeholder="Description">
+                                                    </div>
+                                                </td>
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    <div class="form-group" style="width: 150px">
+                                                        <label>Branch Name</label>
+                                                        <input type="text" class="form-control" [(ngModel)]="BranchData_info.Branch_Name" name="Description" placeholder="Branch Name">
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td class="tdlivne" style="text-align: left;" colspan="3">
+                                                    <div class="row">
+                                                        <div class="form-group label-floating">
+                                                            <label class="control-label">Address</label>
+                                                            <input type="text" id="address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" (ngModelChange)="StoreAddress()"
+                                                                [(ngModel)]="Address_info" name="Address_info" class="form-control">
+                                                        </div>
+                                                        <div style="border: 1px solid;
+                                                margin: 3px;">
+                                                            <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [mapTypeControl]="true">
+                                                                <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [label]="'S'"></sebm-google-map-marker>
+                                                            </sebm-google-map>
+                                                        </div>
+                                                    </div>
+
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" style="text-align: center;">
+                                                    <button class="btn btn-info" (click)="submitUpdate()">
+                                                        Submit
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- /* edit for branchdetails*/ -->
+
+                                <!-- table for branchTimes -->
+                                <div *ngIf="isBranchTimes">
+                                    <i class="fa fa-edit editButton" (click)="editBranchTime(item,i)"></i>
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-3">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="tdlivne">
+                                                            <div class="checkbox" style="width:auto;">
+                                                                <label>
+                                                                    <input type="checkbox" name="optionsCheckboxes" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Sunday_Available"
+                                                                        [checked]="true"> Sunday
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align:left" class="tdlivne">
+                                                            <div *ngIf="BranchData_info.Sunday_Available; else elseTemplate">
+                                                                <strong>From Time:</strong> {{BranchData_info.Sunday_Timings[0].From_Time}}
+                                                                <strong>To Time:</strong> {{BranchData_info.Sunday_Timings[0].To_Time}}
+                                                            </div>
+                                                            <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tdlivne">
+                                                            <div class="checkbox" style="width:auto;">
+                                                                <label>
+                                                                    <input type="checkbox" name="optionsCheckboxes" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Monday_Available"
+                                                                        [checked]="true"> Monday
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align:left" class="tdlivne">
+                                                            <div *ngIf="BranchData_info.Monday_Available; else elseTemplate">
+                                                                <strong>From Time:</strong> {{BranchData_info.Monday_Timings[0].From_Time}}
+                                                                <strong>To Time:</strong> {{BranchData_info.Monday_Timings[0].To_Time}}
+                                                            </div>
+                                                            <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tdlivne">
+                                                            <div class="checkbox" style="width:auto;">
+                                                                <label>
+                                                                    <input type="checkbox" name="optionsCheckboxes" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Tuesday_Available"
+                                                                        [checked]="true"> Tuesday
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align:left" class="tdlivne">
+                                                            <div *ngIf="BranchData_info.Tuesday_Available; else elseTemplate">
+                                                                <strong>From Time:</strong> {{BranchData_info.Tuesday_Timings[0].From_Time}}
+                                                                <strong>To Time:</strong> {{BranchData_info.Tuesday_Timings[0].To_Time}}
+                                                            </div>
+                                                            <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tdlivne">
+                                                            <div class="checkbox" style="width:auto;    margin-left: 30px;">
+                                                                <label>
+                                                                    <input type="checkbox" name="optionsCheckboxes" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Wednesday_Available"
+                                                                        [checked]="true"> Wednesday
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align:left" class="tdlivne">
+                                                            <div *ngIf="BranchData_info.Wednesday_Available; else elseTemplate">
+                                                                <strong>From Time:</strong> {{BranchData_info.Wednesday_Timings[0].From_Time}}
+                                                                <strong>To Time:</strong> {{BranchData_info.Wednesday_Timings[0].To_Time}}
+                                                            </div>
+                                                            <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tdlivne">
+                                                            <div class="checkbox" style="width:auto;margin-left: 17px;">
+                                                                <label>
+                                                                    <input type="checkbox" name="optionsCheckboxes" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Thursday_Available"
+                                                                        [checked]="true"> Thursday
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align:left" class="tdlivne">
+                                                            <div *ngIf="BranchData_info.Thursday_Available; else elseTemplate">
+                                                                <strong>From Time:</strong> {{BranchData_info.Thursday_Timings[0].From_Time}}
+                                                                <strong>To Time:</strong> {{BranchData_info.Thursday_Timings[0].To_Time}}
+                                                            </div>
+                                                            <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tdlivne">
+                                                            <div class="checkbox" style="width:auto;    margin-left: -2px;">
+                                                                <label>
+                                                                    <input type="checkbox" name="optionsCheckboxes" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Friday_Available"
+                                                                        [checked]="true"> Friday
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align:left" class="tdlivne">
+                                                            <div *ngIf="BranchData_info.Friday_Available; else elseTemplate">
+                                                                <strong>From Time:</strong> {{BranchData_info.Friday_Timings[0].From_Time}}
+                                                                <strong>To Time:</strong> {{BranchData_info.Friday_Timings[0].To_Time}}
+                                                            </div>
+                                                            <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="tdlivne">
+                                                            <div class="checkbox" style="width:auto;    margin-left: 15px;">
+                                                                <label>
+                                                                    <input type="checkbox" name="optionsCheckboxes" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Saturday_Available"
+                                                                        [checked]="true"> Saturday
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="text-align:left" class="tdlivne">
+                                                            <div *ngIf="BranchData_info.Saturday_Available; else elseTemplate">
+                                                                <strong>From Time:</strong> {{BranchData_info.Saturday_Timings[0].From_Time}}
+                                                                <strong>To Time:</strong> {{BranchData_info.Saturday_Timings[0].To_Time}}
+                                                            </div>
+                                                            <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- edit for timings -->
+                                <div *ngIf="isadminTimeEdit">
+                                    <i class="fa fa-edit editButton" (click)="editBranchAdminData(item,i)"></i>
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="tdlivne">
+                                                    <div class="checkbox" style="width:auto;">
+                                                        <label>
+                                                            <input type="checkbox" name="Sunday" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Sunday_Available" [checked]="true"
+                                                                (change)="checkSelected_Day($event)"> Sunday
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td style="text-align:left" class="tdlivne">
+                                                    <div *ngIf="BranchData_info.Sunday_Available; else elseTemplate">
+                                                        <strong>From Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Sunday_Timings[0].From_Time">
+
+                                                        <strong>To Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Sunday_Timings[0].To_Time">
+
+                                                    </div>
+                                                    <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tdlivne">
+                                                    <div class="checkbox" style="width:auto;">
+                                                        <label>
+                                                            <input type="checkbox" name="Monday" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Monday_Available" [checked]="true"
+                                                                (change)="checkSelected_Day($event)"> Monday
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td style="text-align:left" class="tdlivne">
+                                                    <div *ngIf="BranchData_info.Monday_Available; else elseTemplate">
+                                                        <strong>From Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Monday_Timings[0].From_Time">
+                                                        <strong>To Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Monday_Timings[0].To_Time">
+
+                                                    </div>
+                                                    <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tdlivne">
+                                                    <div class="checkbox" style="width:auto;">
+                                                        <label>
+                                                            <input type="checkbox" name="Tuesday" id="tuesday" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Tuesday_Available"
+                                                                [checked]="true" (change)="checkSelected_Day($event)"> Tuesday
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td style="text-align:left" class="tdlivne">
+                                                    <div *ngIf="BranchData_info.Tuesday_Available; else elseTemplate">
+                                                        <strong>From Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Tuesday_Timings[0].From_Time">
+
+                                                        <strong>To Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Tuesday_Timings[0].To_Time">
+
+                                                    </div>
+                                                    <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tdlivne">
+                                                    <div class="checkbox" style="width:auto;">
+                                                        <label>
+                                                            <input type="checkbox" name="Wednesday" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Wednesday_Available" [checked]="true"
+                                                                (change)="checkSelected_Day($event)"> Wednesday
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td style="text-align:left" class="tdlivne">
+                                                    <div *ngIf="BranchData_info.Wednesday_Available; else elseTemplate">
+                                                        <strong>From Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Wednesday_Timings[0].From_Time">
+
+                                                        <strong>To Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Wednesday_Timings[0].To_Time">
+
+                                                    </div>
+                                                    <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tdlivne">
+                                                    <div class="checkbox" style="width:auto;">
+                                                        <label>
+                                                            <input type="checkbox" name="Thursday" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Thursday_Available" [checked]="true"
+                                                                (change)="checkSelected_Day($event)"> Thursday
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td style="text-align:left" class="tdlivne">
+                                                    <div *ngIf="BranchData_info.Thursday_Available; else elseTemplate">
+                                                        <strong>From Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Thursday_Timings[0].From_Time">
+                                                        <strong>To Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Thursday_Timings[0].To_Time">
+
+                                                    </div>
+                                                    <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tdlivne">
+                                                    <div class="checkbox" style="width:auto;">
+                                                        <label>
+                                                            <input type="checkbox" name="Friday" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Friday_Available" [checked]="true"
+                                                                (change)="checkSelected_Day($event)"> Friday
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td style="text-align:left" class="tdlivne">
+                                                    <div *ngIf="BranchData_info.Friday_Available; else elseTemplate">
+                                                        <strong>From Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Friday_Timings[0].From_Time">
+
+                                                        <strong>To Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Friday_Timings[0].To_Time">
+
+                                                    </div>
+                                                    <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tdlivne">
+                                                    <div class="checkbox" style="width:auto;">
+                                                        <label>
+                                                            <input type="checkbox" name="Saturday" [disabled]="isEnableEditClick" [ngModel]="BranchData_info.Saturday_Available" [checked]="true"
+                                                                (change)="checkSelected_Day($event)"> Saturday
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td style="text-align:left" class="tdlivne">
+                                                    <div *ngIf="BranchData_info.Saturday_Available; else elseTemplate">
+                                                        <strong>From Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Saturday_Timings[0].From_Time">
+
+                                                        <strong>To Time:</strong>
+                                                        <input type="time" [(ngModel)]="BranchData_info.Saturday_Timings[0].To_Time">
+
+                                                    </div>
+                                                    <ng-template #elseTemplate>timings Not Avilable</ng-template>
+
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" style="text-align: center;">
+                                                    <button class="btn btn-info" (click)="Onupdate_Timeings()">
+                                                        Update
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- table for adminData -->
+                                <div *ngIf="isadmindata">
+                                    <i class="fa fa-edit editButton" (click)="editBranchAdminData(item,i)"></i>
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th class="tdlivne">Name</th>
+                                                <th class="tdlivne">Email ID</th>
+                                                <th class="tdlivne">Phone Number</th>
+                                            </tr>
+                                            <tr *ngFor="let item of AdminData; let i=index">
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    {{item.Name}}
+                                                </td>
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    {{item.EmailID}}
+                                                </td>
+                                                <td class="tdlivne" style="text-align: left;">
+                                                    {{item.PhoneNumber}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div *ngIf="isBranchAdmin_edit">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th class="tdlivne">Name</th>
+                                                <th class="tdlivne">Email ID</th>
+                                                <th class="tdlivne">Phone Number</th>
+                                                <th class="tdlivne">Remove</th>
+                                            </tr>
+                                            <ng-container *ngFor="let item of AdminData;let i=index" sty>
+                                                <tr>
+                                                    <td class="tdlivne" style="text-align: left;">
+                                                        {{item.Name}}
+                                                    </td>
+                                                    <td class="tdlivne" style="text-align: left;">
+                                                        {{item.EmailID}}
+                                                    </td>
+                                                    <td class="tdlivne" style="text-align: left;">
+                                                        {{item.PhoneNumber}}
+                                                    </td>
+                                                    <td class="tdlivne" style="text-align: left;">
+                                                        <i class="material-icons" (click)="OnRemove_admin(item,i)" style="cursor: pointer;">
+                                                            clear
+                                                        </i>
+                                                    </td>
+                                                </tr>
+
+                                                <tr *ngIf="isdeleteAdminIndex==i">
+                                                    <td colspan="4" class="tdlivne">
+                                                        <span>Do you want to Delete?</span>
+                                                        <div class="row">
+                                                            <button class="btn btn-danger btn-sm" style="background-color: transparent;border: 1px solid #f44336;color: #f44336;" (click)="remove_Admin()">
+                                                                Yes
+                                                            </button>
+                                                            <button class="btn btn-primary btn-sm" style="background-color: transparent;border: 1px solid #9c27b0;color: #9c27b0;margin-left: 10px;"
+                                                                (click)="onClose_Delete()">
+                                                                No
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                                            <tr *ngIf="isadminAdd">
+                                                <td class="tdlivne">
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="Name" [(ngModel)]="Admin_name" class="form-control">
+                                                    </div>
+                                                </td>
+                                                <td class="tdlivne">
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="Email" [(ngModel)]="Admin_Email" class="form-control">
+                                                    </div>
+                                                </td>
+                                                <td class="tdlivne">
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="Phone Number" [(ngModel)]="Admin_Phone" class="form-control">
+                                                    </div>
+                                                </td>
+                                                <td class="tdlivne">
+                                                    <i class="material-icons" (click)="onsubmitAdmin()" style="font-size: 22px;cursor: pointer;">
+                                                        done
+                                                    </i>
+                                                    <i class="material-icons" style="cursor: pointer" (click)="OndeleteNewRow()">cancel</i>
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="OnetimeAdd">
+                                                <td class="tdlivne" colspan="4" (click)="OnAddAdminData()">
+                                                    <span>Add Admin</span>
+                                                    <i class="material-icons" style="    position: absolute;
+                                                    margin-left: 8px;
+                                                    cursor: pointer;">add_circle_outline</i>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</div>
+<ng-template #NodataBranchData>
+   <div style="text-align: center;
+   font-size: 20px;
+   color: darkslategrey;"> <span>No RecordsFound!</span></div>
+</ng-template>
+<!-- add branch form -->
+
+<div class="container">
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="width: 900px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" #closebtn aria-hidden="true" style="font-size: 35px;color:#d41c1c;">
+                        ×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel" style="text-align:center;color:#705137;font-weight:500;">
+                        ADD NEW BRANCH
+                    </h4>
+                    <hr>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <form [formGroup]="invoiceForm">
+                            <div class="col-md-12">
+                                <div class="row" style="margin-top: -25px;">
+
+                                    <table style="width:100%">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <label style="margin-left: 20px;font-size: 20px;color: #337ab7">Store Info</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="Store Name" id="1" [class.active]="activeid==1" (click)="activeid=1" formControlName="Store_Entity_Name"
+                                                            class="form-control">
+                                                        <!-- <div class="alert" *ngIf="!invoiceForm.controls['Store_Entity_Name'].valid && invoiceForm.controls['Store_Entity_Name'].touched">Store Name Required.</div> -->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width: 1%;">
+                                                                    <label style="margin-left:15px;">OR</label>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        <select class="form-control" formControlName="Store_Entity_Name" id="2" [class.active]="activeid==2" (click)="activeid=2">
+                                                                            <option value>Select Store Name</option>
+                                                                            <option value="{{item.Store_Entity_Name}}" *ngFor="let item of EntityData; let i=index">
+                                                                                {{item.Store_Entity_Name}}
+                                                                            </option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </td>
+                                                <td rowspan="4">
+                                                    <div class="form-group" style="margin-top: -5px;margin-left: 21px;">
+                                                        <div class="btn btn-primary btn-sm" data-toggle="modal" (click)="onclickImageCropping()" data-target="#myModalImage" style="margin-top:10px;margin-left:50px;background-color: #12a6f1;color:#fff;padding:10px 60px;">
+                                                            <span>Upload Image(200*200)</span>
+                                                        </div>
+                                                        <div class="box" *ngIf="data1.image" style="width: 170px;height: 140px;border: 1px solid #000;margin-left: 52px;margin-top: 10px;">
+                                                            <img [src]="data1.image" style="width: 168px;height: 138px;">
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="Branch Name" formControlName="Branch_Name" class="form-control">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group" style="margin-right:10px;">
+                                                        <input type="text" placeholder="Branch PhoneNumber" formControlName="Branch_PhoneNumber" class="form-control">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" placeholder="Website" formControlName="Website" class="form-control">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <textarea class="form-control" formControlName="Description" placeholder="Description" rows="3"></textarea>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-group">
+                                                        <input type="text" value placeholder="Category Name" formControlName="CategoryName" class="form-control">
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <table>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="width: 1%;">
+                                                                    <label style="margin-left:15px;">OR</label>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        <select class="form-control" formControlName="CategoryName">
+                                                                            <option value>Select Category Name</option>
+                                                                            <option value="{{item.CategoryName}}" *ngFor="let item of CategoryData; let i=index">
+                                                                                {{item.CategoryName}}
+                                                                            </option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <label style="margin-left: 20px;font-size: 20px;color: #337ab7">Admin Info</label>
+                                                </td>
+                                            </tr>
+                                            <i style="position: absolute;right: 20px;top:230px;cursor:pointer;color:#0ab9ee" class="material-icons" (click)="addNewRow()"
+                                                class="material-icons">
+                                                add_circle_outline
+                                            </i>
+                                            <ng-container formArrayName="AdminData">
+                                                <tr *ngFor="let itemrow of formData.controls; let i=index" [formGroupName]="i">
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input type="text" placeholder="Admin Name" formControlName="Name" class="form-control">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input type="text" formControlName="EmailID" placeholder="Admin Email Address" class="form-control">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group" style="width: 85%;">
+
+                                                            <input type="text" formControlName="PhoneNumber" placeholder="Admin Phonenumber" class="form-control" style="width:85%">
+
+                                                        </div>
+                                                        <i class="material-icons" style="position: absolute;right:19px;margin-top:-26px;" *ngIf="formData.length > 1" (click)="deleteRow(i)">
+                                                            remove_circle_outline
+                                                        </i>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                                            <tr>
+                                                <td colspan="3">
+                                                    <div class="form-group" style="margin-bottom:45px;">
+                                                        <input id="address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" (ngModelChange)="StoreAddress()"
+                                                           [(ngModel)]="addresBackend" formControlName="Address" class="form-control pac-container" placeholder="Address">
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <span style="margin-left: 3px;font-size: 20px;color: #337ab7">Location</span>
+                                        <div style="border: 1px solid;margin: 20px 3px;">
+                                            <sebm-google-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [mapTypeControl]="true">
+                                                <sebm-google-map-marker [markerDraggable]="true" (dragEnd)="pos_pick($event)" [latitude]="lat" [longitude]="lng" [label]="'S'"></sebm-google-map-marker>
+                                            </sebm-google-map>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7">
+                                        <div class="time_view">
+                                            <span style="margin-left: 3px;font-size: 20px;color: #337ab7">Open Hours</span>
+
+                                            <table class="table" style="width: 60%;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="border-top:none">Sunday</td>
+                                                        <td style="border-top:none">
+
+                                                            <div class="togglebutton" style="width:120px;">
+
+                                                                <label>
+                                                                    <input type="checkbox" [checked]="Sunday_Available" value="Sunday_Available" (change)="onOpenhours_sunday(Sunday_Available)"> open
+                                                                </label>
+                                                            </div>
+                                                        </td>
+
+                                                        <td style="border-top:none" *ngIf="Sunday_Available">
+                                                            <input type="time" formControlName="Sunday_Start">
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Sunday_Available">
+                                                            to
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Sunday_Available">
+                                                            <input type="time" formControlName="Sunday_Stop">
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="border-top:none">Monday</td>
+                                                        <td style="border-top:none">
+                                                            <div class="togglebutton">
+                                                                <label>
+                                                                    <input type="checkbox" [checked]="Monday_Available" value="Monday_Available" (change)="onOpenhours_monday(Monday_Available)"> Open
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Monday_Available">
+                                                            <input type="time" formControlName="Monday_AvailableStart">
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Monday_Available">
+                                                            to
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Monday_Available">
+                                                            <input type="time" formControlName="Monday_AvailableStop">
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td style="border-top:none">Tuesday</td>
+                                                        <td style="border-top:none">
+                                                            <div class="togglebutton">
+                                                                <label>
+                                                                    <input type="checkbox" [checked]="Tuesday_Available" value="Tuesday_Available" (change)="onOpenhours_tuesday(Tuesday_Available)"> Open
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Tuesday_Available">
+                                                            <input type="time" formControlName="Tuesday_AvailableStart">
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Tuesday_Available">
+                                                            to
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Tuesday_Available">
+                                                            <input type="time" formControlName="Tuesday_AvailableStop">
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border-top:none">Wednesday</td>
+                                                        <td style="border-top:none">
+                                                            <div class="togglebutton">
+                                                                <label>
+                                                                    <input type="checkbox" [checked]="Wednesday_Available" value="Wednesday_Available" (change)="onOpenH_Wednesday_Available()"> Open
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Wednesday_Available">
+                                                            <input type="time" formControlName="Wednesday_AvailableStart">
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Wednesday_Available">
+                                                            to
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Wednesday_Available">
+                                                            <input type="time" formControlName="Wednesday_AvailableStop">
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border-top:none">Thursday</td>
+
+                                                        <td style="border-top:none">
+                                                            <div class="togglebutton">
+                                                                <label>
+                                                                    <input type="checkbox" [checked]="Thursday_Available" value="Thursday_Available" (change)="onOpenH_Thursday_Available_Available()"> Open
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Thursday_Available">
+                                                            <input type="time" formControlName="Thursday_AvailableStart">
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Thursday_Available">
+                                                            to
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Thursday_Available">
+                                                            <input type="time" formControlName="Thursday_AvailableStop">
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border-top:none">Friday</td>
+
+                                                        <td style="border-top:none">
+                                                            <div class="togglebutton">
+                                                                <label>
+                                                                    <input type="checkbox" [checked]="Friday_Available" value="Friday_Available" (change)="onOpenH_Friday_Available_Available()"> Open
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Friday_Available">
+                                                            <input type="time" formControlName="Friday_AvailableStart">
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Friday_Available">
+                                                            to
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Friday_Available">
+                                                            <input type="time" formControlName="Friday_AvailableStop">
+                                                        </td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="border-top:none">Saturday</td>
+
+                                                        <td style="border-top:none">
+                                                            <div class="togglebutton">
+                                                                <label>
+                                                                    <input type="checkbox" [checked]="Saturday_Available" value="Saturday_Available" (change)="onOpenH_Saturday_Available_Available()"> Open
+                                                                </label>
+                                                            </div>
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Saturday_Available">
+                                                            <input type="time" formControlName="Saturday_AvailableStart">
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Saturday_Available">
+                                                            to
+                                                        </td>
+                                                        <td style="border-top:none" *ngIf="Saturday_Available">
+                                                            <input type="time" formControlName="Saturday_AvailableStop">
+                                                        </td>
+
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <button class="btn btn-info" (click)="OnRegister_store()" style="margin-left: 400px;margin-top: 25px;padding: 8px 20px;">
+                                Register
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="position: fixed;right: 20px;bottom: 20px;">
+    <button data-toggle="modal" data-target="#myModal" class="btn btn-danger" style="border-radius:25px;padding: 11px 17px;">
+        <span class="glyphicon glyphicon-plus" style="font-size: 25px;top:0px;"></span>
+    </button>
+</div>
+<my-spinner [isRunning]="isRequesting"></my-spinner>
+
+<div class="modal fade" id="myModalImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" style="font-size: 25px;" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Upload Image</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+
+                    <img-cropper [image]="data1" [settings]="cropperSettings1" (onCrop)="cropped($event)"></img-cropper>
+                    <span class="result" *ngIf="data1.image">
+                        <img [src]="data1.image" [width]="cropperSettings1.croppedWidth" [height]="cropperSettings1.croppedHeight">
+
+                    </span>
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Confirm</button>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,251 @@
+
+
+
+<div class="container-fluid">
+    <h3 class="zone-heading">Queue Orders</h3>
+    <table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);" *ngIf="QueueData.length">
+        <tr>
+
+            <th id="1" [class.activeForsorting]="activeId == 1" (click)="activeId=1" style="cursor:pointer" (click)="sortColumn('CustomerName')">
+                C.Name
+                <i class="material-icons">arrow_drop_up</i>
+                <i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i>
+            </th>
+            <th id="2" [class.activeForsorting]="activeId == 2" (click)="activeId=2" style="cursor:pointer" (click)="sortColumn('date')">
+                Date
+                <i class="material-icons">arrow_drop_up</i>
+                <i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i>
+            </th>
+            <th id="3" [class.activeForsorting]="activeId == 3" (click)="activeId=3" style="cursor:pointer" (click)="sortColumn('No_Of_Records')">
+                Records
+                <i class="material-icons">arrow_drop_up</i>
+                <i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i>
+            </th>
+            <th id="4" [class.activeForsorting]="activeId == 4" (click)="activeId=4" style="cursor:pointer" (click)="sortColumn('filename')">
+
+                File Name
+                <i class="material-icons">arrow_drop_up</i>
+                <i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i>
+            </th>
+            <th id="5" [class.activeForsorting]="activeId == 5" (click)="activeId=5" style="cursor:pointer" (click)="sortColumn_date('No_Of_Directions')">
+                <b>Directions
+                    <i class="material-icons">arrow_drop_up</i>
+                    <i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i>
+                </b>
+
+            </th>
+            <th>
+                <b>
+                    <b>Action</b>
+                </b>
+
+            </th>
+        </tr>
+        <ng-container *ngFor="let item of QueueData | paginate: {
+        itemsPerPage: limit,
+        currentPage: p,
+        totalItems: Total_Count };let i = index">
+            <tr [class.neworder]="item.status==1"  [class.cancelorderbyuserorvendor]="item.status==8" [class.cancelorderbyuserorvendornew]="item.status==9"  [class.OrderCanceled]="item.status==5" [class.bikeraccepted]="item.status==7" [class.processingorder]="item.status==10" [class.Onthewaytodelivery]="item.status==11" [class.reachedDeliverypoint]="item.status==12" [class.OnthewaytoPickup]="item.status==16" [class.processingorder]="item.status==18" [class.completedorder]="item.status==14"   >
+
+
+                <td>
+                    <div>{{item.CustomerName}}</div>
+
+                </td>
+                <td>
+                    <div>{{item.date}}</div>
+
+                </td>
+                <td>
+                    <div>{{item.No_Of_Records}}</div>
+
+                </td>
+                <td>
+                    <div>{{item.filename}}</div>
+
+                </td>
+                <td>
+                    <div>{{item.No_Of_Directions}}</div>
+                </td>
+                <td>
+                    <div>
+                        <button type="button" rel="tooltip" title="More Info" class="btn btn-info btn-simple btn-xs" (click)="OnmoreInfo_order(item,i)"
+                            style="padding: 0px;">
+                            <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                        </button>
+                        <!-- <button type="button" rel="tooltip" title="Remove" (click)="onDelete(item,i)" style="padding: 0px;" class="btn btn-danger btn-simple btn-xs">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        <a href="http://track.ezshipp.com/{{item.orderId}}" *ngIf="item.status==7 || item.status==10 || item.status==11 || item.status==12 || item.status==16"
+                            target="_blank">track</a> -->
+
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="i==views">
+                <td colspan="6" class="tdline">
+                    <div style="border: 1px solid #12A6F1;">
+                        <div style="float: right;">
+                            <button type="button" class="btn btn-default btn-simple btn-xs" (click)="close()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                        <!-- <div class="row"> -->
+
+                        <ul class="nav nav-tabs nav_tab_background">
+                            <li id="j+1" [class.activeForsorting]="activeDirection == j+1" (click)="activeDirection=j+1" *ngFor="let items of No_Of_Directions;let j = index"
+                                (click)="getDirectionOrder(item,j)">
+                                <a>Direction - {{j+1}}</a>
+                            </li>
+                            <li (click)="onAssign_Driver()" [class.activeForsorting]="activeDirectionAssin == 1">
+                                <a>Assign Biker</a>
+                            </li>
+                        </ul>
+                        <!-- <div style="text-align:right" (click)="onAssign_Driver()"><button class="btn btn-info">Assign Driver</button></div> -->
+
+                        <hr>
+                        <div *ngIf="isRecordsView">
+
+
+                            <table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);" *ngIf="RecordData.length>0 else recordData">
+                                <tr>
+                                    <th>Item Name</th>
+                                    <th>Receiver Name</th>
+                                    <th>Receiver Phone</th>
+                                    <th>Pick Address</th>
+                                    <th>Drop Address</th>
+                                </tr>
+                                <tr *ngFor="let records of RecordData;let ii = index">
+                                    <td>{{records.itemName}}</td>
+                                    <td>{{records.receiverName}}</td>
+                                    <td>{{records.receiverPhone}}</td>
+                                    <td>{{records.pickAddress}}</td>
+                                    <td>{{records.dropAddress}}</td>
+                                </tr>
+                            </table>
+                            <ng-template #recordData>
+                                <table class="table">
+                                    <tr>
+                                        <td>
+                                            No Records
+                                        </td>
+                                    </tr>
+                                </table>
+                            </ng-template>
+                        </div>
+                        <div *ngIf="!isRecordsView">
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        Direction Number
+                                    </th>
+                                    <th>
+                                        status
+                                    </th>
+                                    <!-- <th>
+                                            Vew loaction
+                                        </th> -->
+                                    <th>Biker</th>
+                                </tr>
+                                <tr *ngFor="let itemDirc of DirectionData;let i = index">
+                                    <td>{{itemDirc.Direction_No}}</td>
+                                    <td>{{itemDirc.Processing_State}}</td>
+                                    <!-- <td>{{itemDirc.Direction_No}}</td> -->
+                                    <td *ngIf="itemDirc.Processing_State==1">
+                                        <button type="button" class="btn btn-info" (click)="selectDriver(itemDirc)">
+                                            Add
+                                        </button>
+                                    </td>
+                                    <td *ngIf="itemDirc.Processing_State==2">{{itemDirc.DriverName}}</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- </div> -->
+                    </div>
+                </td>
+            </tr>
+        </ng-container>
+    </table>
+</div>
+<div *ngIf="isData" style="text-align: center;">
+    <strong style="font-size: 20px;">No Records Found</strong>
+</div>
+<pagination-controls *ngIf="!issearch" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+    previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+</pagination-controls>
+<my-spinner [isRunning]="isRequesting"></my-spinner>
+
+
+
+
+<div *ngIf="isAssignDriver">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+        <div class="modal-dialog" role="document" style="width: 840px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onCloseDriverAssign()">
+                                   <span
+                                       aria-hidden="true"
+                                       style="font-size: 25px;"
+                                   >
+                                       ×
+                                   </span>
+                               </button>
+                    <h4 style="text-align: center">Assigning Biker</h4>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <table class="table">
+                        <tr>
+                            <th>Biker Name</th>
+                            <th>Biker Phone</th>
+                            <th>Assign Biker</th>
+                        </tr>
+                        <tr *ngFor="let item of DriverData;let i= index">
+                            <td>{{item.name}}</td>
+                            <td>{{item.phone}}</td>
+                            <td><i class="fa fa-plus" (click)="select_Driver(item.name,item.DriverID)"></i></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="finalConfirmDriver">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onCloseDriverConfirm()">
+                                   <span
+                                       aria-hidden="true"
+                                       style="font-size: 25px;"
+                                   >
+                                       ×
+                                   </span>
+                               </button>
+                    <h4 style="text-align: center">Assigning Biker</h4>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <p style="text-align: center;">Are you sure want to assign the Direction {{ Direction_Number }} to Biker: {{ Driver_Name }}</p>
+                    <table class="table table-responsive">
+                        <tr>
+                            <td style="border-top: none;">
+                                <button class="btn btn-info" style="float: right;" (click)="onSubmitDriver()">Yes</button>
+                            </td>
+                            <td style="border-top: none;">
+                                <button class="btn btn-danger" (click)="onCloseDriverConfirm()">No</button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="issucessDriver_Assign">
+                            <td style="border-top: none;" colspan="2">Biker Assigning sucessfully</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

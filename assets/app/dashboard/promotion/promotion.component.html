@@ -1,0 +1,24 @@
+<!--component html goes here -->
+<table class="table" *ngIf="PromotionD.length>0" style="margin-top: 25px;box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+    <tr>
+        <th>Name</th>
+        <th>PhoneNumber</th>
+        <th>EmailID</th>
+        <th>Date</th>
+
+
+    </tr>
+    <tr *ngFor="let item of PromotionD | paginate: {
+        itemsPerPage: 10,
+        currentPage: currentPage,
+        totalItems: TotalLogsCount };let i = index">
+        <td>{{item.Name}}</td>
+        <td>{{item.PhoneNumber}}</td>
+        <td>{{item.EmailID}}</td>
+        <td>{{item.Date}}</td>
+    </tr>
+</table>
+<pagination-controls *ngIf="PromotionD.length>0" (pageChange)="pageChanged_Logs($event)" maxSize="8" directionLinks="true"
+    autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You're on page" style="float: right;margin-top: 30px;">
+</pagination-controls>

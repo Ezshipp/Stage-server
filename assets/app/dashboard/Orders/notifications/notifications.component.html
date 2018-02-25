@@ -1,0 +1,25 @@
+
+
+<table border="1">
+    <tr>
+        <td> Message</td>
+        <td> Message Id</td>
+        <td> Notification Time</td>
+    </tr>
+    <ng-container *ngFor="let item of allnotifications | paginate: {
+                itemsPerPage: limit,
+                currentPage: p,
+                totalItems: Total_Count };let i = index">
+          <!--  <tr [class.instant]="item.Color==1" [class.FourHours]="item.Color==2" [class.same]="item.Color==3"> -->
+               <tr  >
+                <td>
+                    <div>{{item.contents .en}}</div>
+                </td>
+                <td>
+                    <div>{{item.id}}</div>
+                </td>
+                 <td>{{item.queued_at * 1000 | date:'dd-MM-yyyy HH:mm:ss Z'}}</td>
+                 <!-- https://docs.angularjs.org/api/ng/filter/date -->
+            </tr>
+                 </ng-container>
+    </table>

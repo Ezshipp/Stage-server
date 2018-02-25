@@ -1,0 +1,314 @@
+<h3 class="zone-heading">Zonal Pricing</h3>
+<ul class="list-inline">
+    <li style="display:inline;padding: 8px;" (click)="select_city(i,item)" *ngFor="let item of Find_city;let i=index" [ngClass]="{'active': i==Selectedcity_index}">
+        {{item.name}}
+    </li>
+</ul>
+<div *ngIf="!iseditZonalPrice">
+    <table class="table" *ngIf="Find_All_Zones_PricingData.length" style="margin-top: 40px;box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+
+        <tbody>
+            <tr>
+                <th>S.No</th>
+                <th>City Name</th>
+                <th>Title</th>
+                <th>Area</th>
+                <!-- <th>Zonal Pricing</th> -->
+                <th>Actvity</th>
+            </tr>
+            <ng-container *ngFor="let item of Find_All_Zones_PricingData;let i=index">
+                <tr>
+                    <td>{{i+1}}</td>
+                    <td>{{cityname}}</td>
+                    <td>{{item.ZoneName}}</td>
+                    <td>{{item.AreaData}}</td>
+                    <!-- <td>
+                       <button
+                           class="btn btn-info"
+                           (click)="ZonalPrice(i,item)"
+                       >
+                           Set Zonal Pricing
+                       </button>
+                   </td> -->
+                    <!-- <td></td> -->
+                    <td>
+                        <i class="material-icons" style="font-size: 30px;cursor: pointer;" (click)="viewAreas_Hubs(i,item)">
+                           keyboard_arrow_down
+                       </i>
+                    </td>
+                </tr>
+                <tr *ngIf="i==view">
+                    <td colspan="5">
+                        <i class="fa fa-times closeButton" (click)="closeDetailsView()" style="float: right;
+                           font-size: 18px;
+                           cursor: pointer;
+                           color: red;"></i>
+                        <div style="margin-left: 10px;">
+                            <ul class="list-inline">
+                                <li style="display:inline;padding: 8px;" (click)="zonesArray(j,zonesSUb,item,i)" *ngFor="let zonesSUb of zonesSUb;let j=index"
+                                    [ngClass]="{'active': j==view_active}">
+                                    {{zonesSUb}}
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div *ngIf="isArea; else elseTemplate" style="margin-top: 15px;">
+                            <table class="table" style="border: 1px solid;">
+                                <tbody>
+                                    <tr>
+                                        <th class="tdline">Zone Name</th>
+                                        <th class="tdline">Area Name</th>
+                                        <th class="tdline">Edit</th>
+                                        <th class="tdline">Delete</th>
+
+                                    </tr>
+                                    <ng-container *ngFor="let AreaData of AreaData; let m=index">
+                                        <tr>
+                                            <td class="tdline">{{ZoneName}}</td>
+                                            <td class="tdline">
+                                                <input type="text" [(ngModel)]="AreaData.AreaName">
+                                            </td>
+                                            <td class="tdline">
+                                                <i class="fa fa-pencil" (click)="onUdateArea(AreaData)" style="color: rebeccapurple;font-size: 18px;cursor: pointer;" aria-hidden="true"></i>
+                                            </td>
+                                            <td class="tdline">
+                                                <i class="material-icons" style="cursor: pointer" (click)="OndeleteArea(AreaData,m)">
+                                                   cancel
+                                               </i>
+                                            </td>
+
+                                        </tr>
+                                        <tr *ngIf="AreaDataIndex==m">
+                                            <td class="tdline" colspan="4">
+                                                <div style="text-align: center;">
+                                                    <span>Do you want to Delete?</span>
+                                                    <div>
+                                                        <button class="btn btn-danger btn-sm" style="background-color: transparent;border: 1px solid #f44336;color: #f44336;" (click)="remove_AreaConform()">
+                                                               Yes
+                                                           </button>
+                                                        <button class="btn btn-primary btn-sm" style="background-color: transparent;border: 1px solid #9c27b0;color: #9c27b0;margin-left: 10px;"
+                                                            (click)="onCloseAreaDelete()">
+                                                               No
+                                                           </button>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+
+                                    </ng-container>
+
+                                    <tr *ngIf="isareaAdd">
+                                        <!-- <td class="tdline"></td> -->
+                                        <td class="tdline" colspan="4" style="text-align: center;" (click)="OnAddArea()">
+                                            <span>Add Area</span>
+                                            <i class="material-icons" style="position: absolute;
+                                               margin-left: 8px;
+                                               cursor: pointer;">
+                                               add_circle_outline
+                                           </i>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="isAreaAddRow">
+                                        <td class="tdline">
+                                            <input type="text" readonly [(ngModel)]="ZoneName">
+                                        </td>
+                                        <td class="tdline">
+                                            <input type="text" [(ngModel)]="NewAreaName">
+                                        </td>
+                                        <td class="tdline">
+                                            <i class="material-icons" (click)="onsubmitArea()" style="font-size: 22px;cursor: pointer;">
+                                               done
+                                           </i>
+                                            <i class="material-icons" style="cursor: pointer" (click)="OndeleteAreaRow()">
+                                               cancel
+                                           </i>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ng-template #elseTemplate>
+                            <table class="table">
+                                <tr>
+                                    <td class="tdline" style="float: right;cursor: pointer;" (click)="OnaddHUb()">
+                                        <div class="formgroup">
+                                            <i class="material-icons" style=" margin-left: 13px;">
+                                            add_circle_outline
+                                        </i>
+                                        </div>
+                                        <span style="color:#f44336;">Add Hub</span>
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+
+
+                            <div class="row" style="margin-top: 15px;">
+
+                                <div class="col-md-2 col-sm-2">
+
+                                    <ul>
+                                        <li style="padding: 8px;" (click)="OnselectHub(HubsData,h)" *ngFor="let HubsData of HubsData; let h=index" [ngClass]="{'active': h==view_hub}">
+                                            {{HubsData.ZoneHubName}}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6 col-sm-6" *ngIf="HubsData.length">
+                                    <table class="table" style="margin-top: -36px;">
+                                        <tbody>
+                                            <tr>
+                                                <td class="tdline">
+                                                    <input id="address" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" (ngModelChange)="StoreAddress()"
+                                                        [(ngModel)]="Zone_Address" class="form-control" placeholder="Address">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="tdline">
+                                                    <agm-map [latitude]="HubsData_Latitude" [longitude]="HubsData_Longitude" [zoom]="zoom" [mapTypeControl]="true">
+                                                        <agm-marker [latitude]="HubsData_Latitude" [longitude]="HubsData_Longitude"></agm-marker>
+                                                    </agm-map>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                                <div class="col-md-2 col-sm-2" style=" margin-top: 10px;" *ngIf="HubsData.length">
+                                        <i class="material-icons"  (click)="onUpdate_Hub()" style="cursor:pointer">done</i>
+                                        <i class="material-icons" (click)="onDeleteConformation()" style="cursor:pointer">delete_forever</i>
+                                    </div>
+                            </div>
+                        </ng-template>
+                    </td>
+
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="iseditZonalPrice" style="margin-top: 30px;">
+    <button class="btn btn-primary" (click)="back()" style="margin: 0px 0px 15px 0px;">
+       back
+   </button>
+    <table class="table" *ngIf="editZonalPrice.length" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+        <tbody>
+            <tr>
+                <th>S.No</th>
+                <th>Set Price</th>
+                <th>Instant</th>
+                <th>4 Hours</th>
+                <th>Same Day Delivery</th>
+                <th>Operation</th>
+            </tr>
+            <tr *ngFor="let item of editZonalPrice;let i =index">
+                <td>{{i+1}}</td>
+                <td>{{ZoneName}} to {{item.zonename}}</td>
+                <td>
+                    <input OnlyNumber="true" name="Instant" [(ngModel)]="item.instantdelivery" name="Instant">
+                </td>
+                <td>
+                    <input OnlyNumber="true" name="hrdelivery" [(ngModel)]="item.hrdelivery" name="hrdelivery">
+                </td>
+                <td>
+                    <input OnlyNumber="true" name="samedaydelivery" [(ngModel)]="item.samedaydelivery" name="samedaydelivery">
+                </td>
+                <td *ngIf="item.PriceSet">
+                    <button class="btn btn-info" (click)="edit_ZonePrice(item.instantdelivery,item.hrdelivery,item.samedaydelivery,item.PriceSet,item)">
+                       Edit
+                   </button>
+                </td>
+                <td *ngIf="!item.PriceSet">
+                    <button class="btn btn-info" (click)="edit_ZonePrice(item.instantdelivery,item.hrdelivery,item.samedaydelivery,item.PriceSet,item)">
+                       Set
+                   </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+<my-spinner [isRunning]="isRequesting"></my-spinner>
+<div *ngIf="isaddHub">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 550px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" style="font-size: 25px;" (click)="OncloseAddHub()">
+                       <span aria-hidden="true">×</span>
+                   </button>
+                    <h4 style="text-align: center">Add Hub</h4>
+                </div>
+                <div class="form-signin form-horizontal" style="margin-left: 10%;">
+                    <div style="width: 400px;">
+
+                        <div class="form-group">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="tdline">
+                                            <div>
+                                                <div class="form-group" style="margin-top: -10px;">
+                                                    <input type="text" [(ngModel)]="newHubName" placeholder="Hubname" class="form-control" style="margin-bottom: -48px;">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdline">
+                                            <div class="form-group">
+                                                <input id="onadd" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" (ngModelChange)="StoreAddress_add()"
+                                                    [(ngModel)]="HubName" class="form-control pac-container" placeholder="Address">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdline"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tdline">
+                                            <agm-map [latitude]="lat_map" [longitude]="lng_map" [zoom]="zoom" [mapTypeControl]="true">
+                                                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                                            </agm-map>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="    text-align: center;">
+
+                            <button type="submit" (click)="Onsubmit()" class="btn profile-4 radio_button" style="background-color: #f17b24;    margin-bottom: 10px;">
+                               Submit
+                           </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div *ngIf="isdelete_zonehub">
+    <div class="resetpasswd" id="resetpwd">
+        <div class="modal-content modal-content-dialog">
+            <span class="closeresetpwd" (click)="onClose_Delete()">×</span>
+            <div><span style="color: #CE93D8">Group Name:</span> <span style="color: #FF5722">{{ZoneHubName }}</span></div>
+    
+            <h5 style="font-size: 20px;margin-left: 15%;margin-right: 15%">Are you sure Remove this Zone hub?</h5>
+            <div class="buttons_style">
+                <input class="btn btn-default all-buttons" type="submit" value="Yes" (click)="OnDeleteHub()" />&nbsp;&nbsp;&nbsp;<input class="btn btn-default no-all-buttons" type="submit" value="No" (click)="onClose_Delete()" />
+            </div>
+    
+    
+        </div>
+    </div>
+    
+</div>

@@ -1,0 +1,21 @@
+<div class="backdrop" [ngStyle]="{'display': display}"></div>
+<div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display': display}">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bg" style="padding: 10px;box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            <div class="modal-header head" style="display: none;">
+                <button type="button" class="close" aria-label="Close" (click)="onErrorHandled()"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body bod">
+                <p style="text-align: center;font-weight: bold;font-size: 17px;">{{ error?.message }}</p>
+            </div>
+            <div class="modal-footer foot" style="border-top: none;background-color: transparent;">
+                <button type="button" class="btn btn-danger button-custom" (click)="onErrorHandled()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group" *ngIf="loading_div" style="margin-top: 100px">
+    <div class="col-md-12 text-center">
+        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading&hellip;
+    </div>
+</div>

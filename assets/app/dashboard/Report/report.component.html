@@ -1,0 +1,338 @@
+<script src="/js/site-functions.js"></script>
+<script src="/js/login.js"></script>
+
+<script src="/js/modernizr-2.8.3.min.js"></script>
+<script src='/js/html5shiv.min.js'></script>
+<script src="/js/editor.js "></script>
+<script src='/js/plugin.js'></script>
+
+<link href="/fonts/ionicons.ttf">
+<link href="/fonts/ionicons.woff">
+<!--<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<button (click)="razorPay()">razorPay</button>-->
+<div style="font-family: Proxima-Nova-Regular;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <h3 class="zone-heading">Report Generation {{search}}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="search_terms" style="height: 550px;">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6" style="border-right: 2px solid #777;">
+                <table class="table">
+                    <div class="form-group">
+                        <input type="textbox" class="form-control" [(ngModel)]="searchValue">
+                    </div>
+                    <tbody id="collection">
+                        <tr *ngFor="let item of report_collection | filterBy: searchValue">
+                            <td class="border">
+                                <span>{{item}}</span>
+                            </td>
+                            <td class="border">
+                                <button type="button" class="btn btn-info" (click)="paset_value(item)">Paste It</button>
+                            </td>
+                        </tr>
+                        <li *ngIf="(report_collection | filterBy: searchValue).length === 0">No matching elements</li>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                <form class="form-signin" (ngSubmit)="onSubmit_Report(ff)" #ff="ngForm">
+                    <!--<p style="margin-top: 26px;margin-left:52px;color: #777;margin-bottom: -18px;">Look this up for me:</p>-->
+                    <i class="material-icons" style="color: #6b6464;">search</i>
+                    <div class="am_search__input" style="border: none;">
+                        <textarea id="js-search-input" class="am_search__input__ form-control" type="search" autocomplete="off" placeholder="Search Orders"
+                            [(ngModel)]="search_value" name="search_value" style="min-width: 350px;max-width: 350px;" required></textarea>
+                    </div>
+                    <div>
+                        <input type="submit" value="Generate Data" class="btn btn-warning" [disabled]="!ff.valid" style="float: right;margin: 15px -5px;">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" *ngIf="table_view">
+        <!--<input type="text" [(ngModel)]="userFilter" (ngModelChange)="sortBy($event)">-->
+        <div class="dropdown" style="float: right;margin-right: 20px;margin-bottom: 20px;">
+            <button class="show dropdown-toggle" type="button" data-toggle="dropdown">
+                <i class="material-icons">show_chart</i> Show Me</button>
+            <ul class="dropdown-menu image_drop">
+                <div class="dropdown-images">
+                    <table>
+                        <tr>
+                            <td (click)="show_map()">
+                                <img [src]="imagemap5" style="margin: 6px;" class="image-input-2" type="image/png" />
+                            </td>
+                            <td (click)="show_Pie1()">
+                                <img [src]="imagemap6" style="margin: 6px;" class="image-input-2" type="image/png" />
+                            </td>
+                            <td (click)="show_bar()">
+                                <img [src]="imagemap7" style="margin: 6px;" class="image-input-2" type="image/png" />
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td (click)="show_column()">
+                                <img [src]="imagemap8" style="margin: 6px;" class="image-input-2" type="image/png" />
+                            </td>
+                            <td (click)="show_column()">
+                                <img [src]="imagemap9" style="margin: 6px;" class="image-input-2" type="image/png" />
+                            </td>
+                            <td (click)="show_line()">
+                                <img [src]="imagemap13" style="margin: 6px;" class="image-input-2" type="image/png" />
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <img [src]="imagemap14" style="margin: 6px;" class="image-input-2" type="image/png" />
+                            </td>
+                            <td>
+                                <img [src]="imagemap15" style="margin: 6px;" class="image-input-2" type="image/png" />
+                            </td>
+                        </tr>
+
+                    </table>
+                    <p style="padding: 10px;text-align: center;">Select View</p>
+                </div>
+            </ul>
+
+        </div>
+
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 " *ngIf="table_view">
+
+        <div class="datagrid" style="overflow-y: scroll;height:550px;">
+
+            <table>
+                <thead>
+                    <tr style="background-color: #1e1f25;color: #fff;">
+
+
+                        <th *ngFor=" let key of headers,let i=index">
+                            <!--<input type="text" [(ngModel)]="query[key]" (keyup)="sortBy(key)">-->
+                            <div style="width:140px;margin-bottom:10px;text-align:center;"> {{key}}</div>
+                            <div style="width:140px;">
+                                <ul class="list-inline">
+                                    <li>
+                                        <div class="dropdown1s">
+                                            <i class="material-icons" style="cursor:pointer" (click)="sort(key)">sort_by_alpha</i>
+                                            <!-- <i class="material-icons"  (click)="reverse_array(key)">sort</i> -->
+                                            <!-- <span class="glyphicon glyphicon-sort-by-alphabet-alt" (click)="reverse_array(key)"></span> -->
+                                            <div class="dropdown-content1">
+
+                                                <ul class="list-inline">
+                                                    <i (click)="sort(key)" style="margin-left: -5px;" onclick="return false" class="material-icons">sort</i>
+                                                    <li (click)="sort(key)" style="margin-left: -5px;" onclick="return false">Sort A &#8594; Z</li>
+                                                    <ul class="list-inline">
+
+                                                        <li (click)="reverse_array(key)" onclick="return false">Sort Z &#8594; A</li>
+                                                    </ul>
+                                                    <!--<hr/>
+                              <li (click)="filter_condition()" onclick="return false" style="margin-bottom: 10px;"><span class="caret"></span> Filter By condition....</li>-->
+
+
+                                                    <hr/>
+                                                    <li (click)="open_filter()" onclick="return false">
+                                                        <span class="caret"></span> Filter By Values....</li>
+                                                    <div *ngIf="filter" style="margin-left: 10px;">
+                                                        <ul class="list-inline">
+                                                            <li style="margin-bottom: 10px">
+                                                                <span style="font-size: 11px;" (click)="resetAll()">Select All</span> -
+                                                                <span style="font-size: 11px;" (click)="resetAll_clear()">Clear</span>
+                                                                <span class="glyphicon glyphicon-filter" style="margin-left: 45px;"></span>
+                                                            </li>
+                                                        </ul>
+                                                        <input type="text" [(ngModel)]="userFilter" id="title" name="filter" style="margin-left: -10px;width: 160px;margin-bottom: 12px;"
+                                                        />
+                                                        <ul style="list-style-type: none;margin-top: -10px;">
+                                                            <li style="margin-left: -25px;" *ngFor="let item of ResultData1 | filterBy: userFilter">
+                                                                <label>
+                                                                    <input type="checkbox" style="margin: 4px 10px;" value="item"
+                                                                    />{{item }}</label>
+                                                            </li>
+
+                                                        </ul>
+
+                                                    </div>
+                                                    <hr/>
+                                                    <li style="margin-top: 6px;">
+                                                        <button type="submit" class="btn" style="padding: 4px 25px;background-color: #e87906;color:#fff;">ok</button>
+                                                        <button type="submit" class="btn btn-default" style="padding: 4px 15px;margin-left: 25px;">cancel</button>
+                                                    </li>
+                                                </ul>
+
+                                            </div>
+                                        </div>
+
+                                    </li>
+                                    <li style="float:right;">
+                                        <input type="checkbox" (click)="check_box(key,$event)" name="check" style="float: right;"
+                                        />
+                                    </li>
+                                </ul>
+                            </div>
+                        </th>
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td *ngFor=" let header of headers">
+                            <input type="text" [(ngModel)]="query[header]" (keyup)="sortBy(header)">
+                        </td>
+                    </tr>
+                    <tr *ngFor=" let line of filteredData,let i = index ">
+
+                        <td *ngFor=" let header of headers">
+                            {{line[header]}}
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="row" [style.margin-left.px]="marginLeft" style="margin-top: 15px;position:fixed;left:0px;bottom:10px;">
+            <ul class="nav nav-tabs">
+                <li [ngClass]="{active: isActive}">
+                    <a (click)="search_terms_view()">Home</a>
+                </li>
+                <li *ngFor="let item of collection_array; let i =index" [class.active]="i == index">
+                    <a (click)="table_data_all_vies(i)">{{item}}</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="issucess">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: 300px;margin-left: 35%;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 200px;height: 50px;background-color: transparent;box-shadow: none;border: none;">
+                <div class="modal-body" style="margin-left: -50%">
+                    <div class="col-md-12 text-center">
+                        <div style="border-radius: 5px;color: #FFF;font-size: 18px;">
+                            Loading data&hellip;
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="showmap">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width: 840px">
+                <div class="modal-header">
+                    <i (click)="onErrorHandled()" style="font-size: 25px;cursor: pointer;    float: right;" class="material-icons">close</i>
+                    <h4 style="text-align: center;">User Drop Locations</h4>
+                    <!-- <button type="button" class="close" aria-label="Close" (click)="onErrorHandled()"><span aria-hidden="true">&times;</span></button> -->
+
+                </div>
+                <div class="modal-body">
+                    <sebm-google-map [latitude]="dum[0].lat" [longitude]="dum[0].lng" [mapTypeControl]="true" [zoom]="zoom">
+                        <sebm-google-map-marker *ngFor="let item of dum" [latitude]="item.lat" [longitude]="item.lng"></sebm-google-map-marker>
+                    </sebm-google-map>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <th>
+            <tr *ngFor="let item of lat1">
+                <td>
+                    {{item.lat}}
+                </td>
+            </tr>
+        </th>
+    </table>
+</div>
+<div *ngIf="show_pie_Chart">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i (click)="Onclose_pie()" style="font-size: 20px;cursor: pointer;    float: right;" class="material-icons">close</i>
+
+                    <h4 style="text-align: center;"> <img [src]="imagemap6" style="margin: 6px;" class="image-input-2" type="image/png" /></h4>
+
+                </div>
+
+                <div class="modal-body">
+                    <chart [options]="options_pie" (load)="saveInstance($event.context)"></chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="show_column_Chart1">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i (click)="Onclose_pie()" style="font-size: 20px;cursor: pointer;    float: right;" class="material-icons">close</i>
+
+                    <h4 style="text-align: center;"> <img [src]="imagemap8" style="margin: 6px;" class="image-input-2" type="image/png" /></h4>
+
+                </div>
+
+                <div class="modal-body">
+                    <chart [options]="options_pie" (load)="saveInstance($event.context)"></chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="show_line_chart">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i (click)="Onclose_line()" style="font-size: 20px;cursor: pointer;    float: right;" class="material-icons">close</i>
+                    <h4 style="text-align: center;"> <img [src]="imagemap13" style="margin: 6px;" class="image-input-2" type="image/png" /></h4>
+
+                </div>
+
+                <div class="modal-body">
+                    <chart [options]="options_pie" (load)="saveInstance($event.context)"></chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="show_bar_chart">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i style="font-size: 20px;cursor: pointer;    float: right;" (click)="Onclose_pie_bar()" class="material-icons">close</i>
+                    <h4 style="text-align: center;"> <img [src]="imagemap7" style="margin: 6px;" class="image-input-2" type="image/png" /></h4>
+
+                </div>
+
+                <div class="modal-body">
+                    <chart [options]="options_pie" (load)="saveInstance($event.context)"></chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

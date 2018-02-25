@@ -1,0 +1,98 @@
+<div class="container-fluid">
+    <my-spinner [isRunning]="isRequesting"></my-spinner>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="input-group" style="margin-left: 70%;margin-top: -35px;">
+                <span class="input-group-addon">
+                    <i class="material-icons" style="margin-top: 20px;">search</i>
+                </span>
+                <input type="text" class="form-control" [(ngModel)]="searchValue" (ngModelChange)="valuechange($event)" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+    <table class="table" *ngIf="!isSearch">
+        <tr>
+                <td style="float: left;border-top:none">Total Records:{{Total_Count}}</td>
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!isSearch || apiRequestData.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true"
+                    autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table" *ngIf="apiRequestData.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+        <tr>
+            <th>
+                <!-- <i class="fa fa-angle-right"></i> -->
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 1" (click)="activeId=1" style="cursor:pointer" (click)="sortColumn('created_at')">
+               Requested Date  <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 2" (click)="activeId=2" style="cursor:pointer" (click)="sortColumn('customerName')">
+                customer Name  <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 3" (click)="activeId=3" style="cursor:pointer" (click)="sortColumn('customerPhone')">
+                customer Phone  <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" [class.activeForsorting]="activeId == 4" (click)="activeId=4" style="cursor:pointer" (click)="sortColumn('Api_Type')">
+                Api Type  <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline">
+                IP Address
+            </th>
+        </tr>
+        <ng-container *ngFor="let item of apiRequestData | paginate: {
+        itemsPerPage: limit, currentPage: p,totalItems: Total_Count };let i = index;let odd=odd">
+            <tr [class.isOdd]="odd">
+                <td style="cursor: pointer;" (click)="OnClick_Row(item,i)">
+                    <i class="fa fa-angle-right" id="1" [class.rotate]="detailviewIndex==i" (click)="activeRotate=1"></i>
+                </td>
+                <td>{{item.created_at}}</td>
+                <td>{{item.customerName}}</td>
+                <td>{{item.customerPhone}}</td>
+                <td *ngIf="item.Api_Type==1">Single Order</td>
+                <td>{{item.IP_Address}}</td>
+
+
+            </tr>
+            <tr *ngIf="detailviewIndex==i">
+                <td colspan="6" class="tdline">
+                   <pre style="width: 85%">{{item.Body | json}}</pre>
+                </td>
+
+            </tr>
+
+        </ng-container>
+    </table>
+
+
+    <table class="table" *ngIf="!isSearch">
+        <tr>
+            <td style="float: right;border-top:none">
+                <pagination-controls  *ngIf="!isSearch || apiRequestData.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true"
+                    autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+            <td style="float: left;border-top:none" *ngIf="!isSearch || apiRequestData.length>0">Total Records:{{Total_Count}}</td>
+        </tr>
+    </table>
+</div>

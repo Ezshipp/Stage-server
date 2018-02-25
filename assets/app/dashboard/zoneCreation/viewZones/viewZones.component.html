@@ -1,0 +1,33 @@
+<div class="pac-card">
+    <div id="pac-container">
+        <input id="pac-input" class="form-control" type="text" placeholder="Enter a location">
+    </div>
+</div>
+<div>
+    <div id="map"></div>
+</div>
+<div style="text-align: center;
+    margin-top: 10px;">
+    <button class="btn btn-info" (click)="onsaveConfirmation()">update</button>
+
+</div>
+<div *ngIf="isconformation_savePaths">
+    <div class="resetpasswd" id="resetpwd">
+        <div class="modal-content modal-content-dialog">
+            <span class="closeresetpwd" (click)="onCloseConformation()">×</span>
+            <div>
+                <span style="color: #CE93D8">Zone Name:</span>
+                <span style="color: #FF5722">{{singleZonePath.ZoneTitle}}</span>
+            </div>
+
+            <h5 style="font-size: 20px;margin-left: 15%;margin-right: 15%">Are you sure You want to save Paths?</h5>
+            <div class="buttons_style">
+                <input class="btn btn-default all-buttons" type="submit" value="Yes" (click)="onsavePaths()" />&nbsp;&nbsp;&nbsp;
+                <input class="btn btn-default no-all-buttons" type="submit" value="No" (click)="onCloseConformation()" />
+            </div>
+
+
+        </div>
+    </div>
+
+</div>

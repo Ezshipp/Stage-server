@@ -1,0 +1,65 @@
+.cell_style {
+    width: 17%;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    float: left;
+}
+.activeForsorting{
+    color:lightcoral
+}
+.list-group-item,
+.active {
+    color: rgba(0, 0, 0, .87);
+    background-color: transparent;
+    border-bottom: 2px solid #12A6F1!important;
+}
+.list-group-item {
+    border: none
+}
+.tdline{
+    border-top: none
+}
+.instant{
+    color:#00BFFF
+ }
+ .FourHours{
+    color: #fb641b
+ }
+ .same{
+    color: #ee9b0a
+ }
+ .neworder{
+         color:#00bcd4
+     }
+.OrderCanceled
+{
+     color:#ff0000
+}	 
+.cancelorderbyuserorvendor {
+        color:#ff0000
+     }
+.cancelorderbyuserorvendornew {
+        color:#ff0000
+     }
+.Onthewaytodelivery {
+    color:#B87B0C
+}	 
+.reachedDeliverypoint{
+    color:#B87B0C
+}
+.OnthewaytoPickup
+{
+    color:#B87B0C
+}	 
+.completedorder {
+        color:#0E9C0E
+     }
+	 
+.processingorder {
+        color:#B87B0C
+     }
+ .bikeraccepted{
+      color:#4885ed
+ }

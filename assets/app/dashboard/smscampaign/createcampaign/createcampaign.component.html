@@ -1,0 +1,54 @@
+
+<div>
+    <form (ngSubmit)="onSubmit(f)" #f="ngForm" class="web_form">
+        <div class="form-group">
+            <label style="color: #000;">Campaign Name:</label>
+            <input type="text" value placeholder="Enter Campaign Reason" class="form-control" ngModel name="CampaignName">
+
+        </div>
+        <div class="form-group">
+            <select class="form-control" ngModel name="CampaignType" (change)="onSelectCampaignType($event)">
+                <option value="">Select Campaign type</option>
+
+                <option *ngIf="Campaign_TypeData.length<=0" value="">loading</option>
+
+                <ng-container *ngFor="let item of Campaign_TypeData; let i=index">
+                    <option [value]="item.CampaignType">{{item.Name}}</option>
+
+                </ng-container>
+
+
+
+
+
+            </select>
+
+        </div>
+        <div class="form-group">
+            <textarea class="form-control" maxlength="160" ngModel name="CampaignMessage" placeholder="Campaign Message" #incidentDescription></textarea>
+            <small class="form-text text-muted">
+                <code>{{incidentDescription.value.length}}</code> of
+                <code>160</code> Characters</small>
+
+        </div>
+        <!-- <pre> sample message:"Thank you for registering with ezshipp, please use the 50% offer before it expires in two days."</pre> -->
+        <table class="table table-responsive">
+            <tbody>
+                <tr *ngIf="isRequesting">
+                    <td style="border-top: none;text-align: center;color: #12A6F1;">Loading…</td>
+                </tr>
+                <tr>
+                    <td style="border-top: none;text-align: center;">
+                        <button type="submit" class="btn btn-info">
+                            Submit
+                        </button>
+                    </td>
+                </tr>
+                <tr *ngIf="Status_OK">
+                    <td style="border-top: none;text-align: center;">
+                        campaign created sucessfully
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>

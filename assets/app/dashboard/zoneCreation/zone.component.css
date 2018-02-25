@@ -1,0 +1,31 @@
+
+/* agm-map {
+    height: 400px;
+}
+.card{
+    box-shadow: 0 0px 1px 0 rgba(0, 0, 0, 0.14);
+    border: 1px solid #ddd;
+    margin-top: 40px;
+}
+
+tr{
+    border-top: none;
+}
+td:hover{
+    background-color: #ddd;
+}
+.active{
+    background-color: #ddd;
+} */
+#map {
+        height: 500px;
+    }
+    .list-group-item,
+    .active {
+        color: rgba(0, 0, 0, .87);
+        background-color: transparent;
+        border-bottom: 2px solid #12A6F1!important;
+    }
+    .list-group-item {
+        border: none
+    }

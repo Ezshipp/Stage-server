@@ -1,0 +1,307 @@
+<!--component html goes here -->
+<i class="material-icons bottam" (click)="OnaddOrder()">add_circle</i>
+<!-- add order -->
+
+
+<div *ngIf="onCreate_order">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onCloseCreate_Order()">
+                        <span aria-hidden="true" style="font-size: 25px;">
+                            ×
+                        </span>
+                    </button>
+                    <h4 style="text-align: center">Add Customer Order</h4>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+
+
+                    <form (ngSubmit)="onSubmit(f)" #f="ngForm" class="web_form">
+                        <div class="form-group">
+                            <label style="color: #000;">Customer Mobile Number:</label>
+                            <input type="text" value placeholder="Enter Mobile Number" class="form-control" ngModel name="MobileNumber">
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <label style="color: #000;">Customer Address:</label>
+                            <div class="form-group">
+                                <input placeholder="search for location" id="address" autocorrect="off" autocapitalize="off" spellcheck="off" [(ngModel)]="pickAddress"
+                                    name="pickAddress" (ngModelChange)="pickadd()" type="text" class="form-control" #search>
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" [(ngModel)]="isNewOrder" (click)="OnselectOrder_new($event.target.value)" [value]="true" name="newOrder"> New Order
+                                </label>
+
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" [(ngModel)]="isOngoingOrder" [value]="true" name="Ongoing" (click)="OnselectOrder_Ongoing($event.target.value)"> Ongoing Order
+                                </label>
+
+                            </div>
+                            <agm-map id="admmap" [latitude]="lat" [fullscreenControl]="true" [longitude]="lng" [zoom]="zoom">
+                                <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+                            </agm-map>
+                        </div>
+
+
+                        <div>
+                            <button type="submit" class="btn btn-info">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <h3 class="zone-heading">New Queue Orders</h3>
+    <table class="table" *ngIf="NewQueOrdersData.length>0 else NewQsueOrdersData" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+        <tr>
+            <th>Sequence Code</th>
+            <th>Customer Name</th>
+            <th>Customer Phone</th>
+            <th>Customer Email ID</th>
+            <th>No Of Directions</th>
+            <th>No Of Orders</th>
+            <th>More Info</th>
+        </tr>
+        <ng-container *ngFor="let item of NewQueOrdersData | paginate: {
+           itemsPerPage: limit,
+           currentPage: p,
+           totalItems: Total_Count };let i = index">
+            <tr>
+                <td>{{item.Sequence_Code}}</td>
+                <td>{{item.CustomerName}}</td>
+                <td>{{item.CustomerPhone}}</td>
+                <td>{{item.CustomerEmailID}}</td>
+                <td>{{item.No_Of_Directions}}</td>
+                <td>{{item.No_Of_Records}}</td>
+                <td>
+                    <button type="button" rel="tooltip" title="More Info" class="btn btn-info btn-simple btn-xs" (click)="OnmoreInfo_order(item,i)"
+                        style="padding: 0px;">
+                        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr *ngIf="i==detailviewIndex">
+                <td colspan="6" class="tdline">
+                    <div style="border: 1px solid #12A6F1;">
+                        <div style="float: right;">
+                            <button type="button" class="btn btn-default btn-simple btn-xs" (click)="OncloseDetailsView()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                        <ul class="nav nav-tabs nav_tab_background">
+                            <li id="j" [class.activeForsorting]="activeDirection == j+1" *ngFor="let directionArray of directionArray;let j = index"
+                                (click)="getDirectionOrder(j)">
+                                <a>Direction - {{j+1}}</a>
+                            </li>
+                            <li (click)="onAssign_Driver()" [class.activeForsorting]="activeDirectionAssin == 1">
+                                <a>Assign Biker</a>
+                            </li>
+                        </ul>
+                        <div *ngIf="isRecordsView">
+
+
+                            <table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);margin-top: 10px;" *ngIf="DirectionData.length>0 else recordData">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Item Name</th>
+                                    <th>Receiver Name</th>
+                                    <th>Receiver Phone</th>
+                                    <th>Pick Address</th>
+                                    <th>Drop Address</th>
+                                </tr>
+                                <tr *ngFor="let records of DirectionData;let ii = index">
+                                    <td>{{records.orderseqId}}</td>
+                                    <td>{{records.itemName}}</td>
+                                    <td>{{records.receiverName}}</td>
+                                    <td>{{records.receiverPhone}}</td>
+                                    <td>{{records.pickAddress}}</td>
+                                    <td>{{records.dropAddress}}</td>
+                                </tr>
+                            </table>
+                            <ng-template #recordData>
+                                <table class="table">
+                                    <tr>
+                                        <td>
+                                            No Records
+                                        </td>
+                                    </tr>
+                                </table>
+                            </ng-template>
+                        </div>
+                        <div *ngIf="!isRecordsView">
+                            <table class="table">
+                                <tr>
+                                    <th>
+                                        Direction Number
+                                    </th>
+
+                                    <th>View Map</th>
+
+                                    <th>Biker</th>
+                                </tr>
+                                <tr *ngFor="let itemDirc of AllDirectionData;let m = index">
+                                    <td>{{itemDirc.Direction_No}}</td>
+
+                                    <td>
+                                        <i class="fa fa-map" aria-hidden="true" (click)="onViewMap(itemDirc,m)"></i>
+                                    </td>
+
+                                    <td *ngIf="itemDirc.Processing_State==1">
+                                        <i class="fa fa-plus" aria-hidden="true" (click)="selectDriver(itemDirc,m)"></i>
+                                    </td>
+                                    <td *ngIf="itemDirc.Processing_State==2">{{itemDirc.DriverName}}</td>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </ng-container>
+        <pagination-controls (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true" previousLabel="Previous"
+            nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </table>
+
+    <ng-template #NewQsueOrdersData>
+        <div sytle="text-align:center">
+            <h5 style="text-align: center;
+           font-weight: 500;">
+                No records Found!
+            </h5>
+        </div>
+    </ng-template>
+</div>
+<my-spinner [isRunning]="isRequesting"></my-spinner>
+
+<div *ngIf="isOnmap">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+        <div class="modal-dialog" role="document" style="width: 90%;">
+            <div class="modal-content" style="height: 600px;">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onCloseMapview()">
+                        <span aria-hidden="true" style="font-size: 25px;">
+                            ×
+                        </span>
+                    </button>
+                    <h4 style="text-align: center">
+                        <strong>Drop Orders Locations:</strong> Direction Number - {{directionNumber_Backend}}</h4>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <agm-map [latitude]="latBiker" [fullscreenControl]="true" [longitude]="lngBiker" [zoom]="zoom">
+                        <agm-marker *ngFor="let item of DirectionData; let i=index" [latitude]="item.dropLatitude" [longitude]="item.dropLongitude" (markerClick)="clickedMarker(i,item)">
+                                <agm-info-window [isOpen]="item.isOpen">
+                                        <div>
+                                            <table class="table" style="margin-bottom: 0px">
+                                                <tbody>
+                                                    <tr>
+                                                        <th style="border-top:none;font-size:medium;width:40%">orderSeqId:</th>
+                                                        <td style="border-top:none;font-size:medium;width:60%">{{item.orderseqId}}</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </agm-info-window>
+                        </agm-marker>
+                        <agm-polyline [strokeColor]="'#2196f3'">
+                            <agm-polyline-point [latitude]="pikLat" [longitude]="piklng">
+                            </agm-polyline-point>
+                            <ng-container *ngFor="let item of reverserDirection; let i=index">
+                                <agm-polyline-point [latitude]="item.dropLatitude" [longitude]="item.dropLongitude">
+                                </agm-polyline-point>
+                            </ng-container>
+                        </agm-polyline>
+                        <agm-polyline>
+                            <ng-container *ngFor="let item of reverserDirection; let i=index">
+                                <agm-polyline-point [latitude]="item.dropLatitude" [longitude]="item.dropLongitude">
+                                </agm-polyline-point>
+                            </ng-container>
+
+                        </agm-polyline>;
+                    </agm-map>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="isAssignDriver">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+        <div class="modal-dialog" role="document" style="width: 840px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onCloseDriverAssign()">
+                        <span aria-hidden="true" style="font-size: 25px;">
+                            ×
+                        </span>
+                    </button>
+                    <h4 style="text-align: center">Assigning Biker</h4>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <table class="table">
+                        <tr>
+                            <th>Biker Name</th>
+                            <th>Biker Phone</th>
+                            <th>Assign Biker</th>
+                        </tr>
+                        <tr *ngFor="let item of DriverData;let i= index">
+                            <td>{{item.name}}</td>
+                            <td>{{item.phone}}</td>
+                            <td>
+                                <i class="fa fa-plus" style="cursor:pointer" (click)="select_Driver(item.name,item.DriverID)"></i>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="finalConfirmDriver">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onCloseDriverConfirm()">
+                        <span aria-hidden="true" style="font-size: 25px;">
+                            ×
+                        </span>
+                    </button>
+                    <h4 style="text-align: center">Assigning Driver</h4>
+                </div>
+                <div class="modal-body" style="padding-top: 0px;">
+                    <p style="text-align: center;">Are you sure want to assign the Direction {{ directionNumber_Backend }} to Driver: {{ Driver_Name }}</p>
+                    <table class="table table-responsive">
+                        <tr>
+                            <td style="border-top: none;">
+                                <button class="btn btn-info" style="float: right;" (click)="onSubmitDriver()">Yes</button>
+                            </td>
+                            <td style="border-top: none;">
+                                <button class="btn btn-danger" (click)="onCloseDriverConfirm()">No</button>
+                            </td>
+                        </tr>
+                        <tr *ngIf="issucessDriver_Assign">
+                            <td style="border-top: none;" colspan="2">Driver Assigning sucessfully</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

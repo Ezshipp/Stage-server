@@ -1,0 +1,94 @@
+.active{
+    border-bottom: 1px solid yellow
+}
+sebm-google-map {
+    height: 400px;
+
+}
+.nav-tabs { border-bottom: 2px solid #DDD; }
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover { border-width: 0; }
+.nav-tabs > li > a { border: none; color: #666; }
+    .nav-tabs > li.active > a, .nav-tabs > li > a:hover { border: none; color: #4285F4 !important; background: transparent; }
+    .nav-tabs > li > a::after { content: ""; background: #4285F4; height: 2px; position: absolute; width: 100%; left: 0px; bottom: -1px; transition: all 250ms ease 0s; transform: scale(0); }
+.nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after { transform: scale(1); }
+.tab-nav > li > a::after { background: #21527d none repeat scroll 0% 0%; color: #fff; }
+.tab-pane { padding: 15px 0; }
+.tab-content{padding:20px}
+
+.card {background: #FFF none repeat scroll 0% 0%; box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3); margin-bottom: 30px; }
+body{ background: #EDECEC; padding:50px}
+.tdlivne{
+    border-top: none;
+}
+.closeButton {
+    position: absolute;
+    right: 40px;
+    color: #F00;
+    cursor: pointer;
+    margin-top: -10px;
+    font-size: 16px;
+}
+
+.branchSelect {
+    border: 1px solid #705137;
+    background-color: transparent!important;
+    color: #000!important;
+}
+.branchSelect:hover {
+    border: 1px solid #705137;
+    background-color: transparent!important;
+    color: #000!important;
+}
+
+.editButton {
+    position: absolute;
+    right: 40px;
+    color: #12A6F1;
+    cursor: pointer;
+    margin-top: -10px;
+    font-size: 16px;
+}
+.form-group {
+    padding-bottom: 0px;
+    margin: 0px 0 0 20px;
+
+    }
+    td{
+       width:33%
+    }
+    .pac-container {
+    z-index: 1072!important;
+    }
+    .vis{
+        font-weight: 800;
+        font-size: 16px;
+        color: #ec900f;
+    }
+    .vishu{
+        position:absolute;
+        top:0;
+        -webkit-transition:all 1s ease;
+           -moz-transition:all 1s ease;
+            -ms-transition:all 1s ease;
+             -o-transition:all 1s ease;
+                transition:all 1s ease;
+
+    }
+    .vishu:hover{
+        top:inherit;
+        top: -55px;
+
+    }
+    animation{
+       height: 100px
+
+    }
+    .list-group-item,
+    .active {
+        color: rgba(0, 0, 0, .87);
+        background-color: transparent;
+        border-bottom: 2px solid #12A6F1!important;
+    }
+    .list-group-item {
+        border: none
+    }

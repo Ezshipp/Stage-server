@@ -1,0 +1,231 @@
+<div class="container-fluid">
+    <h3 class="zone-heading">Expired Orders</h3>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="input-group" style="margin-left: 70%;margin-top: -35px;">
+                <span class="input-group-addon">
+                    <i class="material-icons" style="margin-top: 20px;">search</i>
+                </span>
+                <input type="text" class="form-control" [ngModel]="mymodel" (ngModelChange)="valuechange($event)" placeholder="Search...">
+            </div>
+        </div>
+    </div>
+    <table class="table" *ngIf="!isSearch">
+        <tr>
+            <td style="float: right;border-top:none">
+                <pagination-controls *ngIf="!isSearch || ExpiredJobsData.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+                    previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                    screenReaderCurrentLabel="You're on page">
+                </pagination-controls>
+            </td>
+            <td style="float: right;border-top:none">
+                <label>Select Count</label>
+                <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+    <table class="table" *ngIf="ExpiredJobsData.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+        <tr>
+
+            <th class="tdline" id="1" [class.activeForsorting]="activeId == 1" (click)="activeId=1" style="cursor:pointer" (click)="sortColumn('orderseqId')">
+                ID
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" id="2" [class.activeForsorting]="activeId == 2" (click)="activeId=2" style="cursor:pointer" (click)="sortColumn('customerName')">
+                C.Name
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" id="3" [class.activeForsorting]="activeId == 3" (click)="activeId=3" style="cursor:pointer" (click)="sortColumn('customerPhone')">
+                C.Phone
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" id="4" [class.activeForsorting]="activeId == 4" (click)="activeId=4" style="cursor:pointer" (click)="sortColumn('Date')">
+                Date
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" id="5" [class.activeForsorting]="activeId == 5" (click)="activeId=5" style="cursor:pointer" (click)="sortColumn('bookingType')">
+                O.Type
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" id="6" [class.activeForsorting]="activeId == 6" (click)="activeId=6" style="cursor:pointer" (click)="sortColumn('pickupdeponame')">
+                P.Zone
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline" id="7" [class.activeForsorting]="activeId == 7" (click)="activeId=7" style="cursor:pointer" (click)="sortColumn('deliverydeponame')">
+                D.Zone
+                <i class="fa fa-sort" aria-hidden="true"></i>
+            </th>
+            <th class="tdline">
+                Action
+            </th>
+        </tr>
+        <ng-container *ngFor="let item of ExpiredJobsData | paginate: {
+        itemsPerPage: limit, currentPage: p,totalItems: Total_Count };let i = index">
+              <tr [class.neworder]="item.status==1"  [class.cancelorderbyuserorvendor]="item.status==8" [class.cancelorderbyuserorvendornew]="item.status==9"  [class.OrderCanceled]="item.status==5" [class.bikeraccepted]="item.status==7" [class.processingorder]="item.status==10" [class.Onthewaytodelivery]="item.status==11" [class.reachedDeliverypoint]="item.status==12" [class.OnthewaytoPickup]="item.status==16" [class.processingorder]="item.status==18" [class.completedorder]="item.status==14"   >
+
+                <td>{{item.orderseqId}}</td>
+                <td>{{item.First_name}}</td>
+                <td>{{item.Phone}}</td>
+                <td>{{item.order_datetime}}</td>
+                <td *ngIf="item.bookingType==1">Instant</td>
+                <td *ngIf="item.bookingType==2">4 Hours</td>
+                <td *ngIf="item.bookingType==3">Same Day</td>
+                <td>{{item.PickZone}}</td>
+                <td>{{item.DropZone}}</td>
+                <td>
+                    <button type="button" rel="tooltip" title="More Info" class="btn btn-info btn-simple btn-xs" (click)="edit(item,i)">
+                        <i class="material-icons">info_outline</i>
+                    </button>
+                </td>
+
+            </tr>
+            <tr *ngIf="i==views">
+                    <td colspan="8">
+                        <div style="border: 1px solid #12A6F1;">
+                            <div style="float: right;">
+                                <button type="button" class="btn btn-default btn-simple btn-xs" (click)="close()">
+                            <i class="fa fa-times"></i>
+                        </button>
+                            </div>
+                            <table class="table table-responsive">
+                                <tbody>
+                                    <tr>
+                                        <td style="border-top: none;">
+                                            <strong>Item Name:</strong> {{ item.itemName }}
+                                        </td>
+                                        <td style="border-top: none;">
+                                            <strong>Receiver Phone:</strong> {{ item.receiverPhone }}
+                                        </td>
+                                        <td style="border-top: none;width: 40%;">
+                                            <strong>Receiver Name:</strong> {{ item.receiverName }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none">
+                                            <strong>Delivery charge:</strong> {{ item.deliverycharge }}
+                                        </td>
+                                        <td style="border-top: none;">
+                                            <strong>Client COD :</strong> {{ item.subtotal_amount }}
+                                        </td>
+                                        <td style="border-top: none;width: 40%;">
+                                            <strong>Total amount :</strong> {{ item.total_amount }}
+                                        </td>
+
+
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;width: 30%;">
+                                            <strong>Addtional Weight :</strong> {{ item.ExceededWeight }}
+                                        </td>
+                                        <td style="border-top: none;width: 30%;">
+                                            <strong>Addtional Amount :</strong> {{ item.ExceededAmount }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border-top: none;" *ngIf="item.orderType==1">
+                                            <strong>Order Type:</strong> Order Anything
+                                        </td>
+                                        <td style="border-top: none;" *ngIf="item.orderType==2">
+                                            <strong>Order Type:</strong> Store Order
+                                        </td>
+                                        <td style="border-top: none;" *ngIf="item.bookingType==1">
+                                            <strong>Booking Type:</strong> Instant
+                                        </td>
+                                        <td style="border-top: none;" *ngIf="item.bookingType==2">
+                                            <strong>Booking Type:</strong> 4 Hours
+                                        </td>
+                                        <td style="border-top: none;" *ngIf="item.bookingType==3">
+                                            <strong>Booking Type:</strong> Same Day
+                                        </td>
+                                        <td style="border-top: none;width: 40%;" *ngIf="item.paymentType==1">
+                                            <strong>Payment Type:</strong> Cash
+                                        </td>
+                                        <td style="border-top: none;width: 40%;" *ngIf="item.paymentType==2">
+                                            <strong>Payment Type:</strong> Online
+                                        </td>
+                                        <td style="border-top: none;width: 40%;" *ngIf="item.paymentType==3">
+                                            <strong>Payment Type:</strong> Monthly Invoice
+                                        </td>
+                                    </tr>
+                                    <tr rowspan="4">
+                                        <td style="border-top: none;" *ngIf="item.DeviceType==1">
+                                            <strong>Device Type:</strong> iOS
+                                        </td>
+                                        <td style="border-top: none;" *ngIf="item.DeviceType==2">
+                                            <strong>Device Type:</strong> Android
+                                        </td>
+                                        <td style="border-top: none;" *ngIf="item.DeviceType==3">
+                                            <strong>Device Type:</strong> Web
+                                        </td>
+                                        <td style="border-top: none;">
+                                            <strong>Delivery charge:</strong> {{ item.deliverycharge }}
+                                        </td>
+                                        <td style="border-top: none;">
+                                            <strong>Shipping Distance :</strong> {{ item.Shipping_Distance }} Kms
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                                    <tr *ngIf="item.Driver_Assigned==true">
+                                        <td style="border-top: none;">
+                                            <strong>Biker Name:</strong> {{item.Driver_Name}}
+                                        </td>
+                                        <td style="border-top: none;">
+                                            <strong>Biker Phone:</strong> {{item.Driver_PhoneNumber}}
+                                        </td>
+                                        <td style="border-top: none;width: 40%;">
+                                            <strong>Biker Email:</strong> {{item.Driver_Email}}
+                                        </td>
+                                    </tr>
+                                    <tr rowspan="4">
+                                        <td style="border-top: none;">
+                                            <strong>Pick Address:</strong> {{ item.pickAddress }}
+                                        </td>
+                                        <td style="border-top: none;">
+                                            <strong>Drop Address:</strong> {{ item.dropAddress }}
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="item.Whether_Zone_Drop==true">
+                                        <th style="border-top: none;">Barcode:{{item.barcodeId}}</th>
+
+                                    </tr>
+
+
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+
+        </ng-container>
+    </table>
+
+        <my-spinner [isRunning]="isRequesting"></my-spinner>
+
+    <table class="table" *ngIf="!isSearch">
+            <tr>
+                <td style="float: right;border-top:none">
+                    <pagination-controls *ngIf="!isSearch  || ExpiredJobsData.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true"
+                    previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"
+                    >
+                    </pagination-controls>
+                </td>
+                <td style="float: right;border-top:none">
+                    <label>Select Count</label>
+                    <select (change)="OnselectCount($event)" [(ngModel)]="limit">
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                </td>
+            </tr>
+        </table>

@@ -1,0 +1,73 @@
+
+<div class="pac-card">
+    <div id="pac-container">
+        <input id="pac-input" class="form-control" type="text"
+            placeholder="Enter a location">
+      </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div>
+            <div id="map"></div>
+          </div>
+
+    </div>
+    <div class="col-md-4" >
+        <table class="table">
+            <tr>
+                <td style="border-top:none;">
+                    <Label>Select City</Label>
+                </td>
+                <td style="border-top:none;">
+                    <select class="form-control" (change)="select_city($event.target.value)">
+                        <option *ngFor="let item of Find_city; let i=index" [value]="item.CityID">{{item.name}}</option>
+
+                    </select>
+
+                </td>
+
+            </tr>
+            <tr>
+                <td style="border-top:none;">
+                        <Label>Zone Title</Label>
+                </td>
+                    <td style="border-top:none;">
+                            <div>
+                                    <div class="form-group">
+                                        <input type="text" value="" [(ngModel)]="Zonetitle" placeholder="Zone Title" class="form-control" />
+                                    </div>
+                                </div>
+                    </td>
+            </tr>
+            <tr *ngFor="let item of polygonPaths; let i=index">
+
+      <td style="border-top:none;">point{{i+1}}</td>
+             <td style="border-top:none;">{{item | json}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row" *ngIf="polygonPaths.length>0">
+    <div class="col-md-8">
+
+
+    </div>
+    <div class="col-md-4">
+        <table class="table">
+            <tr>
+                <td style="border-top:none;">
+                    <button class="btn btn-info" (click)="onsave()">Save</button>
+                </td>
+                <td style="border-top:none;">
+                    <button class="btn btn-info" (click)="ondelete()">clear</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<!-- <button class="btn btn-info" (click)="oncreate()">create </button> -->
+<!-- <button class="btn btn-info" (click)="ondelete()">ondelete </button> -->
+
+
+
+
