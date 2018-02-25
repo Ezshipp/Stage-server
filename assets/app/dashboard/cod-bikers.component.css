@@ -1,0 +1,13 @@
+.zone-heading {
+    text-align: center;
+    font-size: 23px;
+    font-family: Proxima-Nova-Regular;
+ }
+
+ .td-border-top {
+     border-top: none;
+ }
+ .active{
+     color: #f08080
+ }
+
