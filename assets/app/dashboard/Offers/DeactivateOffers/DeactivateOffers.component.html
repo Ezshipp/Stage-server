@@ -1,0 +1,33 @@
+<table class="table" *ngIf="OffersList.length>0" style="margin-top: 25px;box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+    <tr>
+        <th>S.No.</th>
+        <th>Offer Name</th>
+        <th>Offer Code</th>
+        <th>Offer Type</th>
+        <th>Discount in %</th>
+        <th>Last Updated</th>
+        <th>Booking Type</th>
+        <th>Date</th>
+      
+
+       
+    </tr>
+    <tr *ngFor="let item of OffersList ;let i = index">
+        <td>{{i+1}}</td>
+        <td>{{item.OfferName}}</td>
+        <td>{{item.OfferCode}}</td>
+        <td *ngIf="item.OfferType==1">First Time offer</td>
+        <td *ngIf="item.OfferType==2">Seasonal Offer</td>
+        <td *ngIf="item.OfferType==3">Referal Offer</td>
+        <td *ngIf="item.OfferType==4">Lottery Offer</td>
+        <td>{{item.DiscountPercentage}}</td>
+        <td>{{item.Date}}</td>
+        <td *ngIf="item.BookingType==1">Instant</td>
+        <td *ngIf="item.BookingType==2">4 Hours</td>
+        <td *ngIf="item.BookingType==3">Same Day</td>
+        <td>{{item.Date}}</td>
+        <!--<td><button class="btn" (click)="More_offer(item)">More Details</button></td>-->
+        <!--<td><button class=" btn btn-info" (click)="Edit_offer(item)"><span class="glyphicon glyphicon-edit"></span></button></td>-->
+ 
+    </tr>
+</table>
