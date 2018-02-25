@@ -1,0 +1,69 @@
+<div class="row">
+    <h3 class="zone-heading">Exceeding Package Weight Price</h3>
+    <div class="col-xs-6 col-sm-6 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3">
+        <div class="row">
+            <div class="delivery">
+                <table class="table table-responsive" style="width: 100%">
+                    <tr>
+                        <td style="border-top:none;font-size: 20px;color:#777;">
+
+                            <div class="togglebutton">
+                                Enable Exceeding Package Price per 1Kg:
+                                <label>
+                                    <input type="checkbox" name="optionsCheckboxes" [(ngModel)]="Enable_Exceeding_Weight" id="enableCheck" [value]="true" (click)="enableCheck($event)">
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="border-top:none;font-size: 20px;color:#777;">
+                            <div class="form-group" style="width: 100px;">
+                                <input class="form-control" type="text" [(ngModel)]="Price" name="Price">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div style="float: right;margin-right: 300px;">
+                    <button type="button" (click)="confirmation()" class="btn btn-info" style="padding: 11px 17px;">Update</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<my-spinner [isRunning]="isRequesting"></my-spinner>
+<div *ngIf="isConfirmation">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 380px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="OncloseConfirmation()">
+                        <span style="font-size: 35px;color: red;" aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 style="text-align: center;margin-top: 0px;color: #ee9b0a;">Update Confirmation</h4>
+                </div>
+                <table class="table table-responsive" style="margin-bottom: 0px;">
+                    <tr>
+                        <td style="border-top: none;text-align: center;">
+                            Are you sure to update Exceeded Price?
+                        </td>
+                    </tr>
+                </table>
+                <table class="table table-responsive">
+                    <tr>
+                        <td style="border-top: none;">
+                            <button class="btn btn-success btn-xs" (click)="updateEnable()" style="float: right;">Yes</button>
+                        </td>
+                        <td style="border-top: none;">
+                            <button class="btn btn-danger btn-xs" (click)="OncloseConfirmation()">No</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
