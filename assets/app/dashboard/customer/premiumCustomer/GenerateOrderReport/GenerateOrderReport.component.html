@@ -1,0 +1,170 @@
+<div class="row">
+    <div style="float: right;margin-bottom: 10px;padding-right: 15px;" *ngIf="!createForm">
+        <label>Generate Report</label>
+        <button type="button" (click)="onCreateReport()" rel="tooltip" title="Create Report" class="btn btn-info" style="padding: 3px;">
+            <i class="fa fa-plus"></i>
+        </button>
+    </div>
+</div>
+
+<my-spinner [isRunning]="isRequesting"></my-spinner>
+<div class="row" *ngIf="createForm" style="margin-bottom: 30px;">
+        <div class="col-xs-12 col-md-8 col-sm-8">
+            <h6>
+                <a (click)="onCreateReport()">
+                    <i class="fa fa-chevron-left"></i> Change Customer</a>
+            </h6>
+            <h5 style="text-align: center;">Customer Name: {{ First_name }}</h5>
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group" style="margin-top: 0px;">
+                    <label>From Date
+                        <input type="date" max="" #from (input)="OnFromDate(from.value)" class="form-control">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group" style="margin-top: 0px;">
+                    <label>To Date
+                        <input type="date" #To (input)="OnTodate(To.value)" class="form-control">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div style="text-align: center;">
+                    <button class="btn btn-info" (click)="exportPdf()">Generate</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);" *ngIf="isCreate || RecordData.length>0">
+    <tbody>
+        <tr>
+            <!-- <th>S.No.</th> -->
+            <th>Customer Name</th>
+            <th>Report Number</th>
+            <th>Report From Date</th>
+            <th>Report To Date</th>
+            <th>Generation Date</th>
+            <th>Status</th>
+            <!-- <th>Activity</th> -->
+        </tr>
+        <tr *ngFor="let item of RecordData | paginate: {
+            itemsPerPage: 10,
+            currentPage: pO,
+            totalItems: Total_CountO }; let i=index">
+            <!-- <td>{{i + 1 + skip_value_O}}</td> -->
+            <td>{{item.CustomerName}}</td>
+            <td>{{item.RecordNumber}}</td>
+            <td>{{item.from_date}}</td>
+            <td>{{item.to_date }}</td>
+            <td>{{item.created_at}}</td>
+            <td *ngIf="item.ProcessStage==1">
+                <div *ngIf="!isrefresh_link; else elseTemplate">
+                    Processing
+                    <i class="material-icons" style="cursor: pointer;" (click)="OnRefresh()">refresh</i>
+
+                </div>
+                <ng-template #elseTemplate>
+                    <a href={{pdfLinkRefresh}} target="_blank">PDF</a>
+                </ng-template>
+
+            </td>
+            <td *ngIf="item.ProcessStage==2">
+                <a href="{{item.PDFLink}}" target="_blank">PDF</a>
+
+            </td>
+            <!-- <td>
+                <button type="button" (click)="OneditDate(item)" rel="tooltip" title="Edit Date" class="btn btn-success btn-simple btn-xs">
+                    <i class="fa fa-edit"></i>
+                </button>
+            </td> -->
+        </tr>
+    </tbody>
+</table>
+<pagination-controls *ngIf="isCreate || RecordData.length" (pageChange)="pageChangedOrders($event)" maxSize="8" directionLinks="true" autoHide="true"
+    previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"
+    style="float: right;margin-top: 30px;">
+</pagination-controls>
+<div *ngIf="isDataOrders" style="text-align: center;">
+    <strong style="font-size: 20px;">No Records Found</strong>
+</div>
+
+
+<div *ngIf="allPremiumCustomers">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onClosePreCustomers()">
+                        <span aria-hidden="true" style="font-size: 25px;">
+                            ×
+                        </span>
+                    </button>
+                    <h5 style="text-align: center;">Premium Customers</h5>
+                </div>
+                <div class="modal-body" style="padding-top: 15px;padding-bottom: 36px;">
+                    <table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Customer Phone</th>
+                            <th>Select</th>
+                        </tr>
+                        <tr *ngFor="let item of CustomerData | paginate: {
+                            id:'cust',
+                            itemsPerPage: 10,
+                            currentPage: p,
+                            totalItems: Total_Count };let i=index">
+                            <td>{{item.First_name}}</td>
+                            <td>{{item.Phone}}</td>
+                            <td>
+                                <i class="fa fa-plus" (click)="selectPreCustomers(item,i)"></i>
+                            </td>
+                        </tr>
+                    </table>
+                    <pagination-controls style="float: right;" id="cust" *ngIf="CustomerData.length>0" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true"
+                        autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page">
+                    </pagination-controls>
+                    <div *ngIf="isData" style="text-align: center;">
+                        <strong style="font-size: 20px;">No Records Found</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <table class="table" *ngIf="createForm" style="margin-bottom: 0px;">
+    <tr>
+        <th style="border-top: none;text-align: center;">Customer Name: {{ First_name }}</th>
+        <th style="border-top: none;">
+            <a (click)="onCreateReport()">Change</a>
+        </th>
+    </tr>
+    <tr>
+        <td style="border-top: none;">
+            <span style="font-size: medium;">From:</span>
+        </td>
+        <td style="border-top: none;">
+            <div class="form-group" style="margin-top: 0px;">
+                <input type="date" max="" #form (input)="OnFromDate(form.value)" class="form-control">
+            </div>
+        </td>
+        <td style="border-top: none;">
+            <span style="font-size: medium;">To</span>
+        </td>
+        <td style="border-top: none;">
+            <div class="form-group" style="margin-top: 0px;">
+                <input type="date" #To (input)="OnTodate(To.value)" class="form-control">
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="border-top: none; text-align:center;" colspan="4">
+            <button class="btn btn-info" (click)="exportPdf()">Generate</button>
+        </td>
+    </tr>
+</table> -->
+
