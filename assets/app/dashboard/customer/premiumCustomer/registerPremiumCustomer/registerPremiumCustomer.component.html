@@ -1,0 +1,248 @@
+<div class="input-group" style="margin-left: 70%;">
+    <span class="input-group-addon">
+        <i
+            class="material-icons"
+            style="margin-top: 20px;"
+        >
+            search
+        </i>
+    </span>
+    <input type="text" class="form-control" [ngModel]="mymodel" (ngModelChange)="valuechange($event)" placeholder="Search Premium Customers">
+</div>
+<table class="table table-responsive" *ngIf="CustomerData.length>0 && ispremiumCustomer" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+    <tbody>
+        <tr>
+            <th>S.No</th>
+            <th>Customer Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Add</th>
+        </tr>
+        <tr *ngFor="let item of CustomerData;let i=index">
+            <td>{{i + 1}}</td>
+            <td>{{item.First_name}}</td>
+            <td>{{item.Email}}</td>
+            <td>{{item.Phone}}</td>
+            <td>
+                <button type="button" rel="tooltip" title="Add" class="btn btn-info btn-simple btn-xs" (click)="checkPremium_Click(item)">
+                    <i class="fa fa-plus"></i>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<div *ngIf="premiumCustomer">
+    <h3 style="text-align:center;font-size: 20px;font-family: Proxima-Nova-Regular;">Register Premium Customer</h3>
+    <table class="table">
+        <tr>
+            <td style="border-top: none;">Customer Name: {{CustomerName}}</td>
+            <td style="border-top: none;">Customer Phone: {{Phone}}</td>
+        </tr>
+    </table>
+    <div style="margin-left: 15px;">
+        <div class="row">
+            <label>Do you want to set Premium Price</label>
+        </div>
+        <div class="row">
+            <div class="radio">
+                <label>
+                    <input
+                        type="radio"
+                        name="optionsRadios"
+                        [(ngModel)]="pricingValue"
+                        value="pricesetTrue"
+                        (click)="OnPriceingSet($event.target.value)"
+                    >
+                    Yes
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        name="optionsRadios"
+                        [(ngModel)]="pricingValue"
+                        value="pricesetFalse"
+                        (click)="OnPriceingSet($event.target.value)"
+                    >
+                    No
+                </label>
+            </div>
+        </div>
+        <div *ngIf="isPriceSet_Boolean">
+            <div class="col-sm-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">Instant</label>
+                    <input type="text" [(ngModel)]="Premium_Instant_Pricing" class="form-control">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">4 Hours</label>
+                    <input type="text" [(ngModel)]="Premium_4hours_Pricing" class="form-control">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">Same Day</label>
+                    <input type="text" [(ngModel)]="Premium_Same_Day_Pricing" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label>Set minimum order count</label>
+        </div>
+         <div class="row">
+            <div class="col-sm-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">Minimum Order</label>
+                    <input type="text" [(ngModel)]="Premium_min_ordercount" name="Premium_min_ordercount" class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <label>Set Premium Price If user cross min order</label>
+        </div>
+        <div *ngIf="isPriceSet_Boolean">
+            <div class="col-sm-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">Instant</label>
+                    <input type="text" [(ngModel)]="Premium_Instant_Pricing_discount" class="form-control">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">4 Hours</label>
+                    <input type="text" [(ngModel)]="Premium_4hours_Pricing_discount" class="form-control">
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="form-group label-floating">
+                    <label class="control-label">Same Day</label>
+                    <input type="text" [(ngModel)]="Premium_Same_Day_Pricing_discount" class="form-control">
+                </div>
+            </div>
+        </div>
+        <!-- <div class="form-group ">
+            <label class="control-label">GST</label>
+            <input type="text" [(ngModel)]="Default_Pickup_Address" id="GST" autocorrect="off" (change)="autocomplete()" autofocus autocapitalize="off"
+                spellcheck="off" type="text" class="form-control" class="form-control">
+        </div> -->
+        <div class="row">
+            <label>Do you want to set Monthly Invoice</label>
+        </div>
+        <div class="row">
+            <div class="radio">
+                <label>
+                    <input
+                        type="radio"
+                        name="optionsRadios_month"
+                        [(ngModel)]="MonthlyInvoice"
+                        value="true"
+                        (click)="OnMonthlyInvoice($event.target.value)"
+                    >
+                    Yes
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        name="optionsRadios_month"
+                        [(ngModel)]="MonthlyInvoice"
+                        value="false"
+                        (click)="OnMonthlyInvoice($event.target.value)"
+                    >
+                    No
+                </label>
+            </div>
+        </div>
+        <div class="row" *ngIf="isFlatPrice">
+            <label>Do you want to set Flat Price</label>
+        </div>
+        <div class="row" *ngIf="isFlatPrice">
+            <div class="radio">
+                <label>
+                    <input
+                        type="radio"
+                        name="Flat"
+                        [(ngModel)]="flatS"
+                        value="true"
+                        (click)="OnFlatPrice($event.target.value)"
+                    >
+                    Yes
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        name="Flat"
+                        [(ngModel)]="flatS"
+                        value="false"
+                        (click)="OnFlatPrice($event.target.value)"
+                    >
+                    No
+                </label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-4" *ngIf="isFlat">
+                <div class="form-group label-floating">
+                    <label class="control-label">FlatPrice</label>
+                    <input type="text" [(ngModel)]="flatPrice" name="flatPrice" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label>
+                Do you want to set Default Pick Up location
+            </label>
+        </div>
+        <div class="row">
+            <div class="radio">
+                <label>
+                    <input
+                        type="radio"
+                        name="optionsRadios_Pick"
+                        [(ngModel)]="DefalutPick"
+                        value="true"
+                        (click)="OnDefaultPickup($event.target.value)"
+                    >
+                    Yes
+                </label>
+                <label>
+                    <input
+                        type="radio"
+                        name="optionsRadios_Pick"
+                        [(ngModel)]="DefalutPick"
+                        value="false"
+                        (click)="OnDefaultPickup($event.target.value)"
+                    >
+                    No
+                </label>
+            </div>
+        </div>
+        <div *ngIf="ispickup">
+            <div class="form-group label-floating">
+                <label class="control-label">Pick up Address</label>
+                <input type="text" [(ngModel)]="Default_Pickup_Address" id="autocompleteInput" autocorrect="off" (change)="autocomplete()" autofocus autocapitalize="off"
+                    spellcheck="off" type="text" class="form-control" class="form-control">
+            </div>
+
+            <sebm-google-map [latitude]="lat_map" [longitude]="lng_map" [zoom]="zoom" [mapTypeControl]="true">
+                <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="pos_pick($event)"></sebm-google-map-marker>
+            </sebm-google-map>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary" style="margin-top: 15px;
+    margin-bottom: 5px;" type="submit" (click)="onsubmit_premiumCust()">
+            Submit
+        </button>
+        </div>
+    </div>
+</div>
+<!-- <div class="form-group label-floating">
+    <label class="control-label">Pick up Address</label>
+    <input type="text" [(ngModel)]="Default_Pickup_Address" id="wwww" autocorrect="off" (ngModelChange)="autocomplete()" autofocus autocapitalize="off"
+        spellcheck="off" type="text" class="form-control" class="form-control">
+</div>
+
+<sebm-google-map [latitude]="lat_map" [longitude]="lng_map" [zoom]="zoom" [mapTypeControl]="true">
+    <sebm-google-map-marker [latitude]="lat" [longitude]="lng" [markerDraggable]="true" (dragEnd)="pos_pick($event)"></sebm-google-map-marker>
+</sebm-google-map> -->
