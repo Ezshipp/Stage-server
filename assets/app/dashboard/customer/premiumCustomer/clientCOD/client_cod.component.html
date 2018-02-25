@@ -1,0 +1,133 @@
+<div class="row">
+    <div style="float: right;margin-bottom: 10px;padding-right: 15px;" *ngIf="!createForm">
+        <label>Generate CodReport</label>
+        <button type="button" (click)="onClickCOdReport()" rel="tooltip" title="Create Report" class="btn btn-info" style="padding: 3px;">
+            <i class="fa fa-plus"></i>
+        </button>
+    </div>
+</div>
+
+<my-spinner [isRunning]="isRequesting"></my-spinner>
+<div class="row" *ngIf="createForm" style="margin-bottom: 30px;">
+        <div class="col-xs-12 col-md-8 col-sm-8">
+            <h6>
+                <a (click)="onClickCOdReport()">
+                    <i class="fa fa-chevron-left"></i> Change Customer</a>
+            </h6>
+            <h5 style="text-align: center;">Customer Name: {{ First_name }}</h5>
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group" style="margin-top: 0px;">
+                    <label>From Date
+                        <input type="date" max="" #from  class="form-control">
+                    </label>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-4">
+                <div class="form-group" style="margin-top: 0px;">
+                    <label>To Date
+                        <input type="date" #OnTodate  class="form-control">
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <div style="text-align: center;">
+                    <button class="btn btn-info" (click)="exportPdf(from.value,OnTodate.value)">Generate</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);" *ngIf="CodReportsData.length>0">
+    <tbody>
+        <tr>
+            <!-- <th>S.No.</th> -->
+            <th>Customer Name</th>
+            <th>Invoice Number</th>
+            <th>From Date</th>
+            <th>To Date</th>
+            <th>Generation Date</th>
+            <!-- <th>Status</th> -->
+            <!-- <th>Activity</th> -->
+        </tr>
+        <tr *ngFor="let item of CodReportsData | paginate: {
+            itemsPerPage: limit,
+            currentPage: currentPage_cod,
+            totalItems: Total_Count_cod }; let i=index">
+
+            <td>{{item.CustomerName}}</td>
+            <td>{{item.InvoiceNumber}}</td>
+            <td>{{item.from_date}}</td>
+            <td>{{item.to_date }}</td>
+            <td>{{item.created_at}}</td>
+            <td *ngIf="item.ProcessStage==1">
+                <div>
+                    Processing
+                    <i class="material-icons" style="cursor: pointer;" (click)="OnRefresh(item,i)">refresh</i>
+
+                </div>
+                <!-- <ng-template #elseTemplate>
+                    <a href={{pdfLinkRefresh}} target="_blank">PDF</a>
+                </ng-template> -->
+
+            </td>
+            <td *ngIf="item.ProcessStage==2">
+                <a href="{{item.PDFLink}}" target="_blank">PDF</a>
+
+            </td>
+
+        </tr>
+    </tbody>
+</table>
+<pagination-controls  (pageChange)="OnpageChanege_cod($event)" maxSize="8" directionLinks="true" autoHide="true"
+    previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"
+    style="float: right;margin-top: 30px;">
+</pagination-controls>
+
+
+
+<div *ngIf="allPremiumCustomers">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="allPremiumCustomers=false;">
+                        <span aria-hidden="true" style="font-size: 25px;">
+                            ×
+                        </span>
+                    </button>
+                    <h5 style="text-align: center;">Premium Customers</h5>
+                </div>
+                <div class="modal-body" style="padding-top: 15px;padding-bottom: 36px;">
+                    <table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);" *ngIf="premuCust_data.length>0">
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Customer Phone</th>
+                            <th>Select</th>
+                        </tr>
+                        <tr *ngFor="let item of premuCust_data | paginate: {
+                            id:'cust',
+                            itemsPerPage: 10,
+                            currentPage: currentPage_premiumCust,
+                            totalItems: premiumCust_Count };let i=index">
+                            <td>{{item.First_name}}</td>
+                            <td>{{item.Phone}}</td>
+                            <td>
+                                <i class="fa fa-plus" (click)="OnselectPreCustomers(item,i)"></i>
+                            </td>
+                        </tr>
+                    </table>
+                    <span *ngIf="isLoadinPremiumCust">Loading...</span>
+                    <pagination-controls style="float: right;" id="cust" *ngIf="premuCust_data.length>0"  (pageChange)="OnpageChanege_premiumCust($event)" maxSize="8" directionLinks="true"
+                        autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                        screenReaderCurrentLabel="You're on page">
+                    </pagination-controls>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
