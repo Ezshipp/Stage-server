@@ -1,0 +1,200 @@
+<ul class="list-inline">
+    <li style="display:inline;padding: 8px;cursor: pointer;" (click)="offer_select(i,item)" *ngFor="let item of offers;let i=index"
+        [ngClass]="{'active': i==Offers_index}">
+        {{item}}
+    </li>
+</ul>
+<table class="table" *ngIf="all_offersData.length>0" style="margin-top: 25px;box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+    <tr>
+        <th>S.No.</th>
+        <th>Offer Name</th>
+        <th>Offer Code</th>
+        <th>Offer Type</th>
+        <th>Discount in %</th>
+        <th>Last Updated</th>
+        <th>Booking Type</th>
+        <!--<th>More Details</th>-->
+
+        <th style="text-align: center;">Activity</th>
+    </tr>
+    <tr *ngFor="let item of all_offersData ;let i = index">
+        <td>{{i+1}}</td>
+        <td>{{item.OfferName}}</td>
+        <td>{{item.OfferCode}}</td>
+        <td *ngIf="item.OfferType==1">First Time offer</td>
+        <td *ngIf="item.OfferType==2">Seasonal Offer</td>
+        <td *ngIf="item.OfferType==3">Referal Offer</td>
+        <td *ngIf="item.OfferType==4">Lottery Offer</td>
+        <td>{{item.DiscountPercentage}}</td>
+        <td>{{item.Date}}</td>
+        <td *ngIf="item.BookingType==1">Instant</td>
+        <td *ngIf="item.BookingType==2">4 Hours</td>
+        <td *ngIf="item.BookingType==3">Same Day</td>
+        <!--<td><button class="btn" (click)="More_offer(item)">More Details</button></td>-->
+        <!--<td><button class=" btn btn-info" (click)="Edit_offer(item)"><span class="glyphicon glyphicon-edit"></span></button></td>-->
+        <td>
+            <button type="button" title="Edit" class="btn btn-success btn-simple btn-xs" (click)="Edit_offer(item)">
+                <i class="fa fa-edit"></i>
+            </button>
+            <button type="button" title="Remove" class="btn btn-danger btn-simple btn-xs" (click)="Delete(item,i)">
+                <i class="fa fa-times"></i>
+            </button>
+            <!--
+            <i style="cursor:pointer" class="fa fa-edit"></i>&nbsp;&nbsp;<i class="fa fa-times" style="cursor:pointer"></i> -->
+        </td>
+    </tr>
+</table>
+<div *ngIf="update_Offer_Full_Details">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" [@itemAnim1] [@focusPanel]='state' [@movePanel]='state' role="document" style="width: 800px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="onClose_updateOffer()">
+                        <span aria-hidden="true" style="font-size: 25px;">&times;</span>
+                    </button>
+                    <h4 style="text-align: center">Update Offer Details:
+                        <strong>{{OfferName}}</strong>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div class="heads" style="margin-left: 25%;margin-top: 15px;">
+                        <input class="btn btn-primary button-color" type="submit" value="Update Offer Details" (click)="updat_Offer_details()" />
+                        <input *ngIf="isdiscount" class="btn btn-primary button-color" type="submit" value="Update Offer Discount" (click)="updat_OfferDiscount()"
+                        />
+                    </div>
+                    <div *ngIf="update_Offer_details">
+                        <form class="form-signin form-horizontal" [@itemAnim] style="margin-left: 5%;" (ngSubmit)="onSubmit_Add_Details(fff)" #fff="ngForm">
+                            <div style="width: 400px;">
+                                <div class="form-group">
+                                    <label for="Offer Name">Offer Name:</label>
+                                    <input type="text" class="form-control" [(ngModel)]="OfferName" name="Offer_name" placeholder="Offer Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Offer_Desc">Offer Descrption:</label>
+                                    <textarea class="form-control" [attr.maxLength]=120 [(ngModel)]="OfferDescription" name="OfferDescription" #incidentDescription>
+                                    </textarea>
+                                    <small class="form-text text-muted">
+                                        <code>{{incidentDescription.value.length}}</code> of
+                                        <code>{{maxIncidentDescriptionLength}}</code> characters</small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Offer_code">Offer Code:</label>
+                                    <input type="text" class="form-control" [(ngModel)]="OfferCode" name="OfferCode" placeholder="Ex:Welcom" required>
+                                </div>
+                                <div class="form-group" [hidden]="OfferType==1">
+                                    <label for="Offer Valid">Offer Valid :</label>
+                                    <input type="datetime-local" class="form-control" [(ngModel)]="OfferValidFrom " name="OfferValidFrom" required> &nbsp;&nbsp;
+                                    <p>to</p>
+                                    <input type="datetime-local" class="form-control" [(ngModel)]="OfferValidTo" name="OfferValidTo" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="All_zone">All zones:&nbsp; </label>
+                                    <input type="radio" name="optradio" value="true" [(ngModel)]="Whether_All_Zones" (click)="Whether_All_zone()" required>&nbsp;&nbsp;yes&nbsp;&nbsp;
+                                    <input type="radio" name="optradio" value="false" [(ngModel)]="Whether_All_Zones" (click)="Whether_All_zone_no()" required>&nbsp;&nbsp;No
+                                </div>
+                                <div class="form-group" *ngIf="!all_zone">
+                                    <select class="form-control" [(ngModel)]="ZoneID" name="Zone_name" (change)="valuechange($event.target.value)" *ngIf="!zones">
+                                        <option value="">Select Zone</option>
+                                        <option *ngFor="let item of ZoneData" [value]="item.ZoneID">{{item.city}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Booking Type">Booking Type:</label>
+                                    <select class="form-control" [(ngModel)]="BookingType" name="Booking_Type" (change)="valuechange_bookingType($event.target.value)">
+                                        <option value="">Select Booking Type</option>
+                                        <option value="1">Instant</option>
+                                        <option value="2">4 Houurs</option>
+                                        <option value="3">Same Day</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn profile-4 radio_button" style="background-color: #f17b24;">Submit</button>
+                                </div>
+                                <div [ngBusy]="{busy: busy_updateDetails, message: ' please wait ...', backdrop: true, delay: 400, minDuration: 4000}"></div>
+
+                            </div>
+                        </form>
+
+                    </div>
+                    <div *ngIf="update_offerDiscount">
+                        <form class="form-signin form-horizontal" [@focusPanel]='state' [@movePanel]='state' style="margin-left: 9%;" (ngSubmit)="onSubmit_OfferDiscount_Details(ff)"
+                            #ff="ngForm">
+                            <div style="width: 400px;">
+
+                                <div class="form-group">
+                                    <label for="All_zone">Discount </label>
+                                    <input type="text" class="form-control" [(ngModel)]="DiscountPercentage" name="Discount" placeholder="Discount in %" required>
+                                </div>
+
+                                <div class="form-group">
+
+                                    <button type="submit" class="btn profile-4 radio_button" style="background-color: #f17b24;">Submit</button>
+                                </div>
+                                <div [ngBusy]="{busy: busy1, message: ' please wait ...', backdrop: true, delay: 400, minDuration: 4000}"></div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="ismoredetails">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 800px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="CloseMoreDetails()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 style="text-align: center">Offer Name: {{OfferName}}</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <tr>
+                            <td class="tdline">Name: </td>
+                            <td class="tdline">{{ this.OfferName }}</td>
+                            <td class="tdline">Offer Description: </td>
+                            <td class="tdline">{{ this.OfferDescription }}</td>
+                        </tr>
+                        <tr>
+                            <td class="tdline">OfferCode: </td>
+                            <td class="tdline">{{ this.OfferCode }}</td>
+                            <td class="tdline">DiscountPercentage: </td>
+                            <td class="tdline">{{ this.DiscountPercentage }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div *ngIf="isdelete">
+    <div class="resetpasswd" id="resetpwd">
+        <div class="modal-content modal-content-dialog">
+            <span class="closeresetpwd" (click)="onClose_Delete()">×</span>
+            <div>
+                <span style="color: #CE93D8">Offer Name:</span>
+                <span style="color: #FF5722">{{OfferName }}</span>
+            </div>
+
+            <h5 style="font-size: 20px;margin-left: 15%;margin-right: 15%">Are you sure you want to Remove this Offer?</h5>
+            <div class="buttons_style">
+                <input class="btn btn-default all-buttons" type="submit" value="Yes" (click)="delete_Final()" />&nbsp;&nbsp;&nbsp;
+                <input class="btn btn-default no-all-buttons" type="submit" value="No" (click)="onClose_Delete()"
+                />
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+<div *ngIf="isData" style="text-align: center;margin-top: 30px;">
+    <strong style="font-size: 20px;">No Records Found</strong>
+</div>
