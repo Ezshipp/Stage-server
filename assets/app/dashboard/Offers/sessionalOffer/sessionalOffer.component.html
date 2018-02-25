@@ -1,0 +1,64 @@
+<ul class="list-inline">
+    <li style="display:inline;padding: 8px;" (click)="offer_select(i,item)" *ngFor="let item of offers;let i=index" [ngClass]="{'active': i==Offers_index}">
+        {{item}}
+    </li>
+ </ul>
+ <div class="form-horizontal" style="width: 450px;margin-top: 3%;margin-left: 20px;">
+    <p style="margin-left: -15px;text-align: center;font-weight: 800;font-size: 18px;">Registration For <span style="color:#12A6f1">{{offerType}}</span></p>
+    <form class="form-signin form-horizontal" (ngSubmit)="onSubmit_First_Offer(ff)" #ff="ngForm">
+        <div style="width: 400px;">
+            <div class="form-group label-floating">
+                <label class="control-label">Offer Name:</label>
+                <input type="text" class="form-control" ngModel name="Offer_name">
+            </div>
+           
+            <div class="form-group">
+                <label for="Offer_Desc">Offer Descrption:</label>
+                <textarea class="form-control" [attr.maxLength]=120 ngModel name="Offer_Desc" #incidentDescription> </textarea>
+                <small class="form-text text-muted"><code>{{incidentDescription.value.length}}</code> of <code>{{maxIncidentDescriptionLength}}</code> characters</small>
+            </div>
+            <div class="form-group">
+                <label for="Offer_code">Offer Code:</label>
+                <input type="text" class="form-control" ngModel name="Offer_code" #input (input)="input.value=$event.target.value.toUpperCase()" (input)="input.value=$event.target.value.split(' ').join('')" placeholder="Ex:Welcome" required>
+            </div>
+            <div class="form-group" [hidden]="offerType_Number==1">
+                <label for="Offer Valid">Offer Valid :</label>
+                <input type="datetime-local" class="form-control" ngModel name="Offer_date" required>
+             
+           
+            </div>
+            <div class="form-group" [hidden]="offerType_Number==1">
+                <label for="Offer Valid">Offer Valid to :</label>
+               
+                <input type="datetime-local" class="form-control" ngModel name="Offer_date_exp" required>
+            </div>
+            <div class="form-group">
+                <label for="All_zone">All zones:&nbsp; </label>
+                <input type="radio" name="optradio" value="true" [(ngModel)]="zones1" (click)="Whether_All_zone()" required>&nbsp;&nbsp;yes&nbsp;&nbsp;
+                <input type="radio" name="optradio" value="false" [(ngModel)]="zones1" (click)="Whether_All_zone_no()" required>&nbsp;&nbsp;No
+            </div>
+            <div class="form-group">
+                <select class="form-control" ngModel name="Zone_name" (change)="valuechange($event.target.value)" *ngIf="!zones">
+                <option value="">Select Zone</option>
+                <option *ngFor="let item of ZoneData" [value]="item.ZoneID">{{item.title}}</option>
+            </select>
+            </div>
+            <div class="form-group">
+                <label for="Booking Type">Booking Type:</label>
+                <select class="form-control" [(ngModel)]="bookingType" name="Booking_Type" (change)="valuechange_bookingType($event.target.value)">
+                <option value="1">Instant</option>
+                <option value="2">4 Hours</option>
+                <option value="3">Same Day</option>
+            </select>
+            </div>
+            <div class="form-group" *ngIf="isdiscount">
+                <label for="All_zone">Discount </label>
+                <input type="text" class="form-control" ngModel name="Discount" placeholder="Discount in %" required>
+            </div>
+ 
+            <div class="form-group">
+                <button type="submit" class="btn profile-4 radio_button" style="background-color: #f17b24;">Submit</button>
+            </div>
+        </div>
+    </form>
+ </div>
