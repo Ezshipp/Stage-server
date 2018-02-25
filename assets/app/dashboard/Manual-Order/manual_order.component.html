@@ -1,0 +1,169 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <h3 class="zone-heading">Manual Routing</h3>
+            <div class="form-group">
+                <label style="color: #000;">Select Zone:</label>
+                <select class="form-control form-control-lg" style="width: 100%;margin-left: 0px;margin-top: 0px;" #box (change)="select(box.value,$event)">
+                   <option *ngFor="let item of ZoneData let i=index" [value]="item.zoneseq+'/'+item.ZoneID">{{item.city}}, {{item.title}} - {{item.Count}} orders</option>
+               </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <table class="table table-bordered">
+                <tr>
+                    <th style="text-align: center;font-size: 20px;">Orders</th>
+                </tr>
+                <tr style="width: 33%">
+                    <td>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                       <i class="material-icons" style="margin-top: 20px;">search</i>
+                                   </span>
+                                    <input type="text" class="form-control" placeholder="Search Orders">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <button class="btn table-btn" (click)="refresh_orders()">Refresh</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="row">
+                            <div class="col-xs-4 col-md-4 col-sm-4 one_order" *ngFor="let item of OrderData; let i = index" (click)="onclickforOrderDatas(item.orderId,i)" [style.background-color]="onorder_selects(i)">
+                                <table align="center" class="border_table border_table_hover">
+                                    <tr>
+                                        <td class="td_style">Order Id:</td>
+                                        <td class="td_style">{{item.orderseqId}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_style">Item name:</td>
+                                        <td class="td_style">{{item.itemName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_style">From: {{item.pickAddress}}</td>
+                                        <td class="td_style">To: {{item.dropAddress}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_style">Status: </td>
+                                        <td class="td_style" *ngIf="item.status==1">New Order</td>
+                                        <td class="td_style" *ngIf="item.status==2">Accepted</td>
+                                        <td class="td_style" *ngIf="item.status==3">Ready</td>
+                                        <td class="td_style" *ngIf="item.status==4">Completed</td>
+                                        <td class="td_style" *ngIf="item.status==5">Order Canceled</td>
+                                        <td class="td_style" *ngIf="item.status==6">Order Rejected</td>
+                                        <td class="td_style" *ngIf="item.status==7">Driver Assigned</td>
+                                        <td class="td_style" *ngIf="item.status==8">Driver Rejected</td>
+                                        <td class="td_style" *ngIf="item.status==9">Order Expired</td>
+                                        <td class="td_style" *ngIf="item.status==10">Order at Store</td>
+                                        <td class="td_style" *ngIf="item.status==11">Order picked</td>
+                                        <td class="td_style" *ngIf="item.status==12">Order reached at Destination</td>
+                                        <td class="td_style" *ngIf="item.status==14">Order Delivered</td>
+                                        <td class="td_style" *ngIf="item.status==15">Order at depot</td>
+                                        <td class="td_style" *ngIf="item.status==16">On the way to Pickup</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td_style">Person Number: </td>
+                                        <td class="td_style">{{item.Phone}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <table class="table table-bordered">
+                <tr>
+                    <th style="text-align: center;font-size: 20px;">Drivers</th>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                       <i class="material-icons" style="margin-top: 20px;">search</i>
+                                   </span>
+                                    <input type="text" class="form-control" placeholder="Search Drivers">
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                <button class="btn table-btn" (click)="refresh_drivers()">Refresh</button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 one_order" *ngFor="let item of DriverData; let i = index" (click)="onclickforDriversDatass(item.DriverID,item.name,i)">
+                                <table align="center" class="border_table">
+                                    <tr>
+                                        <td class="td_style">
+                                            <table align="center" class="border_table_hover" [style.background-color]="ondriver_selects(i)">
+                                                <tr>
+                                                    <td class="td_style">Name: </td>
+                                                    <td class="td_style">{{item.name}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td_style">Phone Number: </td>
+                                                    <td class="td_style">{{item.phone}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="td_style">Status: </td>
+                                                    <td class="td_style" *ngIf="item.acc_status==1">New</td>
+                                                    <td class="td_style" *ngIf="item.acc_status==3">Active</td>
+                                                    <td class="td_style" *ngIf="item.acc_status==4">Rejected</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td style="margin-left: -25px;"><button type="submit" class="btn order-button" (click)="orderconfirm()">Assign</button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <table class="table table-bordered">
+                <tr>
+                    <th style="text-align: center;font-size: 20px;">Confirm</th>
+                </tr>
+                <tr>
+                    <td style="text-align: center;" *ngIf="isdriver_name">
+                        <h3>Your Order has been Assigned Successfully to Driver Name: {{driverName}}</h3>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div *ngIf="issucess">
+        <div class="backdrop"></div>
+        <div class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content bg">
+                    <div class="modal-header head">
+                        <button type="button" class="close" aria-label="Close" (click)="onErrorHandled()"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body bod">
+                        <p style="text-align: center;font-weight: bold;font-size: 17px">Driver Allocated the Job</p>
+                    </div>
+                    <div class="modal-footer foot">
+                        <button type="button" class="btn btn-danger" (click)="onErrorHandled()">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
