@@ -1,0 +1,130 @@
+<div class="row" style="text-align: right;">
+    <label for="selectDate">Select Date:</label>
+    <ng2-datepicker [options]="FromDate_DateRange" [(ngModel)]="Fromdate_DateFilter"></ng2-datepicker>
+    To
+    <ng2-datepicker [options]="Todate_DateRange" [(ngModel)]="Todate_DateFilter"></ng2-datepicker>
+    <button class="btn" (click)="onsubmit()">
+        submit
+    </button>
+</div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12" style="float: right;">
+        <pagination-controls *ngIf="isPagination" (pageChange)="pageChangedEmployee($event)" maxSize="8" directionLinks="true" autoHide="true"
+        previousLabel="Previous" id="EmployeeList" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page" style="float: right;margin-top: 30px;">
+        </pagination-controls>
+    </div>
+</div>
+<table class="table shadow" *ngIf="allEmpAttendence_Data.length>0">
+    <tr>
+        <th>Branch Name</th>
+
+
+        <th>Name</th>
+        <th>PhoneNumber</th>
+        <th>Email</th>
+        <th>Total Days</th>
+        <th>Attendance Count</th>
+
+    </tr>
+    <tr *ngFor="let item of allEmpAttendence_Data | paginate: {
+    itemsPerPage: 10,
+    currentPage: pE,
+    totalItems: TotalEmp, id: 'EmployeeList' }; let i=index">
+        <td>{{item.Ezshipp_Branch_Name}}</td>
+        <td>{{item.Employee_Name}}</td>
+        <td>{{item.Employee_PhoneNumber}}</td>
+        <td>{{item.Employee_Email}}</td>
+        <td>{{TotalDays}}</td>
+        <td>{{item.AttendanceCount}}</td>
+
+    </tr>
+</table>
+<pagination-controls *ngIf="isPagination" (pageChange)="pageChangedEmployee($event)" maxSize="8" directionLinks="true" autoHide="true"
+previousLabel="Previous" id="EmployeeList" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+screenReaderCurrentLabel="You're on page" style="float: right;margin-top: 30px;">
+</pagination-controls>
+<!-- <pagination-controls *ngIf="isPagination" (pageChange)="pageChangedEmployee($event)" maxSize="8" directionLinks="true"
+    autoHide="true" previousLabel="Previous" id="ActiveCUs" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+    screenReaderCurrentLabel="You're on page" style="float: right;margin-top: 30px;">
+</pagination-controls> -->
+<i class="material-icons button-fixed-plus" (click)="getEmp()">
+    add_circle
+</i>
+
+<!-- View Employees Modal -->
+<div class="modal fade" id="myModal" #myModal tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    ×
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Attendence
+                </h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive table_date_width">
+                    <tbody>
+                        <tr>
+                            <td class="border-top">
+                                <div class="form-group ">
+                                    <label>Select Date:</label>
+                                    <ng2-datepicker [options]="PresentDate" [(ngModel)]="Today_date"></ng2-datepicker>
+                                </div>
+                            </td>
+                            <td class="border-top">
+                                <i class="material-icons" (click)="Onsubmit_getempData(Today_date)">subdirectory_arrow_left</i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div *ngIf="!EmployeeAttendanceData.length" style="text-align: center;">
+                    <strong style="font-size: 20px;">No Records Found</strong>
+                </div>
+                <table class="table table-responsive" *ngIf="EmployeeAttendanceData.length>0">
+                    <tbody>
+                        <tr>
+                            <th>Branch Name</th>
+                            <th>Company ID</th>
+                            <th>Name</th>
+                            <th>PhoneNumber</th>
+                            <th>Attendence</th>
+                        </tr>
+                        <tr *ngFor="let item of EmployeeAttendanceData | paginate: {
+                          itemsPerPage: 10,
+                          currentPage: p,
+                          totalItems: TotalEmp_count }; let i=index">
+                            <td>{{item.Ezshipp_Branch_Name}}</td>
+                            <td>{{item.Employee_Company_ID}}</td>
+
+                            <td>{{item.Employee_Name}}</td>
+                            <td>{{item.Employee_PhoneNumber}}</td>
+                            <td>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="optionsCheckboxes" [checked]="item.Whether_Present" (click)="onPresent(item)">
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true" autoHide="true" previousLabel="Previous"
+                    nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page"
+                    style="float: right;margin-top: 30px;">
+                </pagination-controls>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-info">
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<my-spinner [isRunning]="isRequesting"></my-spinner>
+<div *ngIf="isData" style="text-align: center;    margin-top: 70px;">
+    <strong style="font-size: 20px;">No Records Found</strong>
+</div>
