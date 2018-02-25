@@ -1,0 +1,118 @@
+<div class="container-fluid">
+   <div class="row">
+       <div style="float: right;margin-bottom: 10px;padding-right: 15px;">
+           <label>Add Reason</label>
+           <button type="button" (click)="onCreateReason()" rel="tooltip" title="Create Reason" class="btn btn-info" style="padding: 3px;">
+               <i class="material-icons">add</i>
+           </button>
+       </div>
+   </div>
+   <div class="row">
+       <div class="col-xs-12 col-sm-12 col-md-12">
+           <table
+               class="table table-responsive"
+               style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);"
+           >
+               <tbody>
+                   <tr>
+                       <th>S.No.</th>
+                       <th>Reason</th>
+                       <th>Activity</th>
+                   </tr>
+                   <tr *ngFor="let item of ReasonData; let i=index">
+                       <td>{{i+1}}</td>
+                       <td [hidden]="i==index">{{item.Reason}}</td>
+                       <td *ngIf="i==index">
+                           <div class="form-group">
+                               <input
+                                   type="text"
+                                   value
+                                   placeholder="Regular"
+                                   class="form-control"
+                                   [(ngModel)]="item.Reason"
+                                   name="item.Reason"
+                               >
+                               <i class="material-icons" style="position: absolute;right: 0;top: 10px;color: #F00;cursor: pointer;" (click)="onClick()">clear</i>
+                           </div>
+                       </td>
+                       <td *ngIf="i==index">
+                           <!-- <button
+                               class="btn info"
+                               (click)="onsubmitEdit(item)"
+                           >
+                               Submit
+                           </button> -->
+                           <i class="material-icons" style="color: #55b559;margin-top: 20px;cursor: pointer;"(click)="onsubmitEdit(item)">done</i>
+                       </td>
+
+                       <td [hidden]="i==index">
+                           <button
+                               type="button"
+                               (click)="onEdit(item,i)"
+                               rel="tooltip"
+                               title="edit"
+                               class="btn  btn-simple btn-xs"
+                           >
+                               <i class="material-icons">edit</i>
+                           </button>
+                           <!-- <button type="button" (click)="Ondelete(item,i)" rel="tooltip" title="Delete" class="btn btn-danger btn-simple btn-xs">
+                    <i class="material-icons">delete</i>
+                       </button> -->
+                       </td>
+
+                   </tr>
+               </tbody>
+           </table>
+       </div>
+   </div>
+<!-- <my-spinner [isRunning]="isRequesting"></my-spinner> -->
+</div>
+
+<div *ngIf="onCreate_Reason">
+   <div class="backdrop"></div>
+   <div class="modal" tabindex="-1" role="dialog" style="margin-top: -5%;">
+       <div class="modal-dialog" role="document">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <button type="button" class="close" aria-label="Close" (click)="onCloseCreate_Reason()">
+                                   <span
+                                       aria-hidden="true"
+                                       style="font-size: 25px;"
+                                   >
+                                       ×
+                                   </span>
+                               </button>
+                   <h4 style="text-align: center">Create Biker Reason</h4>
+               </div>
+               <div class="modal-body" style="padding-top: 0px;">
+                   <form (ngSubmit)="onSubmit(f)" #f="ngForm" class="web_form">
+                   <div class="form-group">
+                       <label style="color: #000;">Reason:</label>
+                       <input
+                                   type="text"
+                                   value
+                                   placeholder="Enter Biker Reason"
+                                   class="form-control"
+                                   ngModel name="Reason"
+                               >
+                   </div>
+                   <table class="table table-responsive">
+                       <tr *ngIf="isRequesting">
+                           <td style="border-top: none;text-align: center;color: #12A6F1;">Loading&hellip;</td>
+                       </tr>
+                       <tr>
+                           <td style="border-top: none;text-align: center;">
+                               <button type="submit" class="btn btn-info">Submit</button>
+                           </td>
+                       </tr>
+                       <tr *ngIf="Status_OK">
+                           <td style="border-top: none;text-align: center;">Biker Cancellation Reason Added Successfully</td>
+                       </tr>
+                   </table>
+                   </form>
+               </div>
+           </div>
+       </div>
+   </div>
+</div>
+
