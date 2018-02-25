@@ -1,0 +1,398 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-8 col-sm-8 col-md-8">
+            <div>
+                <table class="table table-responsive" style="margin-top: 15px;margin-bottom: 0px;">
+                    <tbody>
+                        <tr>
+
+                            <td class="td-border-top">
+                                <label>From Date:</label>
+                                <ng2-datepicker [options]="options" [(ngModel)]="date_from"></ng2-datepicker>
+                            </td>
+                            <td class="td-border-top">
+                                <label>To Date:</label>
+                                <ng2-datepicker [options]="options_Todate" [(ngModel)]="date_to"></ng2-datepicker>
+                            </td>
+                            <td class="td-border-top">
+                                <input type="submit" (click)="onSubmit()">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="input-group" style="margin-top: -35px;">
+                <span class="input-group-addon">
+                    <i class="material-icons" style="margin-top: 20px;">
+                        search
+                    </i>
+                </span>
+                <input type="text" class="form-control" [ngModel]="mymodel" (ngModelChange)="valuechange($event)" placeholder="Search">
+            </div>
+        </div>
+
+    </div>
+    <table class="table" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);" *ngIf="DriverData.length>0">
+        <tr>
+            <th>
+                <b style="cursor:pointer" id="1" [class.active]="activeId == 1" (click)="activeId=1" (click)="sortColumn('name')">Biker Name
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                </b>
+            </th>
+            <th>
+                <b style="cursor:pointer" id="2" [class.active]="activeId == 2" (click)="activeId=2" (click)="sortColumn('phone')">
+                    Biker Phone
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+
+                </b>
+            </th>
+            <th>
+                <b style="cursor:pointer" id="8" [class.active]="activeId == 8" (click)="activeId=8" (click)="sortColumn('Rating')">
+                    Biker Rating
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+
+                </b>
+            </th>
+            <!-- <th>
+                <b style="cursor:pointer" id="3" [class.active]="activeId == 3" (click)="activeId=3" (click)="sortColumn('Total_Collection')">
+                    COD
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+
+                </b>
+
+            </th> -->
+            <th>
+                <b id="4" [class.active]="activeId == 4" (click)="activeId=4" style="cursor:pointer" (click)="sortColumn('Instant_Count')">
+                    Instant
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+
+                </b>
+            </th>
+            <th>
+                <b id="5" [class.active]="activeId == 5" (click)="activeId=5" style="cursor:pointer" (click)="sortColumn('Four_Hours_Count')">
+                    4 Hours
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+
+                </b>
+            </th>
+            <th>
+                <b id="6" [class.active]="activeId == 6" (click)="activeId=6" style="cursor:pointer" (click)="sortColumn('Same_Day_Count')">
+                    Same Day
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                </b>
+            </th>
+            <th>
+                <b id="7" [class.active]="activeId == 7" (click)="activeId=7" style="cursor:pointer" (click)="sortColumn('ZoneName')">
+                    Zone Name
+                    <i class="fa fa-sort" aria-hidden="true"></i>
+                </b>
+            </th>
+            <th>Activity</th>
+        </tr>
+        <ng-container *ngFor="let DriverData2 of DriverData  | paginate: { itemsPerPage: 10, currentPage: p,totalItems: Total_Count_json };let i = index">
+            <tr>
+                <td>{{DriverData2.name}}</td>
+                <td>{{DriverData2.phone}}</td>
+                <td>{{DriverData2.Rating | number : '1.2-2'}}</td>
+                <!-- <td>{{DriverData2.Total_Collection }}</td> -->
+                <td>
+                    <a (click)="find_Instant_Orders(DriverData2.DriverID,i)">{{DriverData2.Instant_Count}}</a>
+                </td>
+                <td>
+                    <a (click)="find_Four_Hours_Orders(DriverData2.DriverID,i)">{{DriverData2.Four_Hours_Count}}</a>
+                </td>
+                <td>
+                    <a (click)="find_Same_Day_Orders(DriverData2.DriverID,i)">{{DriverData2.Same_Day_Count}}</a>
+                </td>
+                <td>{{DriverData[i].ZoneName}}</td>
+                <td>
+                    <i class="fa fa-user" style="    font-size: 20px;
+                    color: #12a7f1;
+                    cursor: pointer;" (click)="view_analytics(DriverData2,i)"></i>
+                </td>
+
+            </tr>
+            <tr *ngIf="i==views">
+
+                <td colspan="9">
+                    <div style="float: right;">
+                        <button type="button" class="btn btn-default btn-simple btn-xs" (click)="close()">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <table class="table table-responsive">
+
+                        <tbody>
+                            <tr>
+                                <td style="border-top: none;">
+                                    <strong>Email:</strong> {{ email }}
+                                </td>
+                                <td style="border-top: none;">
+                                    <strong>Zone:</strong> {{ZoneName}}
+                                    <a (click)="changeZone(DriverData2)">Change</a>
+                                </td>
+                                <td style="border-top: none;" *ngIf="acc_status==1">
+                                    <strong>Account Status:</strong> New Biker
+                                </td>
+                                <td style="border-top: none;" *ngIf="acc_status==3">
+                                    <strong>Account Status:</strong> Active
+                                </td>
+                                <td style="border-top: none;" *ngIf="acc_status==4">
+                                    <strong>Account Status:</strong> Rejected
+                                </td>
+                                <!-- <td style="border-top: none;">Item Description: {{ itemDescription }}</td> -->
+
+                                <td style="border-top: none;" *ngIf="Salary_Assigned==true">
+                                    <strong>Salary:</strong> {{ Salary }}
+                                </td>
+                                <td style="border-top: none;" *ngIf="Salary_Assigned==false">
+                                    <strong>Salary:</strong> {{ Salary }}
+                                </td>
+                                <td style="border-top: none;">
+                                    <strong>Total Count:</strong> {{ Total_Count }}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="border-top: none;">
+                                    <strong>Last Login:</strong> {{ LastOnline }}
+                                </td>
+                                <td style="border-top: none;" *ngIf="CurrentStatus==1">
+                                    <strong>Current Status:</strong> Logged In
+                                </td>
+                                <td style="border-top: none;" *ngIf="CurrentStatus==0">
+                                    <strong>Current Status:</strong> Logged Out
+                                </td>
+                                <td style="border-top: none;" *ngIf="status==3">
+                                    <strong>Status:</strong> Online
+                                </td>
+                                <td style="border-top: none;" *ngIf="status==4">
+                                    <strong>Status:</strong> Offline
+                                </td>
+                                <td style="border-top: none;" *ngIf="status==5">
+                                    <strong>Status:</strong> Busy
+                                </td>
+                                <td class="td-border-top">
+                                    <span>Password:{{DriverData2.password}}</span>
+                                </td>
+                                <td class="td-border-top">
+                                    <a (click)="change_password_link()" style="text-decoration:underline">Change Password</a>
+
+                                </td>
+
+                                <td class="td-border-top">
+                                    <a (click)="onDeleteConformDriver(DriverData2,i)" style="text-decoration:underline">Reject</a>
+
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            <tr *ngIf="i==orderViewProperty">
+                <td colspan="9" style="padding-right: 15px;padding-left: 15px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12" style="border: 1px solid #12A6F1;">
+                        <h4 style="text-align: center;">
+                            <span *ngIf="Order_bookingType==1">Instant</span>
+                            <span *ngIf="Order_bookingType==2">Four Hours</span>
+                            <span *ngIf="Order_bookingType==3">Same Day</span> Orders
+                        </h4>
+                        <div style="float: right;position: absolute;right: 0;top: 10px;">
+                            <button type="button" class="btn btn-default btn-simple btn-xs" (click)="closeOrders()">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="row">
+                            <div class="input-group" style="margin-top: -15px;right: 15px;margin-left: 60%;">
+                                <span class="input-group-addon">
+                                    <i class="material-icons" style="margin-top: 20px;">
+                                        search
+                                    </i>
+                                </span>
+                                <input type="text" class="form-control" [ngModel]="mymodel_Order" (ngModelChange)="valuechange_Order($event)" placeholder="Search">
+                            </div>
+                        </div>
+                        <table class="table table-responsive" *ngIf="Order_OrderData.length>0" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);background-color: #FFF;">
+                            <tbody>
+                                <tr>
+                                    <!-- <th>S.No</th>
+        <th>Order SeqId</th> -->
+                                    <th>Id</th>
+                                    <th>Customer Name</th>
+                                    <th>payment Type</th>
+                                    <th>Collection Type</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Delivery Charge</th>
+                                    <th>Client COD</th>
+                                    <th>Order Date Time</th>
+                                    <th>Order Status</th>
+
+                                </tr>
+                                <tr *ngFor="let item of Order_OrderData;let i=index">
+
+                                    <td>{{item.orderseqId}}</td>
+                                    <td>{{item.First_name}}</td>
+                                    <td *ngIf="item.paymentType==1">Cash</td>
+                                    <td *ngIf="item.paymentType==2">Online</td>
+                                    <td *ngIf="item.collectionType==1">Amount Collected at pickup</td>
+                                    <td *ngIf="item.collectionType==2">Amount Collected at Drop</td>
+                                    <td>{{item.Email}}</td>
+                                    <td>{{item.Phone}}</td>
+                                    <td>{{item.deliverycharge}}</td>
+                                    <td>{{item.subtotal_amount}}</td>
+                                    <td>{{item.order_datetime}}</td>
+                                    <td *ngIf="item.status==1">New Order</td>
+                                    <td *ngIf="item.status==7">Biker Accepted</td>
+                                    <td *ngIf="item.status==8">Biker Rejected</td>
+                                    <td *ngIf="item.status==9">Order Expired</td>
+                                    <td *ngIf="item.status==10">Arrived at Pickup Location</td>
+                                    <td *ngIf="item.status==11">Order Picked</td>
+                                    <td *ngIf="item.status==12">Order reached at Delivery</td>
+                                    <td *ngIf="item.status==14">Order Completed</td>
+                                    <td *ngIf="item.status==15">Drop at Depot</td>
+                                    <td *ngIf="item.status==16">On the way to Pickup</td>
+                                    <td *ngIf="item.status==5">Order Canceled</td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                        <ul class="pagination pagination-primary" *ngIf="Order_OrderData.length">
+                            <li *ngFor="let item of array_O;let i= index">
+                                <a [style.background-color]="getStyle_Order(i)" (click)="nextpage_Order(i)">
+                                    {{i+1}}
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- <pagination-controls  *ngIf="isSearch_individual" (pageChange)="pageChanged_individualOrder($event)"  maxSize="7" style="float: right;margin-top: 30px;"></pagination-controls> -->
+
+                        <div *ngIf="isData">
+                            <h3 style="font-size: 18px;text-align: center;">No Records Found</h3>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </ng-container>
+    </table>
+    <pagination-controls style="float: right;" *ngIf="!issearch" (pageChange)="pageChanged($event)" maxSize="8" directionLinks="true"
+        autoHide="true" previousLabel="Previous" nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+        screenReaderCurrentLabel="You're on page">
+    </pagination-controls>
+    <my-spinner [isRunning]="isRequesting"></my-spinner>
+
+</div>
+<div *ngIf="isChaneZone">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 400px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="OncloseZone()">
+                        <span style="font-size: 25px;" aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 style="text-align: center"> Select Zone</h4>
+                </div>
+                <table class="table">
+                    <tr>
+                        <td style="border-top: none;">
+                            <label>Select Zone</label>
+                            <select (change)="OnchangeZone($event.target.value)" [(ngModel)]="zoneBackend">
+                                <option *ngFor="let item of ZoneData; let i=index" [value]="item.ZoneID+'/'+item.title">{{item.title}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;border-top: none;">
+                            <button class="btn btn-success btn-xs" (click)="onsubmitChangeZone()">Submit</button>
+                        </td>
+                    </tr>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- change-password -->
+
+<div *ngIf="change_password">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 380px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="Onclosepassword()">
+                        <span style="font-size: 35px;color: red;" aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 style="text-align: center;margin-top: 0px;color: #ee9b0a;">Change Password</h4>
+                </div>
+                <table class="table table-responsive">
+                    <form class="form-inline" (ngSubmit)="onSubmit_password(f)" #f="ngForm">
+                        <tr>
+                            <td style="border-top: none;">
+                                <input type="password" class="form-control" placeholder="New Password" id="text1" ngModel name="Password" style="width:200px;margin:-25px 0px -37px 87px;">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-top: none;">
+                                <input type="password" class="form-control" placeholder="Confirm Password" id="text1" ngModel name="ConfirmPassword" style="width:200px;margin-bottom:-20px;margin-left: 87px;">
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td style="text-align:center;border-top: none;">
+                                <button class="btn btn-success btn-xs" style="margin: 48px 0px 33px 80px;">Submit</button>
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--
+/* delete conformation* -->
+
+<div *ngIf="isdeleteDriver">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 380px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" aria-label="Close" (click)="OnclosedeleteDriver()">
+                        <span style="font-size: 35px;color: red;" aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 style="text-align: center;margin-top: 0px;color: #ee9b0a;">Driver Name:{{DriverName}}</h4>
+                </div>
+                <table class="table table-responsive">
+                    <form class="form-inline" style="margin-left: 25%;
+                        margin-bottom: 14px;">
+                        <tr>
+                            <td style="border-top: none;">
+                                <span>Do you want to Reject?</span>
+                                <div>
+                                    <button class="btn btn-danger btn-sm" style="background-color: transparent;border: 1px solid #f44336;color: #f44336;" (click)="remove_Driver()">Yes</button>
+                                    <button class="btn btn-primary btn-sm" style="background-color: transparent;border: 1px solid #9c27b0;color: #9c27b0;margin-left: 10px;"
+                                        (click)="OnclosedeleteDriver()">No</button>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </form>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
