@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base href="/">
+    <title>Super Admin </title>
+        <link rel="icon" href="/images/bike_ezshipp_icon.png">
+
+    <!-- Bootstrap core CSS     -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="node_modules/loaders.css/loaders.min.css">
+
+    <!--  Material Dashboard CSS    -->
+    <link href="/css/material-dashboard.css?v=1.2.0" rel="stylesheet"/>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+<style type="text/css">
+@font-face {
+    font-family: Proxima-Nova-Regular;
+    src: url('/fonts/Proxima Nova Full Download/ProximaNova-Regular.otf');
+}
+ .ha-3d,
+  [data-animation-in],
+  .site-loader._multi-circle-line,
+  .site-loader._multi-circle-line .site-loader-spinner,
+  .site-header,
+  .site-header-brand,
+  .site-header-nav,
+  .site-bg,
+  #videoPlayer,
+  .site-bg-effect,
+  .feature-icon,
+  .feature-icon:before {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      -webkit-perspective: 1000;
+      perspective: 1000;
+  }
+
+  .site-loader._multi-circle-line {
+      position: fixed;
+      z-index: 900;
+  }
+
+  .site-loader._multi-circle-line .site-loader-spinner {
+      -webkit-animation: spin 1.5s infinite linear;
+      -o-animation: spin 1.5s infinite linear;
+      animation: spin 1.5s infinite linear;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 150px;
+      height: 150px;
+      margin-top: -75px;
+      margin-left: -75px;
+      border: 3px solid transparent;
+      border-top-color: #ee9b0a;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+  }
+
+  .site-loader._multi-circle-line .site-loader-spinner:before,
+  .site-loader._multi-circle-line .site-loader-spinner:after {
+      position: absolute;
+      content: "";
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+  }
+
+  .site-loader._multi-circle-line .site-loader-spinner:before {
+      -webkit-animation: spin 2.5s infinite linear;
+      -o-animation: spin 2.5s infinite linear;
+      animation: spin 2.5s infinite linear;
+      top: 5px;
+      right: 5px;
+      bottom: 5px;
+      left: 5px;
+      border: 3px solid transparent;
+      border-top-color: #ee9b0a;
+  }
+
+  .site-loader._multi-circle-line .site-loader-spinner:after {
+      -webkit-animation: spin 1.5s infinite linear;
+      -o-animation: spin 1.5s infinite linear;
+      animation: spin 1.5s infinite linear;
+      top: 15px;
+      right: 15px;
+      bottom: 15px;
+      left: 15px;
+      border: 3px solid transparent;
+      border-top-color: #ee9b0a;
+  }
+
+  @-webkit-keyframes spin {
+      0% {
+          -webkit-transform: rotate(0);
+          transform: rotate(0);
+      }
+      100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+      }
+  }
+
+  @-o-keyframes spin {
+      0% {
+          -o-transform: rotate(0);
+          transform: rotate(0);
+      }
+      100% {
+          -o-transform: rotate(360deg);
+          transform: rotate(360deg);
+      }
+  }
+
+  @keyframes spin {
+      0% {
+          -webkit-transform: rotate(0);
+          -o-transform: rotate(0);
+          transform: rotate(0);
+      }
+      100% {
+          -webkit-transform: rotate(360deg);
+          -o-transform: rotate(360deg);
+          transform: rotate(360deg);
+      }
+  }
+
+  .site-loader._multi-circle-line .site-loader-section {
+      position: fixed;
+      top: 0;
+      width: 51%;
+      height: 100%;
+      background-color: #1e1f25;
+  }
+
+  .site-loader._multi-circle-line .site-loader-section._left {
+      left: 0;
+  }
+
+  .site-loader._multi-circle-line .site-loader-section._right {
+      right: 0;
+  }
+
+  .site-loader._multi-circle-line .site-loader-section {
+      position: fixed;
+      top: 0;
+      width: 51%;
+      height: 100%;
+      background-color: #1e1f25;
+  }
+
+  .site-loader._multi-circle-line .site-loader-section._left {
+      left: 0;
+  }
+
+  .site-loader._multi-circle-line .site-loader-section._right {
+      right: 0;
+  }
+
+  .is-loaded2 .site-loader-container {
+      -webkit-transition: all 0.3s 1s ease-out;
+      -o-transition: all 0.3s 1s ease-out;
+      transition: all 0.3s 1s ease-out;
+      visibility: hidden;
+  }
+
+  .is-loaded2 .site-loader-spinner {
+      -webkit-transition: all 0.3s ease-out;
+      -o-transition: all 0.3s ease-out;
+      transition: all 0.3s ease-out;
+      opacity: 0;
+  }
+
+  .is-loaded2 .site-loader-section._left {
+      -webkit-transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      -o-transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      -webkit-transform: translateX(-100%);
+      -ms-transform: translateX(-100%);
+      -o-transform: translateX(-100%);
+      transform: translateX(-100%);
+  }
+
+  .is-loaded2 .site-loader-section._right {
+      -webkit-transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      -o-transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      transition: all 0.7s 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+      -webkit-transform: translateX(100%);
+      -ms-transform: translateX(100%);
+      -o-transform: translateX(100%);
+      transform: translateX(100%);
+  }
+
+.loading-back {
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background-color: #000;
+   z-index: 9998;
+   height: 100%;
+   width: 100%;
+}
+.pac-container {
+   z-index: 1072!important;
+   }
+
+
+
+</style>
+</head>
+<body style="font-family: Proxima-Nova-Regular;background-color:#fff;">
+<my-app>
+    <div class="loading-back site-loader _multi-circle-line">
+<div class="site-loader-spinner"></div>
+<div class="site-loader-section _right"></div>
+<div class="site-loader-section _left"></div>
+</div>
+</my-app>
+
+<!--   Core JS Files   -->
+<script src="/js/jquery-3.1.0.min.js" type="text/javascript"></script>
+<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/js/arrive.min.js"></script>
+<script src="/js/material.min.js" type="text/javascript"></script>
+
+<!--  Charts Plugin -->
+<script src="/js/chartist.min.js"></script>
+
+<!--  Notifications Plugin    -->
+<script src="/js/bootstrap-notify.js"></script>
+
+<!--  Google Maps Plugin    -->
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCOSzrV21ii_0a6d8XC08vARjJH2TYbLJs&libraries=places"></script>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyCOSzrV21ii_0a6d8XC08vARjJH2TYbLJs&libraries=drawing"></script>
+
+
+<!-- Material Dashboard javascript methods -->
+<script src="/js/material-dashboard.js?v=1.2.0"></script>
+
+<script src="/js/app/bundle.js"></script>
+</body>
+</html>
