@@ -1,0 +1,50 @@
+.activeForsorting{
+    color:lightcoral
+}
+.zone-heading {
+    text-align: center;
+    font-size: 23px;
+    font-family: Proxima-Nova-Regular;
+  }
+  /* .highligh{
+      color: red;
+  } */
+  .instant{
+    color:#00BFFF
+ }
+ .FourHours{
+    color: #fb641b
+ }
+ .same{
+    color: #ee9b0a
+ }
+ .neworder{
+         color:#00bcd4
+     }
+.OrderCanceled
+{
+     color:#ff0000
+}	 
+.cancelorderbyuserorvendor {
+        color:#ff0000
+     }
+.cancelorderbyuserorvendornew {
+        color:#ff0000
+     }
+.Onthewaytodelivery {
+    color:#B87B0C
+}	 
+.reachedDeliverypoint{
+    color:#B87B0C
+}
+.OnthewaytoPickup
+{
+    color:#B87B0C
+}	 
+.completedorder {
+        color:#0E9C0E
+     }
+	 
+.processingorder {
+        color:#B87B0C
+     }
