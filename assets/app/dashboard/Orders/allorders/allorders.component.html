@@ -1,0 +1,10 @@
+<div class="container-fluid containers" style="background-color: white;">
+    <ul class="menus_tabs">
+        <li routerLinkActive="active"><a [routerLink]="['allorder']"  class="tab-menu">All Orders</a></li>
+        <li routerLinkActive="active"><a [routerLink]="['pendingorders']"  class="tab-menu">Pending Orders</a></li>
+        <!-- <li routerLinkActive="active"><a [routerLink]="['invoices']">Invoices</a></li> -->
+        
+    </ul>
+    
+    <router-outlet></router-outlet>
+</div>
