@@ -1,0 +1,1797 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+
+            <div class="input-group" style="margin-left: 70%;margin-top: -35px;">
+                <span class="input-group-addon">
+                        <i
+                            class="material-icons"
+                            style="margin-top: 20px;"
+                        >
+                            search
+                        </i>
+                    </span>
+                <input type="text" class="form-control" [ngModel]="mymodel" (ngModelChange)="valuechange($event)" placeholder="Search...">
+            </div>
+
+        </div>
+    </div>
+    <div class="row" style="overflow-x: auto;padding: 15px;" *ngIf="Employees_Data.length>0">
+        <div class="col-xs-12 col-sm-12 col-md-12" style="box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);">
+            <div class="row" style="border-top: 1px solid #DDD;padding: 5px;" *ngIf="table_data_search">
+                <div class="col-xs-2 border" style="width: 18%;">
+                    <b [class.active]="activeId == 1" (click)="activeId=1" style="cursor: pointer;" (click)="sortColumn('Employee_Company_ID')">Employee Id <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                </div>
+
+                <div class="col-xs-2 border" style="width: 18%;">
+                    <b [class.active]="activeId == 2" (click)="activeId=2" style="cursor: pointer;" (click)="sortColumn('Employee_Role')">Role Type <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                </div>
+                <div class="col-xs-2 border" style="width: 16%;">
+                    <b [class.active]="activeId == 3" (click)="activeId=3" style="cursor: pointer;" (click)="sortColumn('Employee_Name')">Name <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                </div>
+                <div class="col-xs-2 border" style="width: 18%;">
+                    <b [class.active]="activeId == 4" (click)="activeId=4" style="cursor: pointer;" (click)="sortColumn('Employee_PhoneNumber')">Phone Number <i class="material-icons">arrow_drop_up</i><i class="material-icons" style="position: absolute;margin-top: 10px;margin-left: -24px;">arrow_drop_down</i></b>
+                </div>
+
+                <div class="col-xs-2 border" style="width: 14%;margin-top: 7px;">
+                    <b style="margin-left: 20px;">Status</b>
+                </div>
+
+                <div class="col-xs-2 border" style="width: 14%;margin-top: 7px;">
+                    <b>More Info</b>
+                </div>
+
+            </div>
+
+            <div class="row" *ngFor="let item of Employees_Data | paginate: { id: 'emp',
+                                                      itemsPerPage: 10,
+                                                      currentPage: p,
+                                                      totalItems: Total_Count };let i = index" style="border-top: 1px solid #DDD;padding: 7px 7px;margin-bottom:5px;">
+                <div class="col-xs-2 border" style="width: 18%;">{{item.Employee_Company_ID}}</div>
+                <div class="col-xs-2 border" style="width: 18%;" *ngIf="item.Employee_Role==1">
+                    Biker
+                </div>
+                <div class="col-xs-2 border" style="width: 18%;" *ngIf="item.Employee_Role==2">
+                    Employee
+                </div>
+                <div class="col-xs-2 border" style="width: 16%;">{{item.Employee_Name}}</div>
+                <div class="col-xs-2 border" style="width: 20%;">{{item.Employee_PhoneNumber}}</div>
+                <div class="col-xs-2 border" style="width: 13%;" *ngIf="item.Status==true">
+                    Active
+                </div>
+                <div class="col-xs-2 border" style="width: 13%;" *ngIf="item.Status==false" style="margin-left: 22px;">
+                    In-active
+                </div>
+
+                <div class="col-xs-2 border" style="width: 4%;" *ngIf="item.Complete_Profile_Set==true">
+                    <button type="button" rel="tooltip" title="More Info" class="btn btn-info btn-simple btn-xs" (click)="click_button_employee(item,i)"
+                        style="padding: 0px 0px;">
+                            <i class="material-icons" style="font-size:23px;">info_outline</i>
+                       </button>
+                </div>
+                <div class="col-xs-2 border" style="width:4%;margin-top: 7px;" *ngIf="item.Complete_Profile_Set==false">
+                    <span (click)="click_employee_add(item,i)" style="color: #1b801d;cursor:pointer;font-size:23px;margin-left:4px;">?</span>
+                </div>
+                <div>
+                    <button type="button" rel="tooltip" title="Remove" (click)="Ondelete_view(item,i)" style="padding: 0px;font-size: 25px;margin-top: -5px;margin-left: 13px;"
+                        class="btn btn-danger btn-simple btn-xs">
+                    <i class="fa fa-times" style="font-size:22px;"></i>
+                </button>
+                </div>
+
+                <div class="row" *ngIf="i==views" style="padding-right: 15px;padding-left: 15px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12" style="border: 1px solid #12A6F1;">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-md-4 col-md-offset-4">
+                                <h3 style="color:#337ab7;font-size:20px;">Employee ID : {{ Employee_Company_ID }}</h3>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3">
+                                <div style="float: right;">
+
+                                    <button type="button" class="btn btn-default btn-simple btn-xs" (click)="close()" style="margin-top: 10px;">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    <i class="material-icons" (click)="click_edit_employee(item,i)" style="color: #ee420a;cursor:pointer;font-size:25px;">edit</i>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <table class="table table-responsive">
+
+                            <tbody>
+                                <tr>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Employee Name :</strong> {{ Employee_Name }}
+                                    </td>
+
+                                    <td style="border-top: none;width: 30%;" *ngIf="Employee_Role==1">
+                                        <strong>Designation :</strong> Biker
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="Employee_Role==2">
+                                        <strong>designation :</strong> Employee
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Email :</strong> {{ Employee_Email }}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;" rowspan="4">
+                                        <div style="border:1px solid #000;width:120px;height:120px;margin-top: -33px;">
+
+                                            <img src="{{ Employee_Image_Url }}" style="width:118px;height:118px;">
+                                        </div>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Date of Join :</strong> {{ Employee_Date_of_Joining }}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="Employee_Gender==1">
+                                        <strong>Gender :</strong> Male
+                                    </td>
+                                    <td style="border-top: none;width: 30%;" *ngIf="Employee_Gender==2">
+                                        <strong>Gender :</strong> FeMale
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Date Of Birth :</strong> {{ Employee_DOB }}
+                                    </td>
+
+                                </tr>
+                                <tr>
+
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>PhoneNumber :</strong> {{ Employee_PhoneNumber }}
+                                    </td>
+
+                                    <td colspan="2" style="border-top: none;width: 30%;">
+                                        <strong>Employee Address :</strong> {{ Employee_Address }}
+                                    </td>
+                                </tr>
+                                <tr>
+
+
+
+                                    <td style="border-top: none;width: 30%;">
+                                        <button type="button" class="btn btn-primary" (click)="Pancard_proof()">Pancard link</button>
+                                    </td>
+
+                                    <div class="modal" *ngIf="Pancard_proof_view">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Pancard Number : {{ Pan_Card_Number }}</h5>
+                                                    <button type="button" class="close" (click)="Pancard_close()" style="margin-top: -28px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img src="{{ Pan_Card_Image }}" style="width:100%;">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" (click)="Pancard_close()">Close</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <td style="border-top: none;width: 30%;">
+                                        <!-- <strong>Address Proof Image:</strong>  -->
+                                        <!-- <a href="{{ Address_Proof_Image }}" target="_blank">Any Address Proof</a> -->
+                                        <button type="button" class="btn btn-primary" (click)="address_proof()">Address Proof Image</button>
+                                    </td>
+
+                                    <div class="modal" *ngIf="address_proof_view">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Employee Address : {{ Employee_Address }}</h5>
+                                                    <button type="button" class="close" (click)="address_close()" style="margin-top: -28px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img src="{{ Address_Proof_Image }}" style="width:100%;">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" (click)="address_close()">Close</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </tr>
+                                <tr>
+
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Bank Account No :</strong> {{ Bank_Account_No }}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>Bank Name:</strong> {{ Bank_Name }}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Bank IFSC No :</strong> {{ Bank_IFSC_No }}
+                                    </td>
+
+                                </tr>
+                                <tr>
+
+                                    <td style="border-top: none;width: 30%;" *ngIf="Employee_Role==1">
+                                        <button type="button" class="btn btn-primary" (click)="licence_proof()">licence image</button>
+                                    </td>
+
+                                    <div class="modal" *ngIf="licence_proof_view">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Driving License Expiry Date : {{ Driving_License_Expiry_Date }}</h5>
+                                                    <button type="button" class="close" (click)="licence_close()" style="margin-top: -28px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <img src="{{ Driving_License_Image }}" style="width:100%;">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" (click)="licence_close()">Close</button>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <td style="border-top: none;width: 40%;" *ngIf="Address_Proof_Type==2">
+                                        <strong>Address Proof Type :</strong> PanCard
+                                    </td>
+
+                                </tr>
+                                <tr *ngIf="isSalaryPermistion">
+
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>Basic salary :</strong> {{ Employee_Basic_Salary }}
+                                    </td>
+                                    <td style="border-top: none;width: 40%;">
+                                        <strong>PF :</strong> {{ Employee_PF }}
+                                    </td>
+                                    <td style="border-top: none;width: 30%;">
+                                        <strong>TDS :</strong> {{ Employee_TDS }}
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+                </div>
+                <div class="row" *ngIf="i==employee_deleted_view" style="padding-right: 15px;padding-left: 15px;">
+                    <div class="col-xs-12 col-sm-12 col-md-12" style="border: 1px solid #12A701;width: 500px;height: 60px;margin-left: 15%; text-align: center;">
+                        <span>Do you want to Delete?</span>
+                        <div class="row">
+                            <button class="btn btn-danger btn-sm" style="background-color: transparent;border: 1px solid #f44336;color: #f44336;" (click)="Employee_delete()">Yes</button>
+                            <button
+                                class="btn btn-primary btn-sm" style="background-color: transparent;border: 1px solid #9c27b0;color: #9c27b0;margin-left: 10px;"
+                                (click)="onClose_Delete()">No</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <pagination-controls id="emp" style="float: right;
+    margin-top: 20px;" (pageChange)="pageChanged_allEmp($event)" maxSize="9" directionLinks="true" autoHide="true" previousLabel="Previous"
+            nextLabel="Next" screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page" screenReaderCurrentLabel="You're on page">
+        </pagination-controls>
+    </div>
+    <my-spinner [isRunning]="isRequesting"></my-spinner>
+
+    <div *ngIf="isData" style="text-align: center;">
+        <strong style="font-size: 20px;">No Records Found</strong>
+    </div>
+</div>
+
+<!-- main-form -->
+
+<div class="col-xs-12" *ngIf="employee_data">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 870px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" style="font-size: 35px;color:#d41c1c;margin-top:10px;" (click)="back_button()">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel" style="margin-top:15px;text-align:center;color:#ee9b0a;font-weight:500;">ADD NEW EMPLOYEE</h4>
+                    <hr>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <form class="form-inline" (ngSubmit)="onSubmit_addemployee(f)" #f="ngForm">
+                            <div class="col-md-12 col-lg-12" style="margin-bottom: 20px;margin-left: 30px;">
+                                <label style="font-size: 18px;color: #337ab7">Branch Details :</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="text1" placeholder="Branch Name" ngModel name="br_name" style="width:200px;">
+
+                                    <label for="text2" style="padding: 0px 10px;">
+                                    OR
+                                </label>
+
+                                    <select class="form-control form-control-lg"  style="width: 170px;margin-left:10px;" #box (change)="select_branch(box.value,$event)">
+                                <!-- <option value>Select Branch</option> -->
+                                <option *ngFor="let item of Ezshipp_Branch_Data; let i=index" [value]="item.Ezshipp_Branch_Name">{{item.Ezshipp_Branch_Name}}</option>
+                            </select>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <table style="width:100%;margin-left: 30px;">
+                                        <tr>
+                                            <td><label style="margin-left: 15px;font-size: 18px;color: #337ab7">Employee Details :</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="Name" id="epm_name" ngModel name="epm_name" style="width: 200px;"
+                                                     required #epm_name="ngModel"/>
+
+                                                     <div class="error-mesg" [hidden]="epm_name.valid || (epm_name.pristine && !f.submitted)">
+                                                        Please enter Name
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <div class="radio" style="margin-left: -13px;">
+
+                                                        <label>
+                                            <input type="radio" ngModel id="gender" name="gender" value="1">
+                                            Male
+                                        </label>
+
+                                                    </div>
+                                                    <div class="radio">
+
+                                                        <label>
+                                            <input type="radio" ngModel id="gender" name="gender" value="2">
+                                            Female
+                                        </label>
+
+                                                    </div>
+                                                </div>
+
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="email" placeholder="Email" class="form-control" id="email" ngModel name="email" style="width: 200px;"
+                                                     required #email="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="email.valid || (email.pristine && !f.submitted)">
+                                                        Please enter Email Address
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>
+                                                <div class="form-group" style="margin-left: 19px;">
+                                                    <label for="text4" style="color:#777;">
+                                     Date of Join :
+                                </label>
+                                                    <input type="date" class="form-control" id="dtjoining" ngModel name="dtjoining" style="margin-left:7px;" style="width: 200px;"
+                                                    required #dtjoining="ngModel"/>
+
+                                                     <div class="error-mesg" [hidden]="dtjoining.valid || (dtjoining.pristine && !f.submitted)" style="top: 52px;">
+                                                        Please enter Date of Join
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Phone Number" class="form-control" id="phone" ngModel name="phone" minlength="10" maxlength="10"
+                                                        style="width: 200px;" required #phone="ngModel" />
+                                                         <div class="error-mesg" [hidden]="phone.valid || (phone.pristine && !f.submitted)">
+                                                        Please enter Phone number
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>
+                                                <div class="form-group" style="margin-left: 19px;">
+                                                    <label for="text4" style="color:#777;">
+                                     Date of Birth :
+                                </label>
+                                                    <input type="date" class="form-control" id="dtborth" ngModel name="dtborth" style="margin-left:7px;" style="width: 200px;"
+                                                     required #dtborth="ngModel"/>
+
+                                                     <div class="error-mesg" [hidden]="dtborth.valid || (dtborth.pristine && !f.submitted)" style="top: 52px;">
+                                                        Please enter Date of Birth
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <textarea type="text" class="form-control" placeholder="Address" id="Address" ngModel name="Address" minlength="10" maxlength="226"
+                                                        style="width: 200px;" required></textarea>
+
+                                                     <!-- <div class="error-mesg" [hidden]="Address.valid || (Address.pristine && !f.submitted)" style="top: 50px;">
+                                                        Please enter Address details
+                                                    </div> -->
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label for="text4" style="color:#777;">
+                                    Designation :
+                                </label>
+
+
+                                 <select class="form-control form-control-lg" (change)="valuechange_biker($event.target.value)" id="text4" style="width: 150px;" ngModel name="desginations">
+                               <option value>Select desgination</option>
+                                    <option [value]="1">Biker</option>
+                                    <option [value]="2">Employee</option>
+                                </select>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" *ngIf="open_zones">
+
+                                                    <label for="text5" style="color:#777;">Select zone :</label>
+                                                    <select class="form-control form-control-lg" id="text5" style="width: 150px;margin-left:10px;" ngModel name="zone_id">
+                                    <option value>Select Zone</option>
+                                    <option
+                                        *ngFor="let item of ZoneData"
+                                        [value]="item.ZoneID"
+                                    >
+                                        {{item.title}}
+                                    </option>
+                                </select>
+
+                                                    <label for="text6" style="margin-bottom: 50px;color:#777;margin-top: 10px;">operator :</label>
+                                                    <select class="form-control form-control-lg" id="text6" style="width: 150px;margin-left:10px;" ngModel name="operator_id">
+                                    <option value>Select operator</option>
+                                    <option
+                                        *ngFor="let item of OperatorData"
+                                        [value]="item.OperatorID"
+                                    >
+                                        {{item.operator_name}}
+                                    </option>
+
+                                </select>
+
+
+                                                    <div class="form-group" style="margin-left: 0px;margin-top: -40px;">
+                                                        <label for="text4" style="color:#777;">License Expiry Date :</label>
+                                                        <input type="date" class="form-control" id="text7" ngModel name="License_Expiry_Date" style="width: 200px;"
+                                                         required #License_Expiry_Date="ngModel"/>
+
+                                                     <div class="error-mesg" [hidden]="License_Expiry_Date.valid || (License_Expiry_Date.pristine && !f.submitted)" style="top: 52px;">
+                                                        Please enter License Expiry Date
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: 6px;margin-left: 0px;">
+                                                        <label for="text4" style="color:#777;">License Proof :</label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="btn btn-sm" style="margin:8px 0px 0px -22px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+
+                                                            <label class="upload-image" style="color: #fff">
+                                        <input
+                                            type="file"
+                                            class="profile-1"
+                                            id="Picture_1"
+                                            style="margin-left: 35px;display: none;"
+                                            accept="image/jpeg"
+                                            imageUpload
+                                            (imageSelected)="selected_licence($event)"
+                                            [resizeOptions]="resizeOptions"
+                                            (change)="uploadFile_licence($event)"
+                                        >
+                                        <img [src]="prifileimg_3"  style="margin-left: -1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!licence_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="licence_upload">change</span>
+                                            </label>
+                                                        </div>
+                                                        <label for="text4" *ngIf="License_view_image" (click)="licence_button_view()" style="margin:10px 38px 0px 20px;text-decoration:underline;color:#12A6F1">view image</label>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <div class="modal" *ngIf="licence_pic_view">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                            <div class="modal-header">
+
+                                                                <button type="button" class="close" (click)="licence_button_close()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img [src]="licence_pic_url" style="width:100%;" />
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" (click)="licence_button_close()">Close</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" style="margin-top: 5px;">
+                                                    <label for="text" style="color:#777;">
+                                    Address Proff :
+                                </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn btn-sm" style="margin:8px 0px 0px -4px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+                                                        <label class="upload-image" style="color:#fff">
+                                                <input
+                                                    type="file"
+                                                    class="profile-1"
+                                                    id="Picture"
+                                                    style="margin-left: 35px;display: none;"
+                                                    accept="image/*"
+                                                    imageUpload
+                                                    (imageSelected)="selected_card($event)"
+                                                    [resizeOptions]="resizeOptions"
+                                                    (change)="uploadFile_card($event)"
+                                                >
+                                           <img [src]="prifileimg_1" style="margin-left: -1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!Address_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="Address_upload">change</span>
+                                             <!-- <span style="text-align:center" *ngIf="loading_upload">Loading....</span> -->
+
+                                            </label>
+
+                                                    </div>
+                                                    <label for="text4" *ngIf="Address_view_image" (click)="card_button_view()" style="margin:10px 38px 0px 40px;text-decoration:underline;color:#12A6F1">view image</label>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+
+
+                                </div>
+                                <div class="col-md-3 col-lg-3">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" style="margin-top: 50px;">
+                                                    <label for="text" style="color:#777;">
+                                    Profile pic :
+                                </label>
+
+                                                    <div class="btn btn-sm" style="margin:10px 0px 0px 0px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+                                                        <label class="upload-image" style="color:#fff;">
+                                            <input
+                                                type="file"
+                                                class="profile-1"
+                                                id="Picture"
+                                                style="margin-left: 35px;display: none;"
+                                                accept="image/*"
+                                                imageUpload
+                                                (imageSelected)="selected($event)"
+                                                [resizeOptions]="resizeOptions"
+                                                (change)="uploadFile($event)"
+                                            >
+                                          <img [src]="prifileimg" style="margin-left: 1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!Profile_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="Profile_upload">change</span>
+                                        </label>
+                                                    </div>
+                                                    <label for="text4" *ngIf="Profile_view_image" (click)="pr_button_close()" style="margin:10px 38px 0px 44px;text-decoration:underline;color:#12A6F1">view image</label>
+                                                </div>
+                                                <div class="modal" *ngIf="profile_pic_view">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                            <div class="modal-header">
+
+                                                                <button type="button" class="close" (click)="pr_button_close_1()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img [src]="profile_pic_url" style="width:100%;" />
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" (click)="pr_button_close_1()">Close</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal" *ngIf="card_view_modal">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                            <div class="modal-header">
+
+                                                                <button type="button" class="close" (click)="card_view_modal_close()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img [src]="address_pic_url" style="width:100%;" />
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" (click)="card_view_modal_close()">Close</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-4 col-lg-4" style="border-left: 1px solid #ddd;">
+
+                                    <label *ngIf="isSalaryPermistion" style="font-size: 18px;color: #337ab7;margin-left: 15px;">Pay Scale per month :</label>
+                                    <table style="width:100%;margin-left: 20px;" *ngIf="isSalaryPermistion">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Basic salary" class="form-control" id="text" ngModel name="Basic_salory" style="width: 200px;"
+                                                        minlength="1" maxlength="6" required #Basic_salory="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="Basic_salory.valid || (Basic_salory.pristine && !f.submitted)">
+                                                        Please enter Basic salory
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="PF Amount" class="form-control" id="text" ngModel name="PF" style="width: 200px;" minlength="1"
+                                                        maxlength="6" required #PF="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="PF.valid || (PF.pristine && !f.submitted)">
+                                                        Please enter PF Amount
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="TDS Amount" class="form-control" id="text" ngModel name="TDS" style="width: 200px;" minlength="1"
+                                                        maxlength="6" required #TDS="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="TDS.valid || (TDS.pristine && !f.submitted)">
+                                                        Please enter TDS Amount
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <label style="font-size: 18px;color: #337ab7;margin-left: 15px;margin-top: 55px;">Bank Details :</label>
+                                    <table style="width:100%;margin-left: 20px;">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Bank Name" class="form-control" id="text9" ngModel name="Bank_name" style="width: 200px;"
+                                                         required #Bank_name="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="Bank_name.valid || (Bank_name.pristine && !f.submitted)">
+                                                        Please enter Bank name
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="A/C Number" class="form-control" id="text10" ngModel name="Bank_no" style="width: 200px;"
+                                                         required #Bank_no="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="Bank_no.valid || (Bank_no.pristine && !f.submitted)">
+                                                        Please enter Bank A/C Number
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="IFSC Code" class="form-control" id="text10" ngModel name="Bank_IFSC_No" style="width: 200px;"
+                                                         required #Bank_IFSC_No="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="Bank_IFSC_No.valid || (Bank_IFSC_No.pristine && !f.submitted)">
+                                                        Please enter Bank IFSC Number
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Pancard Number" class="form-control" id="text10" ngModel name="Pan_Card_Number" style="width: 200px;"
+                                                         required #Pan_Card_Number="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="Pan_Card_Number.valid || (Pan_Card_Number.pristine && !f.submitted)">
+                                                        Please enter PanCard Number
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <div class="form-group" style="margin-top: 5px;">
+                                                    <label for="text" style="color:#777;">
+                                    Pancard prof :
+                                </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn btn-sm" style="margin:8px 0px 0px -4px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+                                                        <label class="upload-image" style="color:#fff">
+                                        <input
+                                            type="file"
+                                            class="profile-1"
+                                            id="Picture"
+                                            style="margin-left: 35px;display: none;"
+                                            accept="image/*"
+                                            imageUpload
+                                            (imageSelected)="selected_pancard($event)"
+                                            [resizeOptions]="resizeOptions"
+                                            (change)="uploadFile_pancard($event)"
+                                        >
+                                       <img [src]="prifileimg_2" style="margin-left: -1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!pancard_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="pancard_upload">change</span>
+                                    </label>
+
+                                                    </div>
+
+                                                    <label for="text4" *ngIf="pancard_view_image" (click)="pancard_button_view()" style="margin:10px 38px 0px 44px;text-decoration:underline;color:#12A6F1">view image</label>
+                                                </div>
+                                                <div class="modal" *ngIf="pancard_modal">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" (click)="pancard_modal_close()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img [src]="pancard_pic_url" style="width:100%;" />
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" (click)="pancard_modal_close()">Close</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="margin-top:45px;background-color: #ee9b0a;margin-left:350px;color:#fff;margin-bottom: 25px;width: 150px;height: 35px;font-size: 17px;">
+                                SUBMIT
+                            </button>
+                        </form>
+                    </div>
+                    <!--end modal-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- main-form end-->
+
+<!-- form-profile-set -->
+
+
+<div class="col-xs-12" *ngIf="profile_set">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 870px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" style="font-size: 35px;color:#d41c1c;margin-top:10px;" (click)="back_button_profile()">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel" style="margin-top:15px;text-align:center;color:#ee9b0a;;font-weight:500;">ADD EMPLOYEE PROFILE</h4>
+                    <hr>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <form class="form-inline" (ngSubmit)="onSubmit_Profile_set(ff)" #ff="ngForm">
+                            <h3 style="margin-top: -10px;font-weight:300;margin-bottom: 2px;text-align: center;color: #ee9b0a;">Employee ID: {{ Employee_Company_ID }}</h3>
+                            <div class="col-md-12 col-lg-12" style="margin-bottom: 20px;margin-left: 30px;">
+                                <label style="font-size: 18px;color: #337ab7">Branch Details :</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="text1" placeholder="Branch Name" ngModel name="br_name" style="width:200px;">
+
+                                    <label for="text2" style="padding: 0px 10px;">
+                                    OR
+                                </label>
+
+                                    <select class="form-control form-control-lg" style="width: 170px;margin-left:10px;" #box (change)="select_branch(box.value,$event)">
+                                <!-- <option value>Select Branch</option> -->
+                                <option *ngFor="let item of Ezshipp_Branch_Data; let i=index" [value]="item.Ezshipp_Branch_Name">{{item.Ezshipp_Branch_Name}}</option>
+                            </select>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <table style="width:100%;margin-left: 30px;">
+                                        <tr>
+                                            <td><label style="margin-left: 15px;font-size: 18px;color: #337ab7">Employee Details :</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="Name" id="text5" [(ngModel)]="Employee_Name" name="epm_name" style="width: 235px;"
+                                                        required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <p style="font-size: 16px;" *ngIf="Employee_Gender==1">Gender : Male</p>
+                                                    <p style="font-size: 16px;" *ngIf="Employee_Gender==2">Gender : FeMale</p>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="email" placeholder="Email" class="form-control" id="email" [(ngModel)]="Employee_Email" name="email" style="width: 235px;"
+                                                        required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>
+                                                <div class="form-group" style="margin-left: 19px;">
+                                                    <label for="text4" style="color:#777;">
+                                     Date of Join :
+                                </label>
+                                                    <input type="date" class="form-control" id="dtborth" ngModel name="dtjoining" style="margin-left:7px;" style="width: 235px;"
+                                                    />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Phone Number" class="form-control" id="phone" [(ngModel)]="Employee_PhoneNumber" name="phone"
+                                                        minlength="10" maxlength="10" style="width: 235px;" required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>
+                                                <div class="form-group" style="margin-left: 19px;">
+                                                    <label for="text4" style="color:#777;">
+                                     Date of Birth :
+                                </label>
+                                                    <input type="date" class="form-control" id="dtborth" ngModel name="dtborth" style="margin-left:7px;" style="width: 235px;"
+                                                    />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <textarea type="text" class="form-control" placeholder="Address" id="Address" ngModel name="Address" minlength="10" maxlength="226"
+                                                        style="width: 235px;" required></textarea>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <p style="font-size: 16px;" *ngIf="Employee_Role==1">Designation : Biker</p>
+                                                    <p style="font-size: 16px;" *ngIf="Employee_Role==2">Designation : Employee</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" *ngIf="open_zones_profile">
+
+                                                    <label for="text5" style="color:#777;">Select zone :</label>
+                                                    <select class="form-control form-control-lg" id="text5" style="width: 150px;margin-left:10px;" ngModel name="zone_id">
+                                    <option value>Select Zone</option>
+                                    <option
+                                        *ngFor="let item of ZoneData"
+                                        [value]="item.ZoneID"
+                                    >
+                                        {{item.title}}
+                                    </option>
+                                </select>
+
+                                                    <label for="text6" style="margin-bottom: 50px;color:#777;margin-top: 10px;">operator :</label>
+                                                    <select class="form-control form-control-lg" id="text6" style="width: 167px;margin-left:10px;" ngModel name="operator_id">
+                                    <option value>Select operator</option>
+                                    <option
+                                        *ngFor="let item of OperatorData"
+                                        [value]="item.OperatorID"
+                                    >
+                                        {{item.operator_name}}
+                                    </option>
+
+                                </select>
+
+
+                                                    <div class="form-group" style="margin-left: 0px;margin-top: -40px;">
+                                                        <label for="text4" style="color:#777;">License Expiry Date :</label>
+                                                        <input type="date" class="form-control" id="text7" ngModel name="License_Expiry_Date" style="width: 235px;" required />
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: -5px;margin-left: 0px;">
+                                                        <label for="text4" style="color:#777;">License Proof :</label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="btn btn-sm" style="margin:8px 0px 0px -22px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+
+                                                            <label class="upload-image" style="color: #fff">
+                                        <input
+                                            type="file"
+                                            class="profile-1"
+                                            id="Picture_1"
+                                            style="margin-left: 35px;display: none;"
+                                            accept="image/*"
+                                            imageUpload
+                                            (imageSelected)="selected_licence($event)"
+                                            [resizeOptions]="resizeOptions"
+                                            (change)="uploadFile_licence($event)"
+                                        >
+                                        <img [src]="prifileimg_3" style="margin-left: -1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!licence_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="licence_upload">change</span>
+                                            </label>
+                                                        </div>
+                                                        <label for="text4" *ngIf="License_view_image" (click)="licence_button_view()" style="margin:10px 38px 0px 20px;text-decoration:underline;color:#12A6F1">view image</label>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <div class="modal" *ngIf="licence_pic_view">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                            <div class="modal-header">
+
+                                                                <button type="button" class="close" (click)="licence_button_close()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img [src]="licence_pic_url" style="width:100%;" />
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" (click)="licence_button_close()">Close</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+                                    </table>
+
+
+                                </div>
+                                <div class="col-md-3 col-lg-3">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" style="margin-top: 618px;">
+                                                    <label for="text" style="color:#777;">
+                                    Address Proff :
+                                </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn btn-sm" style="margin:8px 0px 0px -4px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+                                                        <label class="upload-image" style="color:#fff">
+                                                <input
+                                                    type="file"
+                                                    class="profile-1"
+                                                    id="Picture"
+                                                    style="margin-left: 35px;display: none;"
+                                                    accept="image/*"
+                                                    imageUpload
+                                                    (imageSelected)="selected_card($event)"
+                                                    [resizeOptions]="resizeOptions"
+                                                    (change)="uploadFile_card($event)"
+                                                >
+                                           <img [src]="prifileimg_1" style="margin-left: -1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!Address_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="Address_upload">change</span>
+                                            </label>
+
+                                                    </div>
+                                                    <label for="text4" *ngIf="Address_view_image" (click)="card_button_view()" style="margin:10px 38px 0px 40px;text-decoration:underline;color:#12A6F1">view image</label>
+
+                                                </div>
+                                            </td>
+                                            <div class="modal" *ngIf="card_view_modal">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                        <div class="modal-header">
+
+                                                            <button type="button" class="close" (click)="card_view_modal_close()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img [src]="address_pic_url" style="width:100%;" />
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" (click)="card_view_modal_close()">Close</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-4 col-lg-4" style="border-left: 1px solid #ddd;">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label for="text" style="color:#777;">
+                                Profile pic :
+                            </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn btn-sm" style="margin: 3px 0px 20px -3px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+                                                        <label class="upload-image" style="color:#fff;">
+                                            <input
+                                                type="file"
+                                                class="profile-1"
+                                                id="Picture"
+                                                style="margin-left: 35px;display: none;"
+                                                accept="image/*"
+                                                imageUpload
+                                                (imageSelected)="selected($event)"
+                                                [resizeOptions]="resizeOptions"
+                                                (change)="uploadFile($event)"
+                                            >
+                                          <img [src]="prifileimg" style="margin-left: 1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!Profile_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="Profile_upload">change</span>
+                                        </label>
+                                                    </div>
+                                                    <label for="text4" *ngIf="Profile_view_image" (click)="pr_button_close()" style="margin:0px 38px 0px 44px;text-decoration:underline;color:#12A6F1">view image</label>
+                                                </div>
+                                                <div class="modal" *ngIf="profile_pic_view">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                            <div class="modal-header">
+
+                                                                <button type="button" class="close" (click)="pr_button_close_1()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img [src]="profile_pic_url" style="width:100%;" />
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" (click)="pr_button_close_1()">Close</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <label *ngIf="isSalaryPermistion" style="font-size: 18px;color: #337ab7;margin-left: 15px;">Pay Scale per month :</label>
+                                    <table style="width:100%;margin-left: 20px;" *ngIf="isSalaryPermistion">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Basic salary" class="form-control" id="text" ngModel name="Basic_salory" style="width: 215px;"
+                                                        minlength="1" maxlength="6" required />
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="PF Amount" class="form-control" id="text" ngModel name="PF" style="width: 215px;" minlength="1"
+                                                        maxlength="6" required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="TDS Amount" class="form-control" id="text" ngModel name="TDS" style="width: 215px;" minlength="1"
+                                                        maxlength="6" required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <label style="font-size: 18px;color: #337ab7;margin-left: 15px;margin-top: 7px;">Bank Details :</label>
+                                    <table style="width:100%;margin-left: 20px;">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Bank Name" class="form-control" id="text9" ngModel name="Bank_name" style="width: 215px;"
+                                                        required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="A/C Number" class="form-control" id="text10" ngModel name="Bank_no" style="width: 215px;"
+                                                        required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="IFSC Code" class="form-control" id="text10" ngModel name="Bank_IFSC_No" style="width: 215px;"
+                                                        required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Pancard Number" class="form-control" id="text10" ngModel name="Pan_Card_Number" style="width: 215px;"
+                                                        required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <div class="form-group" style="margin-top: 5px;">
+                                                    <label for="text" style="color:#777;">
+                                    Pancard prof :
+                                </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn btn-sm" style="margin:8px 0px 0px -4px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+                                                        <label class="upload-image" style="color:#fff">
+                                        <input
+                                            type="file"
+                                            class="profile-1"
+                                            id="Picture"
+                                            style="margin-left: 35px;display: none;"
+                                            accept="image/*"
+                                            imageUpload
+                                            (imageSelected)="selected_pancard($event)"
+                                            [resizeOptions]="resizeOptions"
+                                            (change)="uploadFile_pancard($event)"
+                                        >
+                                       <img [src]="prifileimg_2" style="margin-left: -1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!pancard_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="pancard_upload">change</span>
+                                    </label>
+
+                                                    </div>
+
+                                                    <label for="text4" *ngIf="pancard_view_image" (click)="pancard_button_view()" style="margin:10px 38px 0px 44px;text-decoration:underline;color:#12A6F1">view image</label>
+                                                </div>
+                                                <div class="modal" *ngIf="pancard_modal">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" (click)="pancard_modal_close()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img [src]="pancard_pic_url" style="width:100%;" />
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" (click)="pancard_modal_close()">Close</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="margin-top:45px;background-color: #ee9b0a;margin-left:350px;color:#fff;margin-bottom: 25px;width: 150px;height: 35px;font-size: 17px;">
+                                SAVE
+                            </button>
+                        </form>
+                    </div>
+                    <!--end modal-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- form-profile-set end-->
+
+
+
+<!-- Edit-employee-view -->
+
+
+<div class="col-xs-12" *ngIf="Edit_employee_data">
+    <div class="backdrop"></div>
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document" style="width: 870px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" style="font-size: 35px;color:#d41c1c;margin-top:10px;" (click)="back_button_edit()">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel" style="margin-top:15px;text-align:center;color:#ee9b0a;;font-weight:500;">EDIT EMPLOYEE PROFILE</h4>
+                    <hr>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+
+                        <form class="form-inline" (ngSubmit)="onSubmit_edit_form(ffff)" #ffff="ngForm">
+                            <h3 style="margin-top: -10px;font-weight:300;margin-bottom: 2px;text-align: center;color: #ee9b0a;">Employee ID: {{ Employee_Company_ID }}</h3>
+                            <div class="col-md-12 col-lg-12" style="margin-bottom: 20px;margin-left: 30px;">
+                                <label style="font-size: 18px;color: #337ab7">Branch Name :</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" readonly id="text1" placeholder="Branch Name" [(ngModel)]="Ezshipp_Branch_Name" name="br_name"
+                                        style="width:200px;">
+
+                                    <!-- <label for="text2" style="padding: 0px 10px;">
+                                    OR
+                                </label>
+
+                                    <select [(ngModel)]="Ezshipp_Branch_Name" name="br_name" class="form-control form-control-lg" style="width: 170px;margin-left:10px;" #box (change)="select_branch(box.value,$event)">
+
+                                <option *ngFor="let item of Ezshipp_Branch_Data; let i=index" [value]="item.Ezshipp_Branch_Name">{{item.Ezshipp_Branch_Name}}</option>
+                            </select> -->
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 col-lg-4">
+                                    <table style="width:100%;margin-left: 30px;">
+                                        <tr>
+                                            <td><label style="margin-left: 15px;font-size: 18px;color: #337ab7">Employee Details :</label></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="Name" id="text5" [(ngModel)]="Edit_Employee_Name" name="Employee_Name"
+                                                        style="width: 235px;" required #Employee_Name="ngModel"/>
+
+                                                     <div class="error-mesg" [hidden]="Employee_Name.valid || (Employee_Name.pristine && !ffff.submitted)">
+                                                        Please enter Name
+                                                    </div>
+                                                    <div *ngIf="Employee_Name.hasError('whitespace')">Please enter Valid Data</div>
+                                                           <!-- <div class="form-control-feedback"
+                                                            *ngIf="( Employee_Name.touched)">
+                                                        <p *ngIf="Employee_Name.touched.required">Employee name is Invalied</p>
+                                                        </div> -->
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+
+                                                    <div class="radio" style="margin-left: -13px;">
+
+                                                        <label>
+                                            <input type="radio" [(ngModel)]="edit_Employee_Gender" name="gender_value" [value]="1" required/>
+                                            Male
+                                        </label>
+
+                                                    </div>
+                                                    <div class="radio">
+
+                                                        <label>
+                                            <input type="radio" [(ngModel)]="edit_Employee_Gender" name="gender_value" [value]="2" required/>
+                                            Female
+                                        </label>
+
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="email" placeholder="Email" class="form-control" id="email_id" [(ngModel)]="edit_Employee_Email" name="email" style="width: 235px;"
+                                                      required #email="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="email.valid || (email.pristine && !ffff.submitted)">
+                                                        Please enter Email Address
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>
+                                                <div class="form-group" style="margin-left: 19px;">
+                                                    <label for="text4" style="color:#777;">
+                                     Date of Join :
+                                </label>
+                                                    <input type="date" class="form-control" id="dtborth" [(ngModel)]="Employee_Date_of_Joining_vishu" name="Date_of_Joining"
+                                                        style="margin-left:7px;" style="width: 235px;" required #Date_of_Joining="ngModel"/>
+
+                                                     <div class="error-mesg" [hidden]="Date_of_Joining.valid || (Date_of_Joining.pristine && !ffff.submitted)" style="top: 52px;">
+                                                        Please enter Date of Join
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Phone Number" class="form-control" id="phone" [(ngModel)]="Employee_PhoneNumber" name="Employee_PhoneNumber"
+                                                        minlength="10" maxlength="10" style="width: 235px;" required />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>
+                                                <div class="form-group" style="margin-left: 19px;">
+                                                    <label for="text4" style="color:#777;">
+                                     Date of Birth :
+                                </label>
+                                                    <input type="date" class="form-control" id="dtborth" [(ngModel)]="edit_Employee_DOB_shobhan" name="Employee_DOB" style="margin-left:7px;"
+                                                        style="width: 235px;" required #Employee_DOB="ngModel"/>
+
+                                                     <div class="error-mesg" [hidden]="Employee_DOB.valid || (Employee_DOB.pristine && !ffff.submitted)" style="top: 52px;">
+                                                        Please enter Date of Birth
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <textarea type="text" class="form-control" placeholder="Address" id="Address" [(ngModel)]="edit_Employee_Address" name="Employee_Address"
+                                                        minlength="10" maxlength="226" style="width: 235px;" required></textarea>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <p style="font-size: 16px;" *ngIf="Employee_Role==1">Designation : Biker</p>
+                                                    <p style="font-size: 16px;" *ngIf="Employee_Role==2">Designation : Employee</p>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" *ngIf="open_zones_profile">
+
+                                                    <label for="text5" style="color:#777;">Select zone :</label>
+                                                    <select class="form-control form-control-lg" id="text5" style="width: 150px;margin-left:10px;" ngModel name="zone_id">
+                                    <option value>Select Zone</option>
+                                    <option
+                                        *ngFor="let item of ZoneData"
+                                        [value]="item.ZoneID"
+                                    >
+                                        {{item.title}}
+                                    </option>
+                                </select>
+
+                                                    <label for="text6" style="margin-bottom: 50px;color:#777;margin-top: 10px;">operator :</label>
+                                                    <select class="form-control form-control-lg" id="text6" style="width: 167px;margin-left:10px;" ngModel name="operator_id">
+                                    <option value>Select operator</option>
+                                    <option
+                                        *ngFor="let item of OperatorData"
+                                        [value]="item.OperatorID"
+                                    >
+                                        {{item.operator_name}}
+                                    </option>
+
+                                </select>
+
+
+                                                    <div class="form-group" style="margin-left: 0px;margin-top: -40px;">
+                                                        <label for="text4" style="color:#777;">License Expiry Date :</label>
+                                                        <input type="date" class="form-control" id="text7" [(ngModel)]="edit_Driving_License_Expiry_Date_raju" name="License_Expiry_Date" style="width: 235px;" required #License_Expiry_Date="ngModel"/>
+
+                                                     <div class="error-mesg" [hidden]="License_Expiry_Date.valid || (License_Expiry_Date.pristine && !ffff.submitted)" style="top: 52px;">
+                                                        Please enter License Expiry Date
+                                                    </div>
+                                                    </div>
+                                                    <div class="form-group" style="margin-top: -5px;margin-left: 0px;">
+                                                        <label for="text4" style="color:#777;">License Proof :</label>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="btn btn-sm" style="margin:8px 0px 0px -22px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+
+                                                            <label class="upload-image" style="color: #fff">
+                                        <input
+                                            type="file"
+                                            class="profile-1"
+                                            id="LicenseEdit"
+                                            style="margin-left: 35px;display: none;"
+                                            accept="image/*"
+                                            imageUpload
+                                            (imageSelected)="selected_licence($event)"
+                                            [resizeOptions]="resizeOptions"
+                                            (change)="uploadFile_licence($event)"
+                                        >
+                                        <img [src]="Driving_License_Image" style="margin-left: -1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!licence_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="licence_upload">change</span>
+                                            </label>
+                                                        </div>
+                                                        <label for="text4" *ngIf="License_view_image" (click)="licence_button_view()" style="margin:10px 38px 0px 20px;text-decoration:underline;color:#12A6F1">view image</label>
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <div class="modal" *ngIf="licence_pic_view">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                            <div class="modal-header">
+
+                                                                <button type="button" class="close" (click)="licence_button_close()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img [src]="licence_pic_url" style="width:100%;" />
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" (click)="licence_button_close()">Close</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+                                    </table>
+
+
+                                </div>
+                                <div class="col-md-3 col-lg-3">
+                                    <table style="width:100%">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group" style="margin-top: 618px;">
+                                                    <label for="text" style="color:#777;">
+                                    Address Proff :
+                                </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn btn-sm" style="margin:8px 0px 0px -4px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+                                                        <label class="upload-image" style="color:#fff">
+                                                <input
+                                                    type="file"
+                                                    class="profile-1"
+                                                    id="addressEdit"
+                                                    style="margin-left: 35px;display: none;"
+                                                    accept="image/*"
+                                                    imageUpload
+                                                    (imageSelected)="selected_card($event)"
+                                                    [resizeOptions]="resizeOptions"
+                                                    (change)="uploadFile_card($event)"
+                                                >
+                                           <img [src]="Address_Proof_Image" style="margin-left: -1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!Address_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="Address_upload">change</span>
+                                            </label>
+
+                                                    </div>
+                                                    <label for="text4" *ngIf="Address_view_image" (click)="card_button_view()" style="margin:10px 38px 0px 40px;text-decoration:underline;color:#12A6F1">view image</label>
+
+                                                </div>
+                                            </td>
+                                            <div class="modal" *ngIf="card_view_modal">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                        <div class="modal-header">
+
+                                                            <button type="button" class="close" (click)="card_view_modal_close()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <img [src]="address_pic_url" style="width:100%;" />
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" (click)="card_view_modal_close()">Close</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-4 col-lg-4" style="border-left: 1px solid #ddd;">
+                                    <table style="width:100%;">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <label for="text" style="color:#777;">
+                                Profile pic :
+                            </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn btn-sm" style="margin: 3px 0px 20px -3px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+                                                        <label class="upload-image" style="color:#fff;">
+                                            <input
+                                                type="file"
+                                                class="profile-1"
+                                                id="ProfileEdit"
+                                                style="margin-left: 35px;display: none;"
+                                                accept="image/*"
+                                                imageUpload
+                                                (imageSelected)="selected($event)"
+                                                [resizeOptions]="resizeOptions"
+                                                (change)="uploadFile($event)"
+                                            >
+                                          <img [src]="Employee_Image_Url" style="margin-left: 1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!Profile_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="Profile_upload">change</span>
+                                        </label>
+                                                    </div>
+                                                    <label for="text4" *ngIf="Profile_view_image" (click)="pr_button_close()" style="margin:0px 38px 0px 44px;text-decoration:underline;color:#12A6F1">view image</label>
+                                                </div>
+                                                <div class="modal" *ngIf="profile_pic_view">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                            <div class="modal-header">
+
+                                                                <button type="button" class="close" (click)="pr_button_close_1()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img [src]="profile_pic_url" style="width:100%;" />
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" (click)="pr_button_close_1()">Close</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <label style="font-size: 18px;color: #337ab7;margin-left: 15px;">Pay Scale per month :</label>
+                                    <table style="width:100%;margin-left: 20px;">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Basic salary" class="form-control" id="text" [(ngModel)]="Edit_Basic_Salary" name="Basic_salory"
+                                                        style="width: 215px;" minlength="1" maxlength="6"  required #Basic_salory="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="Basic_salory.valid || (Basic_salory.pristine && !ffff.submitted)">
+                                                        Please enter Basic salory
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="PF Amount" class="form-control" id="text" [(ngModel)]="edit_Employee_PF" name="PF" style="width: 215px;"
+                                                        minlength="1" maxlength="6" required #PF="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="PF.valid || (PF.pristine && !ffff.submitted)">
+                                                        Please enter PF Amount
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="TDS Amount" class="form-control" id="text" [(ngModel)]="edit_Employee_TDS" name="TDS" style="width: 215px;"
+                                                        minlength="1" maxlength="6" required #TDS="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="TDS.valid || (TDS.pristine && !ffff.submitted)">
+                                                        Please enter TDS Amount
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <label style="font-size: 18px;color: #337ab7;margin-left: 15px;margin-top: 7px;">Bank Details :</label>
+                                    <table style="width:100%;margin-left: 20px;">
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Bank Name" class="form-control" id="text9" [(ngModel)]="edit_Bank_Name" name="Bank_name"
+                                                        style="width: 215px;" required #Bank_name="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="Bank_name.valid || (Bank_name.pristine && !ffff.submitted)">
+                                                        Please enter Bank name
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="A/C Number" class="form-control" id="text10" [(ngModel)]="edit_Bank_Account_No" name="Bank_no"
+                                                        style="width: 215px;" required #Bank_no="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="Bank_no.valid || (Bank_no.pristine && !ffff.submitted)">
+                                                        Please enter Bank A/C Number
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="IFSC Code" class="form-control" id="text10" [(ngModel)]="edit_Bank_IFSC_No" name="Bank_IFSC_No"
+                                                        style="width: 215px;" required #Bank_IFSC_No="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="Bank_IFSC_No.valid || (Bank_IFSC_No.pristine && !ffff.submitted)">
+                                                        Please enter Bank IFSC Number
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" placeholder="Pancard Number" class="form-control" id="text10" [(ngModel)]="Edit_Pan_Card_Number" name="Pan_Card_Number"
+                                                        style="width: 215px;" required #Pan_Card_Number="ngModel"/>
+                                                    <div class="error-mesg" [hidden]="Pan_Card_Number.valid || (Pan_Card_Number.pristine && !ffff.submitted)">
+                                                        Please enter PanCard Number
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+
+                                                <div class="form-group" style="margin-top: 5px;">
+                                                    <label for="text" style="color:#777;">
+                                    Pancard prof :
+                                </label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="btn btn-sm" style="margin:8px 0px 0px -4px;font-size: 14px;padding: 0px 0px 0px 0px;background-color: #fff;">
+
+                                                        <label class="upload-image" style="color:#fff">
+                                        <input
+                                            type="file"
+                                            class="profile-1"
+                                            id="PancardEdit"
+                                            style="margin-left: 35px;display: none;"
+                                            accept="image/*"
+                                            imageUpload
+                                            (imageSelected)="selected_pancard($event)"
+                                            [resizeOptions]="resizeOptions"
+                                            (change)="uploadFile_pancard($event)"
+                                        >
+                                       <img [src]="edit_Pan_Card_Image" style="margin-left: -1px;width: 153px;height: 140px;margin-bottom:-23px"/><br/>
+                                           <span style="background-color: #000;padding: 5px 50px;opacity: 0.4;" *ngIf="!pancard_upload">Upload</span>
+                                            <span style="background-color: #12a6f1;padding: 5px 49px;" *ngIf="pancard_upload">change</span>
+                                    </label>
+
+                                                    </div>
+
+                                                    <label for="text4" *ngIf="pancard_view_image" (click)="pancard_button_view()" style="margin:10px 38px 0px 44px;text-decoration:underline;color:#12A6F1">view image</label>
+                                                </div>
+                                                <div class="modal" *ngIf="pancard_modal">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content" style="padding: 10px;border-radius: 3px;border:1px solid #ddd;">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" (click)="pancard_modal_close()" style="margin-top: -11px;">
+                                                    <span aria-hidden="true" style="font-size:35px;color:red">&times;</span>
+                                                    </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img [src]="pancard_pic_url" style="width:100%;" />
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" (click)="pancard_modal_close()">Close</button>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary" style="margin-top:45px;background-color: #ee9b0a;margin-left:350px;color:#fff;margin-bottom: 25px;width: 150px;height: 35px;font-size: 17px;">
+                                UPDATE
+                            </button>
+                            <div class="image_loaging_form" *ngIf="open_loading_images">
+                            <img [src]="image_gif" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="position: fixed;right: 20px;bottom: 20px;" *ngIf="button_close">
+    <button type="button" (click)="button_click()" class="btn btn-danger" style="border-radius:25px;padding: 11px 17px;">
+            <span
+                class="glyphicon glyphicon-plus"
+                style="font-size: 25px;top:0px;"
+            ></span>
+        </button>
+</div>
+
